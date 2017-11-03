@@ -3,18 +3,18 @@ CFLAGS=-O3
 DBGCFLAGS=-g -Wall
 TDBGCFLAGS=-g -Wall -DDBG # True debug flags!
 
-EXES=bedtack
+EXES=chipmonk
 
 # production binary
-bedtack: bedtack.c
+chipmonk: chipmonk.c
 	${CC} ${CFLAGS} -o $@ $^
 
 # testing mode binary
-bedtack_t: bedtack.c
+chipmonk_t: chipmonk.c
 	${CC} ${DBGCFLAGS} -o $@ $^
 
 # testing mode binary
-bedtack_d: bedtack.c
+chipmonk_d: chipmonk.c
 	${CC} ${TDBGCFLAGS} -o $@ $^
 
 .PHONY: clean

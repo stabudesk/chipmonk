@@ -1,4 +1,4 @@
-/* bedtack.c: a program to "tackle" BED (genomic features file) files.
+/* chipmonk.c: a program to "tackle" BED (genomic features file) files.
    Copyright (C) 2017 Ramon Fallon, University of St Andrews.
 
    This program is free software; you can redistribute it and/or
@@ -1281,7 +1281,7 @@ i4_t *difca(bgr_t *bgrow, int m, int *dcasz, float minsig) /* An temmpt to merge
 
 void prtusage()
 {
-	printf("bedtack: this takes a bedgraph file, specified by -i, probably the bedgraph from a MACS2 intensity signal,\n");
+	printf("chipmonk: this takes a bedgraph file, specified by -i, probably the bedgraph from a MACS2 intensity signal,\n");
 	printf("and another bedgraph file, specified by -f, and merges the first into lines defined by the second.\n");
 	printf("Before filtering however, please run with the -d (details) option. This will showi a rough spread of the values,\n");
 	printf("so you can run a second time choosing filtering value (-f) more easily.\n");
