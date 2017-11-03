@@ -58,6 +58,7 @@ typedef struct /* opt_t, a struct for the options */
 	char *fstr; /* the name of the feature bed file, often converted from GFF3 */
 	char *ustr; /* the name of a file with the list of elements to be unified */
 	char *pstr; /* depth file name */
+	char *qstr; /* 2nddepth file name */
 	char *gstr; /* genome file name */
 	char *rstr; /* repeatmasker gtf/gff2 file */
 } opt_t;
@@ -145,7 +146,7 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 	int c;
 	opterr = 0;
 
-	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:")) != -1)
+	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:q:")) != -1)
 		switch (c) {
 			case 'd':
 				opts->dflg = 1;
@@ -167,6 +168,9 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 				break;
 			case 'p': /* depth file */
 				opts->pstr = optarg;
+				break;
+			case 'q': /* 2nd depth file */
+				opts->qstr = optarg;
 				break;
 			case 'g': /* genome file */
 				opts->gstr = optarg;
@@ -1295,7 +1299,7 @@ int main(int argc, char *argv[])
 		prtusage();
 		exit(EXIT_FAILURE);
 	}
-	int i, m, n, m2, n2, m3, n3, m4, n4, m5, n5, m6, n6;
+	int i, m, n, m2, n2, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6;
 	opt_t opts={0};
 	catchopts(&opts, argc, argv);
 
@@ -1304,6 +1308,7 @@ int main(int argc, char *argv[])
 	bgr_t2 *bed2=NULL; /* usually bed file from gff */
 	words_t *bedword=NULL; /* usually feature names of interest */
 	dpf_t *dpf=NULL; /* usually feature names of interest */
+	dpf_t *dpf2=NULL; /* usually feature names of interest */
 	gf_t *gf=NULL; /* usually genome size file */
 	rmf_t *rmf=NULL; /* usually genome size file */
 	if(opts.istr)
@@ -1314,6 +1319,8 @@ int main(int argc, char *argv[])
 		bedword=processwordf(opts.ustr, &m3, &n3);
 	if(opts.pstr)
 		dpf=processdpf(opts.pstr, &m4, &n4);
+	if(opts.qstr)
+		dpf2=processdpf(opts.pstr, &m4b, &n4b);
 	if(opts.gstr)
 		gf=processgf(opts.gstr, &m5, &n5);
 	if(opts.rstr)
@@ -1368,6 +1375,11 @@ final:
 		for(i=0;i<m4;++i)
 			free(dpf[i].n);
 		free(dpf);
+	}
+	if(opts.qstr) {
+		for(i=0;i<m4b;++i)
+			free(dpf2[i].n);
+		free(dpf2);
 	}
 	if(opts.istr) {
 		for(i=0;i<m;++i)
