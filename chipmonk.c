@@ -174,6 +174,122 @@ typedef struct /* wseq_t */
 	size_t *wpla; /* words per line array: the number of words on each line */
 } wseq_t;
 
+struct strchainode /* gf22snod struct */
+{
+    gf22_t *gf22; /* ptr to a single element, not an array, TODO void* it. */
+    struct strchainode *n;
+};
+typedef struct strchainode gf22snod; /* yes, leave this alone, it's the way a struct can have a ptr ot its own type! */
+
+unsigned hashit(char *str, unsigned tsz) /* Dan Bernstein's one */
+{
+    unsigned long hash = 5381;
+    int c;
+
+    char *tstr=str;
+    while ((c = *tstr++))
+        hash = ((hash << 5) + hash) + c; /*  hash * 33 + c */
+
+    return hash % tsz;
+}
+
+gf22snod **gf22tochainharr(gf22_t *gf22, unsigned numsq, unsigned tsz)
+{
+    unsigned i;
+
+    gf22snod **stab=malloc(tsz*sizeof(gf22snod *));
+    for(i=0;i<tsz;++i) 
+        stab[i]=NULL; /* _is_ a valid ptr, but it's unallocated. Initialization is possible though. */
+    gf22snod *tsnod0, *tsnod2;
+
+    unsigned tint;
+    for(i=0; i<numsq; ++i) {
+        tint=hashit(gf22[i].i, tsz);
+        if( (stab[tint] == NULL) ) {
+            stab[tint]=malloc(sizeof(gf22snod));
+            stab[tint]->gf22=gf22+i;
+            stab[tint]->n=NULL;
+            continue;
+        }
+        tsnod2=stab[tint];
+        while( (tsnod2 != NULL) ){
+            if(!strcmp(tsnod2->gf22->i, gf22[i].i)) {
+                goto nxt;
+            }
+            tsnod0=tsnod2;
+            tsnod2=tsnod2->n;
+        }
+        tsnod0->n=malloc(sizeof(gf22snod));
+        tsnod0->n->gf22=gf22+i;
+        tsnod0->n->n=NULL;
+nxt:        continue;
+    }
+    return stab;
+}
+
+void prtgf22chaharr(gf22snod **stab, unsigned tsz)
+{
+    unsigned i;
+    gf22snod *tsnod2;
+    for(i=0;i<tsz;++i) {
+        printf("Tablepos %i: ", i); 
+        tsnod2=stab[i];
+        while(tsnod2) {
+            printf("\"%s\" ", tsnod2->gf22->i); 
+            tsnod2=tsnod2->n;
+        }
+        printf("\n"); 
+    }
+    return;
+}
+
+void freegf22chainharr(gf22snod **stab, size_t tsz)
+{
+    int i;
+    gf22snod *tsnod0, *tsnod2;
+    for(i=0; i<tsz; ++i) {
+        if( (stab[i] != NULL) ) {
+            while( (stab[i]->n != NULL) ) {
+                tsnod0=stab[i];
+                tsnod2=stab[i]->n;
+                while((tsnod2->n != NULL) ){
+                    tsnod0=tsnod2;
+                    tsnod2=tsnod2->n;
+                }
+                free(tsnod0->n);
+                tsnod0->n=NULL;
+            }
+            free(stab[i]);
+        }
+    }
+    free(stab);
+    return;
+}
+
+char idlsearch(gf22snod **stab, unsigned tsz, char *line, unsigned lnsz)
+{
+    char yes=0;
+    size_t i;
+    gf22snod *tsnod2;
+
+    unsigned tint;
+    for(i=0; i<tsz; ++i) {
+        tint=hashit(line, tsz);
+        if( (stab[tint] == NULL) )
+            goto nxt; /* hashtable at that position is empty ... so it's impossible for that string to be there */
+
+        tsnod2=stab[tint];
+        while( (tsnod2 != NULL) ) {
+            if( (tsnod2->gf22->isz == lnsz) & !(strncmp(tsnod2->gf22->i, line, tsnod2->gf22->isz)) ) {
+                yes=1; /* i.e. no=0 */
+                goto nxt;
+            }
+            tsnod2=tsnod2->n;
+        }
+    }
+nxt:    return yes;
+}
+
 void prtfa(onefa *fac)
 {
 	printf(">");
@@ -220,7 +336,7 @@ void prtsqbdg(i_s *sqisz, bgr_t *bgrow, int m, int sz)
 				sprintf(rangestr, "|range_%li_to_%li", bgrow[j].c[0], bgrow[j].c[1]);
 				printf(">%s", sqisz[i].id);
 				printf("%s\n", rangestr);
-				printf("%.*s\n", bgrow[j].c[1]-bgrow[j].c[0], sqisz[i].sq+bgrow[j].c[0]);
+				printf("%.*s\n", (int)(bgrow[j].c[1]-bgrow[j].c[0]), sqisz[i].sq+bgrow[j].c[0]);
 				break;
 			}
 	}
@@ -258,13 +374,12 @@ i_s *procfa(char *fname, unsigned *nsq)
 	char IGLINE, begline;
 	size_t lidx, mxsylen, mnsylen;
 	unsigned mxamb, mnamb;
-	int i, j, k, c, sqidx;
+	int i, c, sqidx;
 	int gbuf;
 	i_s *sqisz=NULL;
 	int whatint; // a number reflecting the type of symbol read
 	unsigned numsq, numano;
 	int ididx0=0;
-	char *spapad="    ";
 
 	// OK open the file
 	if(!(fin=fopen(fname, "r")) ) { /*should one check the extension of the fasta file ? */
@@ -1754,6 +1869,11 @@ int main(int argc, char *argv[])
 	rmf_t *rmf=NULL; /* usually genome size file */
 	gf22_t *gf22=NULL;
 	i_s *sqisz=NULL;
+
+	/* for the ystr, gf22 hash handling */
+    unsigned htsz;
+    gf22snod **stab=NULL;
+
 	if(opts.istr)
 		bgrow=processinpf(opts.istr, &m, &n);
 	if(opts.fstr)
@@ -1768,8 +1888,11 @@ int main(int argc, char *argv[])
 		gf=processgf(opts.gstr, &m5, &n5);
 	if(opts.rstr)
 		rmf=processrmf(opts.rstr, &m6, &n6);
-	if(opts.ystr)
+	if(opts.ystr) { // we're goign to try hashing the ID line of gf22 format */
 		gf22=processgf22(opts.ystr, &m7, &n7);
+		htsz=2*m7/3; /* our hash table size */
+		stab=gf22tochainharr(gf22, m7, htsz); /* we now set up a hash table along side our sequence names from the fasta file */
+	}
 	if(opts.astr)
 		sqisz=procfa(opts.astr, &numsq);
 
@@ -1802,10 +1925,12 @@ int main(int argc, char *argv[])
 	if((opts.dflg) && (opts.rstr) )
 		prtrmf(opts.rstr, rmf, m6);
 
-	if((opts.dflg) && (opts.ystr) )
+	if((opts.dflg) && (opts.ystr) ) {
 		prtgf22(opts.ystr, gf22, m7);
+		prtgf22chaharr(stab, htsz);
+	}
 
-	if((opts.dflg) && (opts.astr) )
+	if((opts.dflg) && (opts.astr) ) 
 		prtsq(sqisz, numsq);
 
 	/* bedgraph and fasta file */
@@ -1878,6 +2003,7 @@ final:
 		free(gf22);
 	}
 	if(opts.astr) {
+		freegf22chainharr(stab, htsz);
 		for(i=0;i<numsq;++i) {
 			free(sqisz[i].id);
 			free(sqisz[i].sq);
