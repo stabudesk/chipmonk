@@ -210,6 +210,23 @@ void prtsq(i_s *sqisz, int sz)
 	return;
 }
 
+void prtsqbdg(i_s *sqisz, bgr_t *bgrow, int m, int sz)
+{
+	int i, j;
+	char rangestr[64]={0}; /* generally helpful to say what range is being given */
+	for(i=0;i<sz;++i) {
+		for(j=0;j<m;++j) 
+			if(!strcmp(sqisz[i].id, bgrow[j].n)) {
+				sprintf(rangestr, "|range_%li_to_%li", bgrow[j].c[0], bgrow[j].c[1]);
+				printf(">%s", sqisz[i].id);
+				printf("%s\n", rangestr);
+				printf("%.*s\n", bgrow[j].c[1]-bgrow[j].c[0], sqisz[i].sq+bgrow[j].c[0]);
+				break;
+			}
+	}
+	return;
+}
+
 void prti_s(i_s *sqisz, int sz, float *mxcg, float *mncg)
 {
 	int i;
@@ -1325,6 +1342,19 @@ void prthist(char *histname, int *bucketarr, int numbuckets, int m, float mxco, 
 void prtdets(bgr_t *bgrow, int m, int n, char *label)
 {
 	int i;
+	printf("bgr_t is %i rows by %i columns and is as follows:\n", m, n); 
+	for(i=0;i<m;++i) {
+		if(n==3)
+			printf("%s\t%li\t%li\n", bgrow[i].n, bgrow[i].c[0], bgrow[i].c[1]); 
+		if(n==4)
+			printf("%s\t%li\t%li\t%4.4f\n", bgrow[i].n, bgrow[i].c[0], bgrow[i].c[1], bgrow[i].co); 
+	}
+	return;
+}
+
+void prtdeth(bgr_t *bgrow, int m, int n, char *label) /* Print intensity bedgraph in histogram format */
+{
+	int i;
 	float mxco=.0, mnco=10e20;
 	printf("bgr_t is %i rows by %i columns and is as follows:\n", m, n); 
 	for(i=0;i<m;++i) {
@@ -1346,23 +1376,6 @@ void prtdetg(char *fname, gf_t *gf, int m, int n, char *label)
 	for(i=0;i<m;++i)
 		printf("%s\t%li\n", gf[i].n, gf[i].z);
 
-	return;
-}
-
-void prtdeth(bgr_t *bgrow, int m, int n, char *label) /* Print intensity bedgraph in histogram format */
-{
-	int i;
-	float mxco=.0, mnco=10e20;
-	printf("bgr_t is %i rows by %i columns and is as follows:\n", m, n); 
-	for(i=0;i<m;++i) {
-		if(bgrow[i].co > mxco)
-			mxco=bgrow[i].co;
-		if(bgrow[i].co < mnco)
-			mnco = bgrow[i].co;
-	}
-	int *hco=hist_co(bgrow, m, mxco, mnco, NUMBUCKETS);
-	prthist(label, hco, NUMBUCKETS, m, mxco, mnco);
-	free(hco);
 	return;
 }
 
@@ -1726,7 +1739,7 @@ int main(int argc, char *argv[])
 		prtusage();
 		exit(EXIT_FAILURE);
 	}
-	int i, m, n, m2, n2, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6, m7, n7 /*gf22 dims */;
+	int i, m, n /*rows,cols for bgr_t*/, m2, n2, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6, m7, n7 /*gf22 dims */;
     unsigned numsq;
 	opt_t opts={0};
 	catchopts(&opts, argc, argv);
@@ -1776,11 +1789,13 @@ int main(int argc, char *argv[])
 	// prtbed2(bed2, m2, MXCOL2VIEW);
 	if((opts.istr) && (opts.fstr))
 		m2beds(bgrow, bed2, m2, m);
+
 	if((opts.ustr) && (opts.fstr) && (!opts.sflg)) {
 		printf("bedwords:\n"); 
 		for(i=0;i<m3;++i)
 			printf("%s\n", bedword[i].n);
 	}
+
 	if((opts.pstr) && (opts.fstr) )
 		md2bedp(dpf, bed2, m2, m4);
 
@@ -1792,6 +1807,10 @@ int main(int argc, char *argv[])
 
 	if((opts.dflg) && (opts.astr) )
 		prtsq(sqisz, numsq);
+
+	/* bedgraph and fasta file */
+	if((opts.istr) && (opts.astr) )
+		prtsqbdg(sqisz, bgrow, m, numsq);
 
 	if((opts.gstr) && (opts.rstr) )
 		mgf2rmf(opts.gstr, opts.rstr, gf, rmf, m6, m5);
