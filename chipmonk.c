@@ -30,6 +30,7 @@
 #endif
 
 #define NUMBUCKETS 20
+#define GF22IDCNUM 9 /* fr the ID field 9th col: GF22 ID Col Number */
 
 // the following is the way we cut out later columns that we have chosen to ignore
 #define MXCOL2VIEW 4
@@ -61,6 +62,7 @@ typedef struct /* opt_t, a struct for the options */
 	char *qstr; /* 2nddepth file name */
 	char *gstr; /* genome file name */
 	char *rstr; /* repeatmasker gtf/gff2 file */
+	char *ystr; /* the gf22_t type */
 } opt_t;
 
 typedef struct /* i4_t */
@@ -97,6 +99,18 @@ typedef struct /* rmf_t: repeatmasker gff2 file format */
 	char sd; /* strand + or - */
 	size_t msz; /* size of motif string */
 } rmf_t;
+
+typedef struct /* gf22_t: the y option, based on rmf_t */
+{
+	char *n;
+	size_t nsz; /* size of the name r ID field */
+	long c[2]; /* coords: 1) start 2) cols 4 and 5 */
+	char *t; /* the typestring ... 3rd column */
+	char *i; /* the ID string ... last column */
+	char sd; /* strand + or - */
+	size_t isz; /* size of iD string */
+	size_t tsz; /* size of type stringstring */
+} gf22_t;
 
 typedef struct /* words_t: file with only single words per line */
 {
@@ -146,7 +160,7 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 	int c;
 	opterr = 0;
 
-	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:q:")) != -1)
+	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:q:y:")) != -1)
 		switch (c) {
 			case 'd':
 				opts->dflg = 1;
@@ -177,6 +191,9 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 				break;
 			case 'r': /* repeatmasker gff2 file */
 				opts->rstr = optarg;
+				break;
+			case 'y': /* based on repeatmasker gff2 file */
+				opts->ystr = optarg;
 				break;
 			case '?':
 				fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
@@ -587,6 +604,134 @@ rmf_t *processrmf(char *fname, int *m, int *n) /*fourth column is string, other 
 	return rmf;
 }
 
+gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's for the special gff format for ;yze annottion */
+{
+	/* In order to make no assumptions, the file is treated as lines containing the same amount of words each,
+	 * except for lines starting with #, which are ignored (i.e. comments). These words are checked to make sure they contain only floating number-type
+	 * characters [0123456789+-.] only, one string variable is continually written over and copied into a growing floating point array each time */
+
+	/* declarations */
+	FILE *fp=fopen(fname,"r");
+	int i;
+	size_t couc /*count chars per line */, couw=0 /* count words */, oldcouw = 0;
+	int c;
+	int idanomals=0; /* this is for testing col 8 ... ID and string often the same, lie to keep it that way too. This will count when not */
+	boole inword=0;
+	wseq_t *wa=create_wseq_t(GBUF);
+	size_t bwbuf=WBUF;
+	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
+	char *sm=NULL /*first semicolon marker*/, *fem=NULL /* first equals marker */, *lem=NULL /* last equals marker */;
+	int cncols /* canonical numcols ... we will use the first line */;
+
+	gf22_t *gf22=malloc(GBUF*sizeof(gf22_t));
+
+	while( (c=fgetc(fp)) != EOF) { /* grab a char */
+		if( (c== '\n') | (c == ' ') | (c == '\t') | (c=='#')) { /* word closing events */
+			if( inword==1) { /* first word closing event */
+				wa->wln[couw]=couc;
+				bufword[couc++]='\0';
+				bufword = realloc(bufword, couc*sizeof(char)); /* normalize */
+				/* for the struct, we want to know if it's the first word in a line, like so: */
+				if(couw==oldcouw) {
+					gf22[wa->numl].n=malloc(couc*sizeof(char));
+					gf22[wa->numl].nsz=couc;
+					strcpy(gf22[wa->numl].n, bufword);
+				} else if((couw-oldcouw)==3) { /* fourth col */
+					gf22[wa->numl].c[couw-oldcouw-3]=atol(bufword)-1L; // change to zero indexing
+				} else if((couw-oldcouw)==4) { /* it's not the first word, and it's 1st and second col */
+					gf22[wa->numl].c[couw-oldcouw-3]=atol(bufword); // no 0 indexing change required here.
+				} else if((couw-oldcouw)==6 )  { /* the strand: simply grab first character, it will be + or - */
+					gf22[wa->numl].sd=bufword[0];
+				} else if( (couw-oldcouw)==2) { // the type string
+					gf22[wa->numl].t=malloc(couc*sizeof(char));
+					gf22[wa->numl].tsz=couc;
+					strcpy(gf22[wa->numl].t, bufword);
+				} else if( (couw-oldcouw)==8) { // the ID string at the end
+					fem=strchr(bufword, '=');
+					lem=strrchr(bufword, '=');
+					sm=strchr(bufword, ';');
+					gf22[wa->numl].isz=(size_t)(sm-fem);
+					gf22[wa->numl].i=malloc(gf22[wa->numl].isz*sizeof(char));
+					memcpy(gf22[wa->numl].i, fem+1, (gf22[wa->numl].isz-1)*sizeof(char)); // strncpy writes an extra bit for \0
+					gf22[wa->numl].i[gf22[wa->numl].isz-1]='\0'; // null terminate
+					if( strcmp(lem+1, gf22[wa->numl].i))
+						idanomals++;
+				}
+				couc=0;
+				couw++;
+			}
+			if(c=='#') { /* comment case */
+				while( (c=fgetc(fp)) != '\n') ;
+				continue;
+			} else if(c=='\n') { /* end of a line */
+				if(wa->numl == wa->lbuf-1) { /* enought space in our current array? */
+					wa->lbuf += WBUF;
+					wa->wpla=realloc(wa->wpla, wa->lbuf*sizeof(size_t));
+					gf22=realloc(gf22, wa->lbuf*sizeof(gf22_t));
+					memset(wa->wpla+(wa->lbuf-WBUF), 0, WBUF*sizeof(size_t));
+				}
+				wa->wpla[wa->numl] = couw-oldcouw; /* number of words in current line */
+				/* extra bit to catch canonical colnums */
+				if(wa->numl==0)
+					cncols=couw-oldcouw;
+				else if (couw-oldcouw== GF22IDCNUM-1) {
+					// printf("couw-oldcouw=%i\n", couw-oldcouw); 
+					gf22[wa->numl].isz=12L;
+					gf22[wa->numl].i=malloc(gf22[wa->numl].isz*sizeof(char));
+					strcpy(gf22[wa->numl].i, "ABSENTIDCOL"); //* absent ID column */
+				}
+				oldcouw=couw; /* restart words per line count */
+				wa->numl++; /* brand new line coming up */
+			}
+			inword=0;
+		} else if(inword==0) { /* deal with first character of new word, + and - also allowed */
+			if(couw == wa->wsbuf-1) {
+				wa->wsbuf += GBUF;
+				wa->wln=realloc(wa->wln, wa->wsbuf*sizeof(size_t));
+				gf22=realloc(gf22, wa->wsbuf*sizeof(gf22_t));
+				for(i=wa->wsbuf-GBUF;i<wa->wsbuf;++i)
+					wa->wln[i]=0;
+			}
+			couc=0;
+			bwbuf=WBUF;
+			bufword=realloc(bufword, bwbuf*sizeof(char)); /* don't bother with memset, it's not necessary */
+			bufword[couc++]=c; /* no need to check here, it's the first character */
+			inword=1;
+		} else {
+			if(couc == bwbuf-1) { /* the -1 so that we can always add and extra (say 0) when we want */
+				bwbuf += WBUF;
+				bufword = realloc(bufword, bwbuf*sizeof(char));
+			}
+			bufword[couc++]=c;
+		}
+
+
+	} /* end of big for statement */
+	fclose(fp);
+	free(bufword);
+
+	/* normalization stage */
+	wa->quan=couw;
+	wa->wln = realloc(wa->wln, wa->quan*sizeof(size_t)); /* normalize */
+	gf22 = realloc(gf22, wa->quan*sizeof(gf22_t)); /* normalize */
+	wa->wpla= realloc(wa->wpla, wa->numl*sizeof(size_t));
+
+	*m= wa->numl;
+#ifdef DBG2
+	for(i=1;i<wa->numl;++i)
+		// if(cncols != wa->wpla[i])
+		if(GF22IDCNUM != wa->wpla[i])
+			printf("Warning: Numcols is not uniform at %i words per line on all lines. This file has one with %zu.\n", cncols, wa->wpla[i]); 
+#endif
+	*n= cncols; 
+	free_wseq(wa);
+
+	if(idanomals)
+		printf("Warning, idanomals was not zero, it was %i, so some IDs and are not exactly the same as NAMEs.\n", idanomals); 
+
+	return gf22;
+}
+
 dpf_t *processdpf(char *fname, int *m, int *n) /*fourth column is string, other columns to be ignored */
 {
 	/* In order to make no assumptions, the file is treated as lines containing the same amount of words each,
@@ -785,6 +930,18 @@ void prtbd2ia(bgr_t2 *bed2, int n, ia_t *ia)
 			}
 			printf("\n"); 
 	}
+	return;
+}
+
+void prtgf22(char *fname, gf22_t *gf22, int m7)
+{
+	int i;
+	for(i=0;i<m7;++i) // note how we cut out the spurious parts of the motif string to leave it pure and raw (slightly weird why two-char deletion is necessary.
+		printf("%s\t%li\t%li\t%c\t%s\t%s\n", gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].t, gf22[i].i);
+
+#ifdef DBG
+	printf("You have just seen the %i entries of basic gff2 file called \"%s\".\n", m7, fname); 
+#endif
 	return;
 }
 
@@ -1299,7 +1456,7 @@ int main(int argc, char *argv[])
 		prtusage();
 		exit(EXIT_FAILURE);
 	}
-	int i, m, n, m2, n2, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6;
+	int i, m, n, m2, n2, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6, m7, n7 /*gf22 dims */;
 	opt_t opts={0};
 	catchopts(&opts, argc, argv);
 
@@ -1311,6 +1468,7 @@ int main(int argc, char *argv[])
 	dpf_t *dpf2=NULL; /* usually feature names of interest */
 	gf_t *gf=NULL; /* usually genome size file */
 	rmf_t *rmf=NULL; /* usually genome size file */
+	gf22_t *gf22=NULL;
 	if(opts.istr)
 		bgrow=processinpf(opts.istr, &m, &n);
 	if(opts.fstr)
@@ -1325,6 +1483,8 @@ int main(int argc, char *argv[])
 		gf=processgf(opts.gstr, &m5, &n5);
 	if(opts.rstr)
 		rmf=processrmf(opts.rstr, &m6, &n6);
+	if(opts.ystr)
+		gf22=processgf22(opts.ystr, &m7, &n7);
 
 	/* conditional execution of certain functions depending on the options */
 	if((opts.dflg) && (opts.istr)) {
@@ -1352,6 +1512,9 @@ int main(int argc, char *argv[])
 
 	if((opts.dflg) && (opts.rstr) )
 		prtrmf(opts.rstr, rmf, m6);
+
+	if((opts.dflg) && (opts.ystr) )
+		prtgf22(opts.ystr, gf22, m7);
 
 	if((opts.gstr) && (opts.rstr) )
 		mgf2rmf(opts.gstr, opts.rstr, gf, rmf, m6, m5);
@@ -1409,6 +1572,14 @@ final:
 		for(i=0;i<m3;++i)
 			free(bedword[i].n);
 		free(bedword);
+	}
+	if(opts.ystr) {
+		for(i=0;i<m7;++i) {
+			free(gf22[i].n);
+			free(gf22[i].t);
+			free(gf22[i].i);
+		}
+		free(gf22);
 	}
 
 	return 0;
