@@ -1995,6 +1995,7 @@ final:
 		free(bedword);
 	}
 	if(opts.ystr) {
+		freegf22chainharr(stab, htsz);
 		for(i=0;i<m7;++i) {
 			free(gf22[i].n);
 			free(gf22[i].t);
@@ -2003,7 +2004,6 @@ final:
 		free(gf22);
 	}
 	if(opts.astr) {
-		freegf22chainharr(stab, htsz);
 		for(i=0;i<numsq;++i) {
 			free(sqisz[i].id);
 			free(sqisz[i].sq);
