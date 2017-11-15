@@ -93,6 +93,7 @@ typedef struct /* opt_t, a struct for the options */
 	char *gstr; /* genome file name */
 	char *rstr; /* repeatmasker gtf/gff2 file */
 	char *ystr; /* the gf22_t type */
+	char *hstr; /* the gf22_t type */
 	char *astr; /* a fasta file */
 } opt_t;
 
@@ -104,7 +105,7 @@ typedef struct /* i4_t */
 	int lgbi; /* last good bgr_t index */
 } i4_t; /* 4 vals of some sort? */
 
-typedef struct /* bgr_t */
+typedef struct /* bgr_t: bedgraph file chrom|start|exend|float */
 {
 	char *n;
 	size_t nsz; /* size of the name r ID field */
@@ -143,13 +144,25 @@ typedef struct /* gf22_t: the y option, based on rmf_t */
 	size_t tsz; /* size of type stringstring */
 } gf22_t;
 
+typedef struct /* gf23_t: the h option, based on rmf_t */
+{
+	char *n;
+	size_t nsz; /* size of the name r ID field */
+	long c[2]; /* coords: 1) start 2) cols 4 and 5 */
+	char *t; /* the typestring ... 3rd column */
+	char *i; /* the ID string ... last column */
+	char sd; /* strand + or - */
+	size_t isz; /* size of iD string */
+	size_t tsz; /* size of type stringstring */
+} gf23_t;
+
 typedef struct /* words_t: file with only single words per line */
 {
 	char *n;
 	size_t nsz; /* size of the name r ID field */
 } words_t; /* bedgraph row type */
 
-typedef struct /* dpf_t : depth file type ... just chr name, pos and read quant */
+typedef struct /* dpf_t : depth file type ... just chr name, pos and read quant: so, single base-locus positions, yes? */
 {
 	char *n;
 	size_t nsz; /* size of the name r ID field */
@@ -180,6 +193,13 @@ struct strchainode /* gf22snod struct */
     struct strchainode *n;
 };
 typedef struct strchainode gf22snod; /* yes, leave this alone, it's the way a struct can have a ptr ot its own type! */
+
+struct strchainode3 /* gf22snod struct */
+{
+    gf23_t *gf23; /* ptr to a single element, not an array, TODO void* it. */
+    struct strchainode3 *n;
+};
+typedef struct strchainode3 gf23snod; /* yes, leave this alone, it's the way a struct can have a ptr ot its own type! */
 
 unsigned hashit(char *str, unsigned tsz) /* Dan Bernstein's one */
 {
@@ -227,6 +247,40 @@ nxt:        continue;
     return stab;
 }
 
+gf23snod **gf23tochainharr(gf23_t *gf23, unsigned numsq, unsigned tsz)
+{
+    unsigned i;
+
+    gf23snod **stab=malloc(tsz*sizeof(gf23snod *));
+    for(i=0;i<tsz;++i) 
+        stab[i]=NULL; /* _is_ a valid ptr, but it's unallocated. Initialization is possible though. */
+    gf23snod *tsnod0, *tsnod2;
+
+    unsigned tint;
+    for(i=0; i<numsq; ++i) {
+        tint=hashit(gf23[i].i, tsz);
+        if( (stab[tint] == NULL) ) {
+            stab[tint]=malloc(sizeof(gf23snod));
+            stab[tint]->gf23=gf23+i;
+            stab[tint]->n=NULL;
+            continue;
+        }
+        tsnod2=stab[tint];
+        while( (tsnod2 != NULL) ){
+            if(!strcmp(tsnod2->gf23->i, gf23[i].i)) {
+                goto nxt;
+            }
+            tsnod0=tsnod2;
+            tsnod2=tsnod2->n;
+        }
+        tsnod0->n=malloc(sizeof(gf23snod));
+        tsnod0->n->gf23=gf23+i;
+        tsnod0->n->n=NULL;
+nxt:        continue;
+    }
+    return stab;
+}
+
 void prtgf22chaharr(gf22snod **stab, unsigned tsz)
 {
     unsigned i;
@@ -266,6 +320,45 @@ void freegf22chainharr(gf22snod **stab, size_t tsz)
     return;
 }
 
+void prtgf23chaharr(gf23snod **stab, unsigned tsz)
+{
+    unsigned i;
+    gf23snod *tsnod2;
+    for(i=0;i<tsz;++i) {
+        printf("Tablepos %i: ", i); 
+        tsnod2=stab[i];
+        while(tsnod2) {
+            printf("\"%s\" ", tsnod2->gf23->i); 
+            tsnod2=tsnod2->n;
+        }
+        printf("\n"); 
+    }
+    return;
+}
+
+void freegf23chainharr(gf23snod **stab, size_t tsz)
+{
+    int i;
+    gf23snod *tsnod0, *tsnod2;
+    for(i=0; i<tsz; ++i) {
+        if( (stab[i] != NULL) ) {
+            while( (stab[i]->n != NULL) ) {
+                tsnod0=stab[i];
+                tsnod2=stab[i]->n;
+                while((tsnod2->n != NULL) ){
+                    tsnod0=tsnod2;
+                    tsnod2=tsnod2->n;
+                }
+                free(tsnod0->n);
+                tsnod0->n=NULL;
+            }
+            free(stab[i]);
+        }
+    }
+    free(stab);
+    return;
+}
+
 char idlsearch(gf22snod **stab, unsigned tsz, char *line, unsigned lnsz)
 {
     char yes=0;
@@ -281,6 +374,30 @@ char idlsearch(gf22snod **stab, unsigned tsz, char *line, unsigned lnsz)
         tsnod2=stab[tint];
         while( (tsnod2 != NULL) ) {
             if( (tsnod2->gf22->isz == lnsz) & !(strncmp(tsnod2->gf22->i, line, tsnod2->gf22->isz)) ) {
+                yes=1; /* i.e. no=0 */
+                goto nxt;
+            }
+            tsnod2=tsnod2->n;
+        }
+    }
+nxt:    return yes;
+}
+
+char idlsearch3(gf23snod **stab, unsigned tsz, char *line, unsigned lnsz)
+{
+    char yes=0;
+    size_t i;
+    gf23snod *tsnod2;
+
+    unsigned tint;
+    for(i=0; i<tsz; ++i) {
+        tint=hashit(line, tsz);
+        if( (stab[tint] == NULL) )
+            goto nxt; /* hashtable at that position is empty ... so it's impossible for that string to be there */
+
+        tsnod2=stab[tint];
+        while( (tsnod2 != NULL) ) {
+            if( (tsnod2->gf23->isz == lnsz) & !(strncmp(tsnod2->gf23->i, line, tsnod2->gf23->isz)) ) {
                 yes=1; /* i.e. no=0 */
                 goto nxt;
             }
@@ -559,7 +676,7 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 	int c;
 	opterr = 0;
 
-	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:q:y:a:")) != -1)
+	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:q:y:a:h:")) != -1)
 		switch (c) {
 			case 'd':
 				opts->dflg = 1;
@@ -593,6 +710,9 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 				break;
 			case 'y': /* based on repeatmasker gff2 file */
 				opts->ystr = optarg;
+				break;
+			case 'h': /* w303sgd: based on repeatmasker gff2 file */
+				opts->hstr = optarg;
 				break;
 			case 'a':
 				opts->astr = optarg;
@@ -1024,6 +1144,8 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
 	char *sm=NULL /*first semicolon marker*/, *fem=NULL /* first equals marker */, *lem=NULL /* last equals marker */;
 	int cncols /* canonical numcols ... we will use the first line */;
+	char tch0[6]={0}; /* temporary char holder for attaching numbers to absentidcols */
+	int numnoc9=0;
 
 	gf22_t *gf22=malloc(GBUF*sizeof(gf22_t));
 
@@ -1078,9 +1200,12 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 					cncols=couw-oldcouw;
 				else if (couw-oldcouw== GF22IDCNUM-1) {
 					// printf("couw-oldcouw=%i\n", couw-oldcouw); 
-					gf22[wa->numl].isz=12L;
+					gf22[wa->numl].isz=17L;
 					gf22[wa->numl].i=malloc(gf22[wa->numl].isz*sizeof(char));
 					strcpy(gf22[wa->numl].i, "ABSENTIDCOL"); //* absent ID column */
+					sprintf(tch0, "%05i", numnoc9);
+					strcat(gf22[wa->numl].i, tch0);
+					numnoc9++;
 				}
 				oldcouw=couw; /* restart words per line count */
 				wa->numl++; /* brand new line coming up */
@@ -1132,6 +1257,123 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 		printf("Warning, idanomals was not zero, it was %i, so some IDs and are not exactly the same as NAMEs.\n", idanomals); 
 
 	return gf22;
+}
+
+gf23_t *processgf23(char *fname, int *m, int *n) /* this is dummy nmae .. it's for the special gff format for ;yze annottion */
+{
+	/* In order to make no assumptions, the file is treated as lines containing the same amount of words each,
+	 * except for lines starting with #, which are ignored (i.e. comments). These words are checked to make sure they contain only floating number-type
+	 * characters [0123456789+-.] only, one string variable is continually written over and copied into a growing floating point array each time */
+
+	/* declarations */
+	FILE *fp=fopen(fname,"r");
+	int i;
+	size_t couc /*count chars per line */, couw=0 /* count words */, oldcouw = 0;
+	int c;
+	boole inword=0;
+	wseq_t *wa=create_wseq_t(GBUF);
+	size_t bwbuf=WBUF;
+	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
+	char *sm=NULL /*first semicolon marker*/, *fem=NULL /* first equals marker */;
+	int cncols /* canonical numcols ... we will use the first line */;
+
+	gf23_t *gf23=malloc(GBUF*sizeof(gf23_t));
+
+	while( (c=fgetc(fp)) != EOF) { /* grab a char */
+		if( (c== '\n') | (c == ' ') | (c == '\t') | (c=='#')) { /* word closing events */
+			if( inword==1) { /* first word closing event */
+				wa->wln[couw]=couc;
+				bufword[couc++]='\0';
+				bufword = realloc(bufword, couc*sizeof(char)); /* normalize */
+				/* for the struct, we want to know if it's the first word in a line, like so: */
+				if(couw==oldcouw) {
+					gf23[wa->numl].n=malloc(couc*sizeof(char));
+					gf23[wa->numl].nsz=couc;
+					strcpy(gf23[wa->numl].n, bufword);
+				} else if((couw-oldcouw)==3) { /* fourth col */
+					gf23[wa->numl].c[couw-oldcouw-3]=atol(bufword)-1L; // change to zero indexing
+				} else if((couw-oldcouw)==4) { /* it's not the first word, and it's 1st and second col */
+					gf23[wa->numl].c[couw-oldcouw-3]=atol(bufword); // no 0 indexing change required here.
+				} else if((couw-oldcouw)==6 )  { /* the strand: simply grab first character, it will be + or - */
+					gf23[wa->numl].sd=bufword[0];
+				} else if( (couw-oldcouw)==2) { // the type string
+					gf23[wa->numl].t=malloc(couc*sizeof(char));
+					gf23[wa->numl].tsz=couc;
+					strcpy(gf23[wa->numl].t, bufword);
+				} else if( (couw-oldcouw)==9) { // the ID string at the end, this time at col 10
+					fem=NULL;
+					sm=NULL;
+					fem=strchr(bufword, '=');
+					sm=strchr(bufword, ';');
+					if( fem && sm) {
+						gf23[wa->numl].isz=(size_t)(sm-fem);
+						gf23[wa->numl].i=malloc(gf23[wa->numl].isz*sizeof(char));
+						memcpy(gf23[wa->numl].i, fem+1, (gf23[wa->numl].isz-1)*sizeof(char)); // strncpy writes an extra bit for \0
+						gf23[wa->numl].i[gf23[wa->numl].isz-1]='\0'; // null terminate
+					} else {
+						gf23[wa->numl].i=malloc(couc*sizeof(char));
+						gf23[wa->numl].isz=couc;
+						strcpy(gf23[wa->numl].i, bufword);
+					}
+				}
+				couc=0;
+				couw++;
+			}
+			if(c=='#') { /* comment case */
+				while( (c=fgetc(fp)) != '\n') ;
+				continue;
+			} else if(c=='\n') { /* end of a line */
+				if(wa->numl == wa->lbuf-1) { /* enought space in our current array? */
+					wa->lbuf += WBUF;
+					wa->wpla=realloc(wa->wpla, wa->lbuf*sizeof(size_t));
+					gf23=realloc(gf23, wa->lbuf*sizeof(gf23_t));
+					memset(wa->wpla+(wa->lbuf-WBUF), 0, WBUF*sizeof(size_t));
+				}
+				wa->wpla[wa->numl] = couw-oldcouw; /* number of words in current line */
+				/* extra bit to catch canonical colnums */
+				if(wa->numl==0)
+					cncols=couw-oldcouw;
+				oldcouw=couw; /* restart words per line count */
+				wa->numl++; /* brand new line coming up */
+			}
+			inword=0;
+		} else if(inword==0) { /* deal with first character of new word, + and - also allowed */
+			if(couw == wa->wsbuf-1) {
+				wa->wsbuf += GBUF;
+				wa->wln=realloc(wa->wln, wa->wsbuf*sizeof(size_t));
+				gf23=realloc(gf23, wa->wsbuf*sizeof(gf23_t));
+				for(i=wa->wsbuf-GBUF;i<wa->wsbuf;++i)
+					wa->wln[i]=0;
+			}
+			couc=0;
+			bwbuf=WBUF;
+			bufword=realloc(bufword, bwbuf*sizeof(char)); /* don't bother with memset, it's not necessary */
+			bufword[couc++]=c; /* no need to check here, it's the first character */
+			inword=1;
+		} else {
+			if(couc == bwbuf-1) { /* the -1 so that we can always add and extra (say 0) when we want */
+				bwbuf += WBUF;
+				bufword = realloc(bufword, bwbuf*sizeof(char));
+			}
+			bufword[couc++]=c;
+		}
+
+
+	} /* end of big for statement */
+	fclose(fp);
+	free(bufword);
+
+	/* normalization stage */
+	wa->quan=couw;
+	wa->wln = realloc(wa->wln, wa->quan*sizeof(size_t)); /* normalize */
+	gf23 = realloc(gf23, wa->quan*sizeof(gf23_t)); /* normalize */
+	wa->wpla= realloc(wa->wpla, wa->numl*sizeof(size_t));
+
+	*m= wa->numl;
+	*n= cncols; 
+	free_wseq(wa);
+
+	return gf23;
 }
 
 dpf_t *processdpf(char *fname, int *m, int *n) /*fourth column is string, other columns to be ignored */
@@ -1347,6 +1589,18 @@ void prtgf22(char *fname, gf22_t *gf22, int m7)
 	return;
 }
 
+void prtgf23(char *fname, gf23_t *gf23, int m)
+{
+	int i;
+	for(i=0;i<m;++i) // note how we cut out the spurious parts of the motif string to leave it pure and raw (slightly weird why two-char deletion is necessary.
+		printf("%s\t%li\t%li\t%c\t%s\t%s\n", gf23[i].n, gf23[i].c[0], gf23[i].c[1], gf23[i].sd, gf23[i].t, gf23[i].i);
+
+#ifdef DBG
+	printf("You have just seen the %i entries of basic gff2 file called \"%s\".\n", m, fname); 
+#endif
+	return;
+}
+
 void prtrmf(char *fname, rmf_t *rmf, int m6)
 {
 	int i;
@@ -1548,14 +1802,37 @@ ia_t *gensplbdx(bgr_t2 *bed2, int m, int n, words_t *bedword, int m3, int n3) /*
 	return ia;
 }
 
-void prtbed2fo(char *fname, bgr_t2 *bgrow, int m, int n, char *label) /* print feature beds file features only */
+void prtbed2fo(char *fname, bgr_t2 *bgrow, int m, int n, char *label) /* will print all -f feature bed file */
 {
 	int i;
 	printf("%s file called %s is %i rows by %i columns and has following features:\n", label, fname, m, n); 
-	printf("You can direct these name into a file and then presient to this program again under the -u option,\n");
-	printf("whereupon only those name will be looked at\n");
+	printf("You can direct these name into a file and then present to this program again under the -u option,\n");
+	printf("whereupon only those names will be looked at\n");
 	for(i=0;i<m;++i)
 		printf("%s\n", bgrow[i].f);
+
+	return;
+}
+
+void prtbed2fo2(char *fname, bgr_t2 *bgrow, int m, int n, char *label) /* all -f bed file features except dots and _mRNA ending ones */
+{
+	int i;
+	char *usc;
+	printf("%s file called %s is %i rows by %i columns and has following features:\n", label, fname, m, n); 
+	printf("You can direct these name into a file and then present to this program again under the -u option,\n");
+	printf("whereupon only those names will be looked at\n");
+	printf("Note: only feature names without dot and underscore will be printed\n");
+	for(i=0;i<m;++i) {
+		usc=NULL;
+		if(!strcmp(bgrow[i].f, "."))
+			continue;
+		else {
+			usc=strchr(bgrow[i].f, '_');
+			if(usc)
+				continue;
+			printf("%s\n", bgrow[i].f);
+		}
+	}
 
 	return;
 }
@@ -1842,8 +2119,11 @@ void prtusage()
 {
 	printf("chipmonk: this takes a bedgraph file, specified by -i, probably the bedgraph from a MACS2 intensity signal,\n");
 	printf("and another bedgraph file, specified by -f, and merges the first into lines defined by the second.\n");
-	printf("Before filtering however, please run with the -d (details) option. This will showi a rough spread of the values,\n");
-	printf("so you can run a second time choosing filtering value (-f) more easily.\n");
+	printf("Before filtering however, please run with the -d (details) option. This will show a rough spread of the values,\n");
+	printf("Other options:\n");
+	printf("-a: takes a fasta file.\n");
+	printf("-h: takes a GFF3 format, but rejects . and mRNA and grabs ID on 10th not 9th column.\n");
+	printf("-y: takes a variation of the GFF2 format, a table, column nine gives the Y-name.\n");
 	return;
 }
 
@@ -1854,8 +2134,8 @@ int main(int argc, char *argv[])
 		prtusage();
 		exit(EXIT_FAILURE);
 	}
-	int i, m, n /*rows,cols for bgr_t*/, m2, n2, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6, m7, n7 /*gf22 dims */;
-    unsigned numsq;
+	int i, m, n /*rows,cols for bgr_t*/, m2, n2, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6, m7, n7 /*gf22 dims */, m8, n8 /* gf23 dims */;
+    unsigned numsq; /* number of sequences in the -a (fasta) option */
 	opt_t opts={0};
 	catchopts(&opts, argc, argv);
 
@@ -1868,11 +2148,13 @@ int main(int argc, char *argv[])
 	gf_t *gf=NULL; /* usually genome size file */
 	rmf_t *rmf=NULL; /* usually genome size file */
 	gf22_t *gf22=NULL;
+	gf23_t *gf23=NULL;
 	i_s *sqisz=NULL;
 
 	/* for the ystr, gf22 hash handling */
-    unsigned htsz;
+    unsigned htsz, htsz3;
     gf22snod **stab=NULL;
+    gf23snod **stab3=NULL;
 
 	if(opts.istr)
 		bgrow=processinpf(opts.istr, &m, &n);
@@ -1893,6 +2175,11 @@ int main(int argc, char *argv[])
 		htsz=2*m7/3; /* our hash table size */
 		stab=gf22tochainharr(gf22, m7, htsz); /* we now set up a hash table along side our sequence names from the fasta file */
 	}
+	if(opts.hstr) { // hacky form of gff3 reading ... */
+		gf23=processgf23(opts.hstr, &m8, &n8);
+		htsz3=2*m8/3; /* our hash table size */
+		stab3=gf23tochainharr(gf23, m8, htsz3); /* we now set up a hash table along side our sequence names from the fasta file */
+	}
 	if(opts.astr)
 		sqisz=procfa(opts.astr, &numsq);
 
@@ -1906,7 +2193,8 @@ int main(int argc, char *argv[])
 		goto final;
 	}
 	if((opts.nflg) && (opts.fstr)) {
-		prtbed2fo(opts.fstr, bed2, m2, n2, "Feature (bed2)");
+		// prtbed2fo(opts.fstr, bed2, m2, n2, "Feature (bed2)");
+		prtbed2fo2(opts.fstr, bed2, m2, n2, "Feature (bed2)"); // alterantive skipping . and _
 		goto final;
 	}
 	// prtbed2(bed2, m2, MXCOL2VIEW);
@@ -1928,6 +2216,11 @@ int main(int argc, char *argv[])
 	if((opts.dflg) && (opts.ystr) ) {
 		prtgf22(opts.ystr, gf22, m7);
 		prtgf22chaharr(stab, htsz);
+	}
+
+	if((opts.dflg) && (opts.hstr) ) {
+		prtgf23(opts.hstr, gf23, m8);
+		prtgf23chaharr(stab3, htsz3);
 	}
 
 	if((opts.dflg) && (opts.astr) ) 
@@ -2002,6 +2295,15 @@ final:
 			free(gf22[i].i);
 		}
 		free(gf22);
+	}
+	if(opts.hstr) {
+		freegf23chainharr(stab3, htsz3);
+		for(i=0;i<m8;++i) {
+			free(gf23[i].n);
+			free(gf23[i].t);
+			free(gf23[i].i);
+		}
+		free(gf23);
 	}
 	if(opts.astr) {
 		for(i=0;i<numsq;++i) {
