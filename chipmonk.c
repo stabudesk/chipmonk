@@ -1305,11 +1305,18 @@ gf23_t *processgf23(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 					sm=NULL;
 					fem=strchr(bufword, '=');
 					sm=strchr(bufword, ';');
-					if( fem && sm) {
-						gf23[wa->numl].isz=(size_t)(sm-fem);
-						gf23[wa->numl].i=malloc(gf23[wa->numl].isz*sizeof(char));
-						memcpy(gf23[wa->numl].i, fem+1, (gf23[wa->numl].isz-1)*sizeof(char)); // strncpy writes an extra bit for \0
-						gf23[wa->numl].i[gf23[wa->numl].isz-1]='\0'; // null terminate
+					if(fem) {
+						if(sm) {
+							gf23[wa->numl].isz=(size_t)(sm-fem);
+							gf23[wa->numl].i=malloc(gf23[wa->numl].isz*sizeof(char));
+							memcpy(gf23[wa->numl].i, fem+1, (gf23[wa->numl].isz-1)*sizeof(char)); // strncpy writes an extra bit for \0
+							gf23[wa->numl].i[gf23[wa->numl].isz-1]='\0'; // null terminate
+						} else {
+							gf23[wa->numl].isz=1+strlen(fem+1);
+							gf23[wa->numl].i=malloc(gf23[wa->numl].isz*sizeof(char));
+							memcpy(gf23[wa->numl].i, fem+1, (gf23[wa->numl].isz-1)*sizeof(char)); // strncpy writes an extra bit for \0
+							gf23[wa->numl].i[gf23[wa->numl].isz-1]='\0'; // null terminate
+						}
 					} else {
 						gf23[wa->numl].i=malloc(couc*sizeof(char));
 						gf23[wa->numl].isz=couc;

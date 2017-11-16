@@ -1,4 +1,8 @@
-# bedtack
+# chipmonk (previous name, bedtack)
+
+Chipmonk is the new name for this project. It is a more general name indicating that ChIP analysis is the final aim. Obviously it would have been cuter to call it chipmunk, but that is also very obvious and probably that name has been used several times (though I didn't check). Also "monk" lends an authoritative air to the program in the way that perlmonks website achieves. Yes, it's fuzzy, but this allows functioanl flexibility.
+
+What follows is a discussion on the previous name, obsolete.
 
 The name was chosen principally because it "tackles" BED files and the name BEDtools and BEDutils imply a much bigger platform of tools while this project is rather small.
 
@@ -16,4 +20,5 @@ Lexicographic ordering means 4,9,5 because Roman numerals are used for chromosom
 ## Other times normal
 this is because samtools depth is changes to numeric ordering and IX follows VIII not IV
 
-##
+# introducing gfmatchup
+Attempting to match up gff's to see which features are in which.
