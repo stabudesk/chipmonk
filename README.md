@@ -11,7 +11,9 @@ The name also has a fuzzy evocation of "BED attack" or "BED tuck" which all impl
 If you do not have a BED file, but rather have a GFF file, there are tools out there to do the conversion, so it's not part of the current scope.
 
 ## 0 indexing
-GFF and BED files use 0 indexing, as does (by default) the size files.
+GFF uses 1-indexing. The range is closed. Start and end are both part of the interval. However, internally, the program converts these
+to zero indexing, which is the bed convention. Be careful when eyeballing gffs and comparing to program output.
+BED files use 0 indexing (semi-open ranges) , as does (by default) the size files.
 This means semi-open intervals. The first number is inclusive of the range, while the second is one above the final included position.
 
 ## Sometimes chromosome order 4, 9, 5

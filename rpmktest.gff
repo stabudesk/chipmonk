@@ -2,6 +2,7 @@
 ##date 2017-11-15
 ##sequence-region W303LYZE.fasta
 LYZE01000001.1	RepeatMasker	similarity	475	544	16.5	+	.	Target "Motif:(TACCCA)n" 1 69
+LYZE01000001.1	RepeatMasker	similarity	1475	1544	16.5	+	.	Target "Motif:(TACCCA)n" 1 69
 LYZE01000001.1	RepeatMasker	similarity	6981	7001	 0.0	+	.	Target "Motif:(A)n" 1 21
 LYZE01000001.1	RepeatMasker	similarity	9475	9898	 4.3	+	.	Target "Motif:(TATT)n" 1 25
 LYZE01000002.1	RepeatMasker	similarity	182211	182250	26.8	+	.	Target "Motif:(TCCTTT)n" 1 40
