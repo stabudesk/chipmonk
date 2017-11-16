@@ -54,6 +54,27 @@
 
 typedef unsigned char boole;
 
+typedef enum { /* feature category ... depending on conditions in the file: but please modify global word string below too */
+	ABS=1, /* an absent feature */
+	TMR=2, /* a telomere */
+	FTH=3, /* fthing */
+	YTH=4, /* ything */
+	NCA=5 /* no categry assigned */
+} fcat;
+#define FCQUAN 5
+char *fcnames[FCQUAN]={"ABS", "TMR", "FTH", "YTH", "NCA"};
+fcat getfc(char *cnam) /* this function has special permission to be up here */
+{
+	int i;
+	fcat ret;
+	for(i=0;i<FCQUAN;++i)
+		if(!strcmp(fcnames[i], cnam)) {
+			ret=i+1;
+			break;
+		}
+	return ret;
+}
+
 typedef struct /* onefa */
 {
 	char *id;
@@ -95,6 +116,7 @@ typedef struct /* opt_t, a struct for the options */
 	char *ystr; /* the gf22_t type */
 	char *hstr; /* the gf22_t type */
 	char *astr; /* a fasta file */
+	char *zstr; /* for the feature category enum */
 } opt_t;
 
 typedef struct /* i4_t */
@@ -142,6 +164,7 @@ typedef struct /* gf22_t: the y option, based on rmf_t */
 	char sd; /* strand + or - */
 	size_t isz; /* size of iD string */
 	size_t tsz; /* size of type stringstring */
+	fcat fc;
 } gf22_t;
 
 typedef struct /* gf23_t: the h option, based on rmf_t */
@@ -192,7 +215,7 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 	int c;
 	opterr = 0;
 
-	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:q:y:a:h:")) != -1)
+	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:q:y:a:h:z:")) != -1)
 		switch (c) {
 			case 'd':
 				opts->dflg = 1;
@@ -232,6 +255,9 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 				break;
 			case 'a':
 				opts->astr = optarg;
+				break;
+			case 'z':
+				opts->zstr = optarg;
 				break;
 			case '?':
 				fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
@@ -525,6 +551,23 @@ void prtsqbdg(i_s *sqisz, bgr_t *bgrow, int m, int sz)
 				printf(">%s", sqisz[i].id);
 				printf("%s\n", rangestr);
 				printf("%.*s\n", (int)(bgrow[j].c[1]-bgrow[j].c[0]), sqisz[i].sq+bgrow[j].c[0]);
+				break;
+			}
+	}
+	return;
+}
+
+void prtsqbdggf22(i_s *sqisz, gf22_t *gf22, int m, int sz, fcat fc)
+{
+	int i, j;
+	char rangestr[64]={0}; /* generally helpful to say what range is being given */
+	for(j=0;j<m;++j) 
+		for(i=0;i<sz;++i) {
+			if((gf22[j].fc == fc) & !strcmp(sqisz[i].id, gf22[j].n)) {
+				sprintf(rangestr, "|range_%li_to_%li", gf22[j].c[0], gf22[j].c[1]);
+				printf(">%s", sqisz[i].id);
+				printf("%s\n", rangestr);
+				printf("%.*s\n", (int)(gf22[j].c[1]-gf22[j].c[0]), sqisz[i].sq+gf22[j].c[0]);
 				break;
 			}
 	}
@@ -1149,7 +1192,7 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 
 	/* declarations */
 	FILE *fp=fopen(fname,"r");
-	int i;
+	int i, j;
 	size_t couc /*count chars per line */, couw=0 /* count words */, oldcouw = 0;
 	int c;
 	int idanomals=0; /* this is for testing col 8 ... ID and string often the same, lie to keep it that way too. This will count when not */
@@ -1193,6 +1236,20 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 					gf22[wa->numl].i=malloc(gf22[wa->numl].isz*sizeof(char));
 					memcpy(gf22[wa->numl].i, fem+1, (gf22[wa->numl].isz-1)*sizeof(char)); // strncpy writes an extra bit for \0
 					gf22[wa->numl].i[gf22[wa->numl].isz-1]='\0'; // null terminate
+					/* grab the fcat now, just use first letter */
+					for(j=0; j<FCQUAN; j++) {
+						if(gf22[wa->numl].i[0] == 'T') {
+							gf22[wa->numl].fc=TMR; /* Telomere with any luck */
+							break;
+						} else if(gf22[wa->numl].i[0] == 'F') {
+							gf22[wa->numl].fc=FTH; /* f thingie */
+							break;
+						} else if(gf22[wa->numl].i[0] == 'Y') {
+							gf22[wa->numl].fc=YTH; /* y thingie */
+							break;
+						} else 
+							gf22[wa->numl].fc=NCA; /* no particular category assigned */
+					}
 					if( strcmp(lem+1, gf22[wa->numl].i))
 						idanomals++;
 				}
@@ -1218,6 +1275,7 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 					gf22[wa->numl].isz=17L;
 					gf22[wa->numl].i=malloc(gf22[wa->numl].isz*sizeof(char));
 					strcpy(gf22[wa->numl].i, "ABSENTIDCOL"); //* absent ID column */
+					gf22[wa->numl].fc=ABS;
 					sprintf(tch0, "%05i", numnoc9);
 					strcat(gf22[wa->numl].i, tch0);
 					numnoc9++;
@@ -1882,6 +1940,25 @@ void prtgf22fo(char *fname, gf22_t *gf22, int m, int n, char *label) /* all -f b
 	return;
 }
 
+void prtgf22foz(char *fname, gf22_t *gf22, int m, int n, fcat fc, char *label) /* print the absent ones */
+{
+	int i, quan=0;
+	long rangerep=0; /* representing rang ... */
+	printf("%s file called %s is %i rows by %i columns and has following features:\n", label, fname, m, n); 
+	printf("You can direct these name into a file wheereupon, you might like to edit it.\n");
+	printf("Then re-present these names to ths program with the -u option, whereupon only those names will be looked at\n");
+	printf("Note: only feature names without dot and underscore will be printed\n");
+	for(i=0;i<m;++i)
+		if(gf22[i].fc == fc){
+			printf("%s\t%li\t%li\t%c\t%s\t%s\n", gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].t, gf22[i].i);
+			rangerep += gf22[i].c[1] - gf22[i].c[0];
+			quan++;
+		}
+	printf("Total number of annots in %s feature category= %i, representing range of %li basepairs.\n", fcnames[fc-1], quan, rangerep); 
+
+	return;
+}
+
 void prtmbed(bgr_t **bgra, i4_t *dca, int dcasz, int n) /* the 2D version */
 {
 	int i, j;
@@ -2162,13 +2239,15 @@ i4_t *difca(bgr_t *bgrow, int m, int *dcasz, float minsig) /* An temmpt to merge
 
 void prtusage()
 {
-	printf("chipmonk: this takes a bedgraph file, specified by -i, probably the bedgraph from a MACS2 intensity signal,\n");
+	printf("gfmatchup: this takes a bedgraph file, specified by -i, probably the bedgraph from a MACS2 intensity signal,\n");
 	printf("and another bedgraph file, specified by -f, and merges the first into lines defined by the second.\n");
 	printf("Before filtering however, please run with the -d (details) option. This will show a rough spread of the values,\n");
 	printf("Other options:\n");
 	printf("-a: takes a fasta file.\n");
 	printf("-h: takes a GFF3 format, but rejects . and mRNA and grabs ID on 10th not 9th column.\n");
 	printf("-y: takes a variation of the GFF2 format, a table, column nine gives the Y-name.\n");
+	printf("-z and -y: takes (-z) a feature category \"ABS\" and a GFF2 file (-y) and only prints out those categories\n");
+	printf("-z and -y and -a: same as -z and -y but prints out the relevant sequence extract into a fasta file\n");
 	return;
 }
 
@@ -2181,6 +2260,7 @@ int main(int argc, char *argv[])
 	}
 	int i, m, n /*rows,cols for bgr_t*/, m2, n2, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6, m7, n7 /*gf22 dims */, m8, n8 /* gf23 dims */;
     unsigned numsq; /* number of sequences in the -a (fasta) option */
+	fcat fc;
 	opt_t opts={0};
 	catchopts(&opts, argc, argv);
 
@@ -2242,8 +2322,14 @@ int main(int argc, char *argv[])
 		prtbed2fo2(opts.fstr, bed2, m2, n2, "Feature (bed2)"); // alterantive skipping . and _
 		goto final;
 	}
-	if((opts.nflg) && (opts.ystr))
-		prtgf22fo(opts.ystr, gf22, m7, n7, "gf22 annot file");
+	if((opts.zstr) && (opts.ystr) && (!opts.astr)) {
+		fc=getfc(opts.zstr);
+		prtgf22foz(opts.ystr, gf22, m7, n7, fc, "gf22 annot file"); /* will only print out those referring to a certain fcat */
+	}
+	if((opts.zstr) && (opts.ystr) && (opts.astr)) {
+		fc=getfc(opts.zstr);
+		prtsqbdggf22(sqisz, gf22, m7, numsq, fc);
+	}
 
 	// prtbed2(bed2, m2, MXCOL2VIEW);
 	if((opts.istr) && (opts.fstr))

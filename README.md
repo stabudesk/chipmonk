@@ -22,3 +22,12 @@ this is because samtools depth is changes to numeric ordering and IX follows VII
 
 # introducing gfmatchup
 Attempting to match up gff's to see which features are in which.
+
+# First run and test files
+
+These are the different yeast reference genomes.
+Particularly the unannotated W303LYZE
+so in as363's gff file we have five entries for chr18 (although with subnumbers 1-5). Only chr 1-17 are true chromosomes really.
+The reference not only has 18, but also 19, 20, and 21. QUite likely these are contigs that could
+not not be packaged into the other chromosomes.
+What we shall do is take the 5 annotations in chr18, and render their subnumbers as 1.
