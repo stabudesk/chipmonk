@@ -2017,6 +2017,45 @@ void m2beds(bgr_t *bgrow, bgr_t2 *bed2, int m2, int m) /* match up 2 beds */
 	return;
 }
 
+void marmfgf2(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf22 */
+{
+	/* TODO: there could be an issue with intensity l;ines that span the end of one region and the start of another
+	 * Need to look into that. this will only introduce a small error though.
+	 */
+	int i, j;
+	int reghits; /* hits for region: number of lines in bed1 which coincide with a region in gf22 */
+	int cloci; /* as opposed to hit, catch the number of loci */
+	int rangecov=0;
+	double assoctval=0;
+	int istarthere=0, catchingi=0;
+	boole caught;
+	for(j=0;j<m6;++j) {
+		caught=0;
+		reghits=0;
+		cloci=0;
+		assoctval=0;
+		for(i=istarthere;i<m7;++i) {
+			if( !(strcmp(rmf[i].n, gf22[j].n)) & (rmf[i].c[0] >= gf22[j].c[0]) & (rmf[i].c[1] <= gf22[j].c[1]) ) {
+				reghits++;
+				rangecov=rmf[i].c[1] - rmf[i].c[0]; // range covered by this hit
+				cloci+=rangecov;
+				assoctval+=rangecov * rmf[i].co;
+				catchingi=i;
+				caught=1;
+			} else if (caught) { // will catch first untruth after a series of truths.
+				caught=2;
+				break; // bed1 is ordered so we can forget about trying to match anymore.
+			}
+		}
+		if(caught==2)
+			istarthere=catchingi+1;
+		printf("rmfidx %i / name %s / size %li got %i hits from bed1 , being %i loci and total assoc (prob .intensty) val %4.2f\n", j, gf22[j].f, gf22[j].c[1]-gf22[j].c[0], reghits, cloci, assoctval);
+		if(istarthere >= m)
+			break;
+	}
+	return;
+}
+
 void mgf2bed(char *gfname, char *ffile, gf_t *gf, bgr_t2 *bed2, int m2, int m5) /* match gf to feature bed file */
 {
 	setlocale(LC_NUMERIC, "");
