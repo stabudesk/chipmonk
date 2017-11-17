@@ -1,0 +1,2630 @@
+# BLASTN 2.6.0+
+# Query: LYZE01000001.1|range_165044_to_165089
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000001.1|range_165044_to_165089	CP011547.1	100.000	45	0	0	1	45	163464	163508	8.68e-14	84.2
+# BLASTN 2.6.0+
+# Query: LYZE01000001.1|range_165567_to_166890
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000001.1|range_165567_to_166890	CP011562.1	100.000	1323	0	0	1	1323	808944	810266	0.0	2444
+LYZE01000001.1|range_165567_to_166890	CP011562.1	99.169	1324	9	2	1	1323	58070	56748	0.0	2383
+LYZE01000001.1|range_165567_to_166890	CP011562.1	98.792	1324	14	2	1	1323	854932	856254	0.0	2355
+LYZE01000001.1|range_165567_to_166890	CP011562.1	98.267	1327	15	7	1	1323	846028	844706	0.0	2316
+# BLASTN 2.6.0+
+# Query: LYZE01000002.1|range_31926_to_35967
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000002.1|range_31926_to_35967	CP014454.1	99.926	4041	3	0	1	4041	31208	35248	0.0	7446
+LYZE01000002.1|range_31926_to_35967	CP014454.1	84.392	1826	281	4	2218	4041	263317	265140	0.0	1790
+LYZE01000002.1|range_31926_to_35967	CP014454.1	84.219	1806	279	6	2239	4041	224796	226598	0.0	1751
+# BLASTN 2.6.0+
+# Query: LYZE01000002.1|range_171497_to_171734
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000002.1|range_171497_to_171734	CP004625.2	100.000	237	0	0	1	237	159476	159712	2.18e-119	438
+# BLASTN 2.6.0+
+# Query: LYZE01000002.1|range_224963_to_227438
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000002.1|range_224963_to_227438	CP011811.1	100.000	2447	0	0	1	2447	222928	225374	0.0	4519
+LYZE01000002.1|range_224963_to_227438	CP011811.1	99.221	1926	12	3	525	2447	261991	263916	0.0	3470
+LYZE01000002.1|range_224963_to_227438	CP011811.1	99.774	443	1	0	1	443	261467	261909	0.0	813
+LYZE01000002.1|range_224963_to_227438	CP011811.1	83.567	785	123	6	1666	2447	33243	34024	0.0	730
+# BLASTN 2.6.0+
+# Query: LYZE01000002.1|range_227470_to_228397
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000002.1|range_227470_to_228397	CP004723.2	100.000	927	0	0	1	927	939119	938193	0.0	1712
+# BLASTN 2.6.0+
+# Query: LYZE01000002.1|range_326372_to_327695
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000002.1|range_326372_to_327695	GU224294.1	99.924	1323	1	0	1	1323	3138	1816	0.0	2438
+# BLASTN 2.6.0+
+# Query: LYZE01000002.1|range_332325_to_334017
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000002.1|range_332325_to_334017	CP011562.1	99.940	1669	1	0	24	1692	806797	808465	0.0	3077
+LYZE01000002.1|range_332325_to_334017	CP011562.1	99.880	1669	2	0	24	1692	60217	58549	0.0	3072
+LYZE01000002.1|range_332325_to_334017	CP011562.1	99.761	1672	1	1	24	1692	848178	846507	0.0	3062
+LYZE01000002.1|range_332325_to_334017	CP011562.1	97.603	1669	40	0	24	1692	852785	854453	0.0	2861
+# BLASTN 2.6.0+
+# Query: LYZE01000002.1|range_334349_to_335630
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000002.1|range_334349_to_335630	GU224294.1	99.844	1282	1	1	1	1281	3097	1816	0.0	2355
+# BLASTN 2.6.0+
+# Query: LYZE01000002.1|range_665379_to_666702
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000002.1|range_665379_to_666702	GU220390.1	99.924	1323	1	0	1	1323	9008	7686	0.0	2438
+LYZE01000002.1|range_665379_to_666702	GU220390.1	98.716	1324	15	2	1	1323	5500	6822	0.0	2350
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_2476_to_3403
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000003.1|range_2476_to_3403	CP008476.1	100.000	927	0	0	1	927	2467	3393	0.0	1712
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_3664_to_3694
+# Database: nt
+# 0 hits found
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_86465_to_90506
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000003.1|range_86465_to_90506	CP011549.1	100.000	4041	0	0	1	4041	86064	90104	0.0	7463
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_102167_to_103451
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000003.1|range_102167_to_103451	CP006354.2	100.000	1284	0	0	1	1284	96134	97417	0.0	2372
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_122622_to_123096
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000003.1|range_122622_to_123096	CP014734.1	100.000	474	0	0	1	474	123426	123899	0.0	876
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_150955_to_152434
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 7 hits found
+LYZE01000003.1|range_150955_to_152434	CP011558.1	100.000	1479	0	0	1	1479	640421	641899	0.0	2732
+LYZE01000003.1|range_150955_to_152434	CP011558.1	96.351	1480	52	2	1	1479	582740	584218	0.0	2433
+LYZE01000003.1|range_150955_to_152434	CP011558.1	94.733	1481	74	4	1	1479	470790	469312	0.0	2300
+LYZE01000003.1|range_150955_to_152434	CP011558.1	91.571	1483	117	8	1	1479	930821	932299	0.0	2039
+LYZE01000003.1|range_150955_to_152434	CP011558.1	90.007	1481	144	4	1	1479	216808	215330	0.0	1912
+LYZE01000003.1|range_150955_to_152434	CP011558.1	84.230	799	117	8	1	795	963077	962284	0.0	769
+LYZE01000003.1|range_150955_to_152434	CP011558.1	99.448	181	1	0	1299	1479	962295	962115	9.71e-86	329
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_152747_to_154070
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000003.1|range_152747_to_154070	GU220389.1	100.000	1323	0	0	1	1323	7855	9177	0.0	2444
+LYZE01000003.1|range_152747_to_154070	GU220389.1	98.792	1325	12	4	1	1323	2274	3596	0.0	2355
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_179607_to_180930
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000003.1|range_179607_to_180930	GU220390.1	100.000	1323	0	0	1	1323	5500	6822	0.0	2444
+LYZE01000003.1|range_179607_to_180930	GU220390.1	98.640	1324	16	2	1	1323	9008	7686	0.0	2344
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_181793_to_183116
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000003.1|range_181793_to_183116	GU220390.1	100.000	1323	0	0	1	1323	7686	9008	0.0	2444
+LYZE01000003.1|range_181793_to_183116	GU220390.1	98.640	1324	16	2	1	1323	6822	5500	0.0	2344
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_297674_to_298202
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000003.1|range_297674_to_298202	CP006336.2	100.000	347	0	0	182	528	275981	276327	3.76e-180	641
+LYZE01000003.1|range_297674_to_298202	CP006336.2	99.415	171	0	1	1	171	276321	276490	4.33e-80	309
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_311469_to_311829
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000003.1|range_311469_to_311829	XM_018364055.1	100.000	360	0	0	1	360	360	1	0.0	665
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_312290_to_312572
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000003.1|range_312290_to_312572	CP006336.2	100.000	282	0	0	1	282	290419	290700	2.57e-144	521
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_312641_to_312788
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000003.1|range_312641_to_312788	CP006336.2	100.000	147	0	0	1	147	290770	290916	1.32e-69	272
+LYZE01000003.1|range_312641_to_312788	CP006336.2	99.187	123	0	1	26	147	16412	16534	4.86e-54	220
+LYZE01000003.1|range_312641_to_312788	CP006336.2	99.187	123	0	1	26	147	197346	197468	4.86e-54	220
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_315781_to_317338
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000003.1|range_315781_to_317338	CP006296.2	100.000	1557	0	0	1	1557	291074	292630	0.0	2876
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_336178_to_336994
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000003.1|range_336178_to_336994	CP011559.1	100.000	816	0	0	1	816	4685	3870	0.0	1507
+# BLASTN 2.6.0+
+# Query: LYZE01000003.1|range_337408_to_340402
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 5 hits found
+LYZE01000003.1|range_337408_to_340402	CP011559.1	99.900	2994	3	0	1	2994	3455	462	0.0	5513
+LYZE01000003.1|range_337408_to_340402	CP011559.1	86.632	389	52	0	1364	1752	2056	1668	5.30e-116	431
+LYZE01000003.1|range_337408_to_340402	CP011559.1	86.632	389	52	0	1400	1788	2092	1704	5.30e-116	431
+LYZE01000003.1|range_337408_to_340402	CP011559.1	85.804	317	45	0	1364	1680	1984	1668	1.19e-87	337
+LYZE01000003.1|range_337408_to_340402	CP011559.1	85.804	317	45	0	1472	1788	2092	1776	1.19e-87	337
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_2503_to_2785
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_2503_to_2785	CP005157.2	100.000	282	0	0	1	282	717804	717523	2.57e-144	521
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_6069_to_7878
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_6069_to_7878	CP005157.2	100.000	1809	0	0	1	1809	714238	712430	0.0	3341
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_8768_to_9842
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_8768_to_9842	CP005177.2	100.000	1074	0	0	1	1074	715649	714576	0.0	1984
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_11739_to_13443
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_11739_to_13443	CP004746.2	99.707	1704	5	0	1	1704	11541	13244	0.0	3120
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_16286_to_17309
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_16286_to_17309	CP008239.1	100.000	1023	0	0	1	1023	15481	16503	0.0	1890
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_17659_to_18118
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_17659_to_18118	CP004707.2	100.000	459	0	0	1	459	14055	14513	0.0	848
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_385353_to_385545
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_385353_to_385545	CP004735.2	100.000	192	0	0	1	192	371818	372009	1.76e-94	355
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_490405_to_490891
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_490405_to_490891	CP004727.2	100.000	486	0	0	1	486	499616	500101	0.0	898
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_507535_to_508498
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_507535_to_508498	CP004747.2	100.000	963	0	0	1	963	499471	500433	0.0	1779
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_509125_to_511498
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_509125_to_511498	CP004711.2	100.000	2373	0	0	1	2373	506109	508481	0.0	4383
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_513431_to_517472
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 9 hits found
+LYZE01000004.1|range_513431_to_517472	CP011550.1	100.000	4041	0	0	1	4041	513919	517959	0.0	7463
+LYZE01000004.1|range_513431_to_517472	CP011550.1	98.936	4041	43	0	1	4041	877287	873247	0.0	7225
+LYZE01000004.1|range_513431_to_517472	CP011550.1	98.491	4042	59	2	1	4041	986637	982597	0.0	7125
+LYZE01000004.1|range_513431_to_517472	CP011550.1	92.683	1804	130	2	1	1803	645734	647536	0.0	2599
+LYZE01000004.1|range_513431_to_517472	CP011550.1	92.350	1804	136	2	1	1803	878521	880323	0.0	2566
+LYZE01000004.1|range_513431_to_517472	CP011550.1	89.721	1829	178	10	1	1824	1212128	1210305	0.0	2327
+LYZE01000004.1|range_513431_to_517472	CP011550.1	88.280	1826	210	4	1	1824	1101194	1099371	0.0	2183
+LYZE01000004.1|range_513431_to_517472	CP011550.1	86.292	1335	172	11	475	1803	987416	988745	0.0	1441
+LYZE01000004.1|range_513431_to_517472	CP011550.1	98.246	57	1	0	1	57	987368	987424	2.30e-16	100
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_534581_to_537857
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000004.1|range_534581_to_537857	U24069.1	100.000	3276	0	0	1	3276	7855	4580	0.0	6050
+LYZE01000004.1|range_534581_to_537857	U24069.1	98.718	3276	42	0	1	3276	3970	695	0.0	5818
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_573022_to_573355
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_573022_to_573355	CP004727.2	100.000	333	0	0	1	333	563391	563723	1.38e-172	616
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_633697_to_633826
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_633697_to_633826	CP004747.2	100.000	129	0	0	1	129	611787	611915	1.13e-59	239
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_670886_to_672209
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000004.1|range_670886_to_672209	CP011562.1	100.000	1323	0	0	1	1323	808944	810266	0.0	2444
+LYZE01000004.1|range_670886_to_672209	CP011562.1	99.169	1324	9	2	1	1323	58070	56748	0.0	2383
+LYZE01000004.1|range_670886_to_672209	CP011562.1	98.792	1324	14	2	1	1323	854932	856254	0.0	2355
+LYZE01000004.1|range_670886_to_672209	CP011562.1	98.267	1327	15	7	1	1323	846028	844706	0.0	2316
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_806278_to_807601
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_806278_to_807601	CP008239.1	100.000	1323	0	0	1	1323	802472	803794	0.0	2444
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_876470_to_880511
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 9 hits found
+LYZE01000004.1|range_876470_to_880511	CP011550.1	100.000	4041	0	0	1	4041	873247	877287	0.0	7463
+LYZE01000004.1|range_876470_to_880511	CP011550.1	98.936	4041	43	0	1	4041	517959	513919	0.0	7225
+LYZE01000004.1|range_876470_to_880511	CP011550.1	98.689	4042	51	2	1	4041	982597	986637	0.0	7169
+LYZE01000004.1|range_876470_to_880511	CP011550.1	92.572	1804	132	2	2239	4041	647536	645734	0.0	2588
+LYZE01000004.1|range_876470_to_880511	CP011550.1	92.239	1804	138	2	2239	4041	880323	878521	0.0	2555
+LYZE01000004.1|range_876470_to_880511	CP011550.1	89.612	1829	180	10	2218	4041	1210305	1212128	0.0	2316
+LYZE01000004.1|range_876470_to_880511	CP011550.1	88.061	1826	214	4	2218	4041	1099371	1101194	0.0	2161
+LYZE01000004.1|range_876470_to_880511	CP011550.1	86.142	1335	174	11	2239	3567	988745	987416	0.0	1430
+LYZE01000004.1|range_876470_to_880511	CP011550.1	98.246	57	1	0	3985	4041	987424	987368	2.30e-16	100
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_885690_to_887013
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 9 hits found
+LYZE01000004.1|range_885690_to_887013	CP011550.1	100.000	1323	0	0	1	1323	882467	883789	0.0	2444
+LYZE01000004.1|range_885690_to_887013	CP011550.1	99.849	1323	2	0	1	1323	1097248	1095926	0.0	2433
+LYZE01000004.1|range_885690_to_887013	CP011550.1	99.773	1323	3	0	1	1323	649680	651002	0.0	2427
+LYZE01000004.1|range_885690_to_887013	CP011550.1	98.793	1326	10	5	1	1323	990889	992211	0.0	2355
+LYZE01000004.1|range_885690_to_887013	CP011550.1	98.718	1326	11	5	1	1323	1208182	1206860	0.0	2350
+LYZE01000004.1|range_885690_to_887013	CP011550.1	86.230	1329	171	10	1	1323	804380	803058	0.0	1430
+LYZE01000004.1|range_885690_to_887013	CP011550.1	81.481	405	63	10	925	1323	518834	519232	1.45e-83	322
+LYZE01000004.1|range_885690_to_887013	CP011550.1	82.873	362	52	9	967	1323	981680	981324	6.74e-82	316
+LYZE01000004.1|range_885690_to_887013	CP011550.1	82.320	362	54	9	967	1323	872330	871974	1.46e-78	305
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_888358_to_890497
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_888358_to_890497	CP014735.1	100.000	2139	0	0	1	2139	843048	845186	0.0	3951
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_986425_to_990466
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 9 hits found
+LYZE01000004.1|range_986425_to_990466	CP011550.1	100.000	4041	0	0	1	4041	982597	986637	0.0	7463
+LYZE01000004.1|range_986425_to_990466	CP011550.1	98.689	4042	51	2	1	4041	873247	877287	0.0	7169
+LYZE01000004.1|range_986425_to_990466	CP011550.1	98.491	4042	59	2	1	4041	517959	513919	0.0	7125
+LYZE01000004.1|range_986425_to_990466	CP011550.1	91.025	1805	158	4	2239	4041	647536	645734	0.0	2433
+LYZE01000004.1|range_986425_to_990466	CP011550.1	90.693	1805	164	4	2239	4041	880323	878521	0.0	2399
+LYZE01000004.1|range_986425_to_990466	CP011550.1	87.978	1830	208	12	2218	4041	1210305	1212128	0.0	2150
+LYZE01000004.1|range_986425_to_990466	CP011550.1	87.288	1825	230	2	2218	4041	1099371	1101194	0.0	2084
+LYZE01000004.1|range_986425_to_990466	CP011550.1	85.575	1338	182	11	2239	3570	988745	987413	0.0	1391
+LYZE01000004.1|range_986425_to_990466	CP011550.1	98.246	57	1	0	3985	4041	987424	987368	2.30e-16	100
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_994717_to_996040
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 9 hits found
+LYZE01000004.1|range_994717_to_996040	CP011550.1	100.000	1323	0	0	1	1323	990889	992211	0.0	2444
+LYZE01000004.1|range_994717_to_996040	CP011550.1	99.698	1323	4	0	1	1323	1208182	1206860	0.0	2422
+LYZE01000004.1|range_994717_to_996040	CP011550.1	98.944	1326	8	5	1	1323	1097248	1095926	0.0	2366
+LYZE01000004.1|range_994717_to_996040	CP011550.1	98.869	1326	9	5	1	1323	649680	651002	0.0	2361
+LYZE01000004.1|range_994717_to_996040	CP011550.1	98.793	1326	10	5	1	1323	882467	883789	0.0	2355
+LYZE01000004.1|range_994717_to_996040	CP011550.1	87.406	1326	161	5	1	1323	804380	803058	0.0	1519
+LYZE01000004.1|range_994717_to_996040	CP011550.1	82.134	403	64	7	925	1323	518834	519232	1.44e-88	339
+LYZE01000004.1|range_994717_to_996040	CP011550.1	82.548	361	55	8	967	1323	981680	981324	3.14e-80	311
+LYZE01000004.1|range_994717_to_996040	CP011550.1	81.994	361	57	8	967	1323	872330	871974	6.79e-77	300
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1099500_to_1103277
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000004.1|range_1099500_to_1103277	CP011555.1	99.815	3777	6	1	1	3777	210257	206482	0.0	6935
+LYZE01000004.1|range_1099500_to_1103277	CP011555.1	89.677	155	12	3	3151	3303	207030	206878	9.57e-45	195
+LYZE01000004.1|range_1099500_to_1103277	CP011555.1	89.677	155	12	3	3229	3381	207108	206956	9.57e-45	195
+LYZE01000004.1|range_1099500_to_1103277	CP011555.1	98.182	55	1	0	1	55	205169	205115	2.78e-15	97.1
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1103350_to_1104223
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_1103350_to_1104223	CP005022.2	100.000	873	0	0	1	873	188441	187569	0.0	1613
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1105229_to_1106552
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_1105229_to_1106552	CP005195.2	100.000	1323	0	0	1	1323	748876	747554	0.0	2444
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1120198_to_1121302
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_1120198_to_1121302	CP004697.2	100.000	1104	0	0	1	1104	1061565	1062668	0.0	2039
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1254609_to_1255902
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_1254609_to_1255902	CP004717.2	100.000	1263	0	0	1	1263	1191964	1193226	0.0	2333
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1531301_to_1531841
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_1531301_to_1531841	CP004677.2	100.000	540	0	0	1	540	1448373	1448912	0.0	998
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1533830_to_1534865
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_1533830_to_1534865	CP004677.2	100.000	1035	0	0	1	1035	1450902	1451936	0.0	1912
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1548092_to_1550174
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_1548092_to_1550174	CP011561.1	99.952	2083	0	1	1	2082	1084299	1086381	0.0	3840
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1550308_to_1550623
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_1550308_to_1550623	CP004816.2	99.369	317	0	1	1	315	1308	992	7.94e-160	573
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1550757_to_1552413
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000004.1|range_1550757_to_1552413	CP011561.1	99.519	1664	0	1	1	1656	1086967	1088630	0.0	3022
+LYZE01000004.1|range_1550757_to_1552413	CP011561.1	84.319	389	53	1	34	414	1087036	1087424	4.96e-99	374
+LYZE01000004.1|range_1550757_to_1552413	CP011561.1	84.713	314	40	3	34	339	1087108	1087421	5.11e-79	307
+LYZE01000004.1|range_1550757_to_1552413	CP011561.1	83.121	314	45	1	142	447	1087000	1087313	1.11e-70	279
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1553028_to_1553646
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000004.1|range_1553028_to_1553646	CP008192.1	99.497	398	1	1	4	401	934	538	0.0	723
+LYZE01000004.1|range_1553028_to_1553646	CP008192.1	100.000	120	0	0	412	531	409	290	6.86e-54	222
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1555445_to_1560836
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 5 hits found
+LYZE01000004.1|range_1555445_to_1560836	CP011561.1	100.000	5391	0	0	1	5391	1083240	1088630	0.0	9956
+LYZE01000004.1|range_1555445_to_1560836	CP011561.1	86.118	389	54	0	3797	4185	1087000	1087388	2.07e-112	420
+LYZE01000004.1|range_1555445_to_1560836	CP011561.1	86.118	389	54	0	3761	4149	1087036	1087424	2.07e-112	420
+LYZE01000004.1|range_1555445_to_1560836	CP011561.1	85.669	314	45	0	3869	4182	1087000	1087313	1.00e-85	331
+LYZE01000004.1|range_1555445_to_1560836	CP011561.1	85.669	314	45	0	3761	4074	1087108	1087421	1.00e-85	331
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1562069_to_1566209
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 6 hits found
+LYZE01000004.1|range_1562069_to_1566209	CP011561.1	99.952	4139	1	1	1	4139	1083240	1087377	0.0	7631
+LYZE01000004.1|range_1562069_to_1566209	CP011561.1	86.579	380	50	1	3761	4140	1087036	1087414	5.72e-112	418
+LYZE01000004.1|range_1562069_to_1566209	CP011561.1	84.840	343	51	1	3797	4139	1087000	1087341	9.85e-90	344
+LYZE01000004.1|range_1562069_to_1566209	CP011561.1	85.804	317	45	0	3761	4077	1087108	1087424	1.65e-87	337
+LYZE01000004.1|range_1562069_to_1566209	CP011561.1	86.989	269	34	1	3869	4137	1087000	1087267	6.01e-77	302
+LYZE01000004.1|range_1562069_to_1566209	CP011561.1	80.328	305	59	1	3833	4137	1087000	1087303	2.88e-55	230
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1566324_to_1567422
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000004.1|range_1566324_to_1567422	CP005186.2	99.545	1098	5	0	1	1098	1450	353	0.0	2001
+# BLASTN 2.6.0+
+# Query: LYZE01000004.1|range_1568856_to_1574532
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 14 hits found
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	98.041	4185	82	0	1	4185	1085362	1089546	0.0	7275
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	96.262	1632	56	3	4049	5676	1089122	1090752	0.0	2671
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	87.294	425	54	0	4013	4437	1089122	1089546	2.12e-132	486
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	86.824	425	56	0	3905	4329	1089122	1089546	4.60e-129	475
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	85.882	425	60	0	3941	4365	1089122	1089546	2.15e-122	453
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	83.529	425	70	0	3977	4401	1089122	1089546	1.02e-105	398
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	82.824	425	73	0	3869	4293	1089122	1089546	1.03e-100	381
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	85.836	353	50	0	4121	4473	1089122	1089474	4.80e-99	375
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	82.299	435	71	4	3834	4262	1089117	1089551	6.21e-98	372
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	87.736	318	39	0	3761	4078	1089230	1089547	6.21e-98	372
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	83.846	390	61	2	4085	4473	1089122	1089510	2.23e-97	370
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	84.127	378	60	0	3761	4138	1089158	1089535	2.89e-96	366
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	82.126	414	74	0	3797	4210	1089122	1089535	6.25e-93	355
+LYZE01000004.1|range_1568856_to_1574532	CP011824.1	86.032	315	42	2	4157	4470	1089122	1089435	2.26e-87	337
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_627_to_4461
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 20 hits found
+LYZE01000005.1|range_627_to_4461	BK006939.2	100.000	3834	0	0	1	3834	264	4097	0.0	7081
+LYZE01000005.1|range_627_to_4461	BK006939.2	96.254	2456	80	6	1387	3830	575322	572867	0.0	4015
+LYZE01000005.1|range_627_to_4461	BK006939.2	95.402	1631	72	1	1	1631	576525	574898	0.0	2593
+LYZE01000005.1|range_627_to_4461	BK006939.2	91.962	423	34	0	1279	1701	575322	574900	8.20e-165	593
+LYZE01000005.1|range_627_to_4461	BK006939.2	86.127	519	72	0	1279	1797	1470	1988	8.31e-155	560
+LYZE01000005.1|range_627_to_4461	BK006939.2	86.127	519	72	0	1207	1725	1542	2060	8.31e-155	560
+LYZE01000005.1|range_627_to_4461	BK006939.2	88.175	389	46	0	1207	1595	575286	574898	6.71e-126	464
+LYZE01000005.1|range_627_to_4461	BK006939.2	83.644	483	79	0	1315	1797	1470	1952	4.04e-123	455
+LYZE01000005.1|range_627_to_4461	BK006939.2	83.644	483	79	0	1207	1689	1578	2060	4.04e-123	455
+LYZE01000005.1|range_627_to_4461	BK006939.2	84.706	425	65	0	1315	1739	575322	574898	3.16e-114	425
+LYZE01000005.1|range_627_to_4461	BK006939.2	84.000	425	68	0	1243	1667	575322	574898	3.19e-109	409
+LYZE01000005.1|range_627_to_4461	BK006939.2	82.472	445	78	0	1351	1795	1470	1914	1.15e-103	390
+LYZE01000005.1|range_627_to_4461	BK006939.2	82.472	445	78	0	1207	1651	1614	2058	1.15e-103	390
+LYZE01000005.1|range_627_to_4461	BK006939.2	82.927	369	63	0	1423	1791	1470	1838	1.97e-86	333
+LYZE01000005.1|range_627_to_4461	BK006939.2	82.927	369	63	0	1207	1575	1686	2054	1.97e-86	333
+LYZE01000005.1|range_627_to_4461	BK006939.2	82.153	353	63	0	1207	1559	575250	574898	1.55e-77	303
+LYZE01000005.1|range_627_to_4461	BK006939.2	83.562	292	48	0	1210	1501	575211	574920	1.21e-68	274
+LYZE01000005.1|range_627_to_4461	BK006939.2	84.211	152	24	0	1206	1357	575071	574920	7.67e-31	148
+LYZE01000005.1|range_627_to_4461	BK006939.2	78.065	155	32	2	1638	1791	1469	1622	2.82e-15	97.1
+LYZE01000005.1|range_627_to_4461	BK006939.2	78.065	155	32	2	1206	1359	1901	2054	2.82e-15	97.1
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_4447_to_4963
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000005.1|range_4447_to_4963	BK006939.2	100.000	516	0	0	1	516	4084	4599	0.0	953
+LYZE01000005.1|range_4447_to_4963	BK006939.2	98.523	474	6	1	6	478	572890	572417	0.0	835
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_5485_to_5752
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000005.1|range_5485_to_5752	CP011821.1	100.000	267	0	0	1	267	1066538	1066272	5.27e-136	494
+LYZE01000005.1|range_5485_to_5752	CP011821.1	98.855	262	3	0	6	267	1073085	1072824	3.20e-128	468
+LYZE01000005.1|range_5485_to_5752	CP011821.1	99.119	227	2	0	41	267	4214	4440	1.97e-110	409
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_5708_to_6077
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000005.1|range_5708_to_6077	CP011814.1	100.000	369	0	0	1	369	5344	5712	0.0	682
+LYZE01000005.1|range_5708_to_6077	CP011814.1	99.458	369	2	0	1	369	571522	571154	0.0	671
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_85402_to_85903
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000005.1|range_85402_to_85903	CP004837.2	100.000	501	0	0	1	501	76811	77311	0.0	926
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_99370_to_99832
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000005.1|range_99370_to_99832	CP004787.2	100.000	462	0	0	1	462	94448	94909	0.0	854
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_434018_to_435341
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000005.1|range_434018_to_435341	CP011562.1	100.000	1323	0	0	1	1323	58070	56748	0.0	2444
+LYZE01000005.1|range_434018_to_435341	CP011562.1	99.622	1323	5	0	1	1323	854932	856254	0.0	2416
+LYZE01000005.1|range_434018_to_435341	CP011562.1	99.169	1324	9	2	1	1323	808944	810266	0.0	2383
+LYZE01000005.1|range_434018_to_435341	CP011562.1	98.643	1326	12	5	1	1323	846028	844706	0.0	2344
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_439605_to_440928
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000005.1|range_439605_to_440928	CP011562.1	100.000	1323	0	0	1	1323	58070	56748	0.0	2444
+LYZE01000005.1|range_439605_to_440928	CP011562.1	99.622	1323	5	0	1	1323	854932	856254	0.0	2416
+LYZE01000005.1|range_439605_to_440928	CP011562.1	99.169	1324	9	2	1	1323	808944	810266	0.0	2383
+LYZE01000005.1|range_439605_to_440928	CP011562.1	98.643	1326	12	5	1	1323	846028	844706	0.0	2344
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_488752_to_490075
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000005.1|range_488752_to_490075	CP011559.1	100.000	1323	0	0	1	1323	377011	378333	0.0	2444
+LYZE01000005.1|range_488752_to_490075	CP011559.1	99.773	1323	3	0	1	1323	185792	184470	0.0	2427
+LYZE01000005.1|range_488752_to_490075	CP011559.1	98.866	1323	15	0	1	1323	197959	196637	0.0	2361
+LYZE01000005.1|range_488752_to_490075	CP011559.1	85.886	1332	170	12	1	1323	361313	362635	0.0	1402
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_559990_to_560710
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000005.1|range_559990_to_560710	CP004763.2	100.000	720	0	0	1	720	548197	548916	0.0	1330
+LYZE01000005.1|range_559990_to_560710	CP004763.2	90.014	721	67	5	1	720	14974	14258	0.0	928
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_563105_to_563474
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000005.1|range_563105_to_563474	CP011551.1	100.000	369	0	0	1	369	546434	546802	0.0	682
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_563595_to_568476
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 5 hits found
+LYZE01000005.1|range_563595_to_568476	CP011551.1	100.000	4881	0	0	1	4881	546924	551804	0.0	9014
+LYZE01000005.1|range_563595_to_568476	CP011551.1	86.632	389	52	0	3290	3678	550177	550565	8.67e-116	431
+LYZE01000005.1|range_563595_to_568476	CP011551.1	86.632	389	52	0	3254	3642	550213	550601	8.67e-116	431
+LYZE01000005.1|range_563595_to_568476	CP011551.1	85.987	314	44	0	3362	3675	550177	550490	1.94e-87	337
+LYZE01000005.1|range_563595_to_568476	CP011551.1	85.987	314	44	0	3254	3567	550285	550598	1.94e-87	337
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_569855_to_570197
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000005.1|range_569855_to_570197	CP004796.2	99.708	343	0	1	1	342	547812	548154	6.58e-176	627
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_570361_to_571285
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000005.1|range_570361_to_571285	CP011561.1	99.675	924	2	1	1	924	1083747	1084669	0.0	1688
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_571289_to_571760
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000005.1|range_571289_to_571760	CP005674.2	99.788	472	0	1	1	471	1029400	1029871	0.0	865
+# BLASTN 2.6.0+
+# Query: LYZE01000005.1|range_571756_to_572496
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000005.1|range_571756_to_572496	CP011561.1	100.000	740	0	0	1	740	1085142	1085881	0.0	1367
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_718_to_2527
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000006.1|range_718_to_2527	CP014729.1	96.913	1749	37	1	78	1809	1	1749	0.0	2915
+LYZE01000006.1|range_718_to_2527	CP014729.1	83.086	337	57	0	1207	1543	1166	1502	5.59e-79	307
+LYZE01000006.1|range_718_to_2527	CP014729.1	78.740	254	54	0	1220	1473	1251	1504	7.65e-38	171
+LYZE01000006.1|range_718_to_2527	CP014729.1	77.922	231	51	0	1207	1437	1274	1504	4.64e-30	145
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_4061_to_4370
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000006.1|range_4061_to_4370	CP011552.1	100.000	309	0	0	1	309	3030	3338	2.79e-159	571
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_4353_to_4878
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000006.1|range_4353_to_4878	CP011552.1	100.000	525	0	0	1	525	3322	3846	0.0	970
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_6097_to_6553
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000006.1|range_6097_to_6553	CP011552.1	100.000	456	0	0	1	456	5066	5521	0.0	843
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_7457_to_8597
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000006.1|range_7457_to_8597	CP011552.1	99.825	1140	2	0	1	1140	6426	7565	0.0	2095
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_10576_to_10930
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000006.1|range_10576_to_10930	CP004907.2	99.718	354	0	1	1	354	2542	2894	0.0	647
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_11333_to_12284
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000006.1|range_11333_to_12284	CP004906.2	100.000	705	0	0	1	705	2545	3249	0.0	1303
+LYZE01000006.1|range_11333_to_12284	CP004906.2	100.000	236	0	0	716	951	3558	3793	3.53e-118	436
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_13570_to_14554
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000006.1|range_13570_to_14554	CP011552.1	100.000	984	0	0	1	984	6582	7565	0.0	1818
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_16534_to_17212
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000006.1|range_16534_to_17212	CP004907.2	100.000	678	0	0	1	678	2542	3219	0.0	1253
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_17290_to_17959
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000006.1|range_17290_to_17959	CP004906.2	100.000	669	0	0	1	669	2545	3213	0.0	1236
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_18352_to_19249
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000006.1|range_18352_to_19249	CP011552.1	100.000	897	0	0	1	897	11363	12259	0.0	1657
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_19918_to_20941
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000006.1|range_19918_to_20941	CP011552.1	100.000	1023	0	0	1	1023	12929	13951	0.0	1890
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_113712_to_114207
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000006.1|range_113712_to_114207	CP011552.1	100.000	495	0	0	1	495	106473	106967	0.0	915
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_146719_to_150760
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 5 hits found
+LYZE01000006.1|range_146719_to_150760	CP011553.1	100.000	4041	0	0	1	4041	806954	810994	0.0	7463
+LYZE01000006.1|range_146719_to_150760	CP011553.1	99.728	4042	10	1	1	4041	567711	563670	0.0	7402
+LYZE01000006.1|range_146719_to_150760	CP011553.1	91.685	1804	148	2	2239	4041	558576	556774	0.0	2499
+LYZE01000006.1|range_146719_to_150760	CP011553.1	84.709	1805	272	4	2239	4041	813492	811690	0.0	1801
+LYZE01000006.1|range_146719_to_150760	CP011553.1	83.858	1809	280	12	2239	4041	534098	535900	0.0	1712
+# BLASTN 2.6.0+
+# Query: LYZE01000006.1|range_200310_to_201009
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000006.1|range_200310_to_201009	CP004946.2	100.000	699	0	0	1	699	181386	182084	0.0	1291
+# BLASTN 2.6.0+
+# Query: LYZE01000007.1|range_449667_to_451554
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000007.1|range_449667_to_451554	CP005255.2	100.000	1887	0	0	1	1887	452427	454313	0.0	3485
+# BLASTN 2.6.0+
+# Query: LYZE01000007.1|range_533138_to_534461
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000007.1|range_533138_to_534461	CP011553.1	100.000	1323	0	0	1	1323	530632	531954	0.0	2444
+LYZE01000007.1|range_533138_to_534461	CP011553.1	98.867	1324	13	2	1	1323	562042	560720	0.0	2361
+LYZE01000007.1|range_533138_to_534461	CP011553.1	98.414	1324	19	2	1	1323	816958	815636	0.0	2327
+# BLASTN 2.6.0+
+# Query: LYZE01000007.1|range_556858_to_557122
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000007.1|range_556858_to_557122	CP005277.2	100.000	264	0	0	1	264	558130	558393	2.42e-134	488
+# BLASTN 2.6.0+
+# Query: LYZE01000007.1|range_563272_to_564595
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 5 hits found
+LYZE01000007.1|range_563272_to_564595	CP011553.1	100.000	1323	0	0	1	1323	560720	562042	0.0	2444
+LYZE01000007.1|range_563272_to_564595	CP011553.1	99.546	1323	6	0	1	1323	815636	816958	0.0	2410
+LYZE01000007.1|range_563272_to_564595	CP011553.1	98.867	1324	13	2	1	1323	531954	530632	0.0	2361
+LYZE01000007.1|range_563272_to_564595	CP011553.1	81.683	404	64	9	925	1323	568586	568984	3.11e-85	327
+LYZE01000007.1|range_563272_to_564595	CP011553.1	83.333	360	54	6	967	1323	806037	805681	3.11e-85	327
+# BLASTN 2.6.0+
+# Query: LYZE01000007.1|range_566222_to_568526
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 5 hits found
+LYZE01000007.1|range_566222_to_568526	CP011553.1	100.000	2304	0	0	1	2304	563670	565973	0.0	4255
+LYZE01000007.1|range_566222_to_568526	CP011553.1	100.000	2304	0	0	1	2304	810994	808691	0.0	4255
+LYZE01000007.1|range_566222_to_568526	CP011553.1	91.685	1804	148	2	1	1803	556774	558576	0.0	2499
+LYZE01000007.1|range_566222_to_568526	CP011553.1	84.709	1805	272	4	1	1803	811690	813492	0.0	1801
+LYZE01000007.1|range_566222_to_568526	CP011553.1	83.858	1809	280	12	1	1803	535900	534098	0.0	1712
+# BLASTN 2.6.0+
+# Query: LYZE01000007.1|range_652170_to_653892
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000007.1|range_652170_to_653892	CP007987.1	100.000	1722	0	0	1	1722	654245	655966	0.0	3181
+# BLASTN 2.6.0+
+# Query: LYZE01000007.1|range_699094_to_700417
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 9 hits found
+LYZE01000007.1|range_699094_to_700417	CP011550.1	98.337	1323	22	0	1	1323	651002	649680	0.0	2322
+LYZE01000007.1|range_699094_to_700417	CP011550.1	98.262	1323	23	0	1	1323	1095926	1097248	0.0	2316
+LYZE01000007.1|range_699094_to_700417	CP011550.1	98.186	1323	24	0	1	1323	883789	882467	0.0	2311
+LYZE01000007.1|range_699094_to_700417	CP011550.1	97.511	1326	27	5	1	1323	1206860	1208182	0.0	2261
+LYZE01000007.1|range_699094_to_700417	CP011550.1	97.210	1326	31	5	1	1323	992211	990889	0.0	2239
+LYZE01000007.1|range_699094_to_700417	CP011550.1	87.660	1329	152	10	1	1323	803058	804380	0.0	1535
+LYZE01000007.1|range_699094_to_700417	CP011550.1	81.481	405	63	10	1	399	519232	518834	1.45e-83	322
+LYZE01000007.1|range_699094_to_700417	CP011550.1	82.873	362	52	9	1	357	981324	981680	6.74e-82	316
+LYZE01000007.1|range_699094_to_700417	CP011550.1	82.320	362	54	9	1	357	871974	872330	1.46e-78	305
+# BLASTN 2.6.0+
+# Query: LYZE01000007.1|range_702153_to_704364
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000007.1|range_702153_to_704364	CP011562.1	99.683	2211	7	0	1	2211	847767	849977	0.0	4045
+LYZE01000007.1|range_702153_to_704364	CP011562.1	98.191	2211	40	0	1	2211	853196	850986	0.0	3862
+LYZE01000007.1|range_702153_to_704364	CP011562.1	97.286	2211	60	0	1	2211	59806	62016	0.0	3751
+LYZE01000007.1|range_702153_to_704364	CP011562.1	96.519	2212	75	2	1	2211	807208	804998	0.0	3657
+# BLASTN 2.6.0+
+# Query: LYZE01000007.1|range_707178_to_708594
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000007.1|range_707178_to_708594	CP005257.2	100.000	1416	0	0	1	1416	690314	691729	0.0	2615
+# BLASTN 2.6.0+
+# Query: LYZE01000007.1|range_735046_to_736369
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000007.1|range_735046_to_736369	CP006223.1	100.000	1323	0	0	1	1323	824700	826022	0.0	2444
+# BLASTN 2.6.0+
+# Query: LYZE01000007.1|range_741139_to_745180
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 5 hits found
+LYZE01000007.1|range_741139_to_745180	CP011553.1	99.926	4041	3	0	1	4041	810994	806954	0.0	7446
+LYZE01000007.1|range_741139_to_745180	CP011553.1	99.654	4042	13	1	1	4041	563670	567711	0.0	7385
+LYZE01000007.1|range_741139_to_745180	CP011553.1	91.685	1804	148	2	1	1803	556774	558576	0.0	2499
+LYZE01000007.1|range_741139_to_745180	CP011553.1	84.709	1805	272	4	1	1803	811690	813492	0.0	1801
+LYZE01000007.1|range_741139_to_745180	CP011553.1	83.858	1809	280	12	1	1803	535900	534098	0.0	1712
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_2489_to_3530
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000008.1|range_2489_to_3530	CP011554.1	100.000	934	0	0	108	1041	2379	3312	0.0	1725
+LYZE01000008.1|range_2489_to_3530	CP011554.1	98.930	935	9	1	108	1041	559983	559049	0.0	1670
+LYZE01000008.1|range_2489_to_3530	CP011554.1	100.000	96	0	0	1	96	2209	2304	2.59e-40	178
+LYZE01000008.1|range_2489_to_3530	CP011554.1	95.604	91	4	0	1	91	560148	560058	7.31e-31	147
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_3944_to_4760
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000008.1|range_3944_to_4760	CP011554.1	100.000	816	0	0	1	816	3727	4542	0.0	1507
+LYZE01000008.1|range_3944_to_4760	CP011554.1	99.142	816	6	1	1	816	558634	557820	0.0	1467
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_6619_to_7765
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000008.1|range_6619_to_7765	CP006130.2	100.000	1146	0	0	1	1146	3663	4808	0.0	2117
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_8569_to_10432
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000008.1|range_8569_to_10432	CP006130.2	100.000	1863	0	0	1	1863	5613	7475	0.0	3441
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_12141_to_12504
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000008.1|range_12141_to_12504	CP006130.2	100.000	363	0	0	1	363	9185	9547	0.0	671
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_13783_to_14491
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000008.1|range_13783_to_14491	CP006130.2	100.000	708	0	0	1	708	10827	11534	0.0	1308
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_15119_to_15632
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000008.1|range_15119_to_15632	CP006130.2	100.000	513	0	0	1	513	12163	12675	0.0	948
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_52897_to_53698
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000008.1|range_52897_to_53698	CP006146.2	100.000	801	0	0	1	801	406981	407781	0.0	1480
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_107546_to_108314
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000008.1|range_107546_to_108314	CP006075.2	99.870	769	0	1	1	768	106057	106825	0.0	1413
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_209173_to_210238
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000008.1|range_209173_to_210238	CP006086.2	100.000	1065	0	0	1	1065	208762	209826	0.0	1967
+LYZE01000008.1|range_209173_to_210238	CP006086.2	100.000	1065	0	0	1	1065	210760	211824	0.0	1967
+LYZE01000008.1|range_209173_to_210238	CP006086.2	100.000	1065	0	0	1	1065	212758	213822	0.0	1967
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_210522_to_210708
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 12 hits found
+LYZE01000008.1|range_210522_to_210708	CP006116.2	100.000	186	0	0	1	186	546516	546701	3.70e-91	344
+LYZE01000008.1|range_210522_to_210708	CP006116.2	100.000	186	0	0	1	186	548342	548527	3.70e-91	344
+LYZE01000008.1|range_210522_to_210708	CP006116.2	100.000	186	0	0	1	186	550168	550353	3.70e-91	344
+LYZE01000008.1|range_210522_to_210708	CP006116.2	100.000	186	0	0	1	186	551994	552179	3.70e-91	344
+LYZE01000008.1|range_210522_to_210708	CP006116.2	100.000	186	0	0	1	186	553820	554005	3.70e-91	344
+LYZE01000008.1|range_210522_to_210708	CP006116.2	100.000	186	0	0	1	186	555646	555831	3.70e-91	344
+LYZE01000008.1|range_210522_to_210708	CP006116.2	100.000	186	0	0	1	186	557472	557657	3.70e-91	344
+LYZE01000008.1|range_210522_to_210708	CP006116.2	100.000	186	0	0	1	186	559298	559483	3.70e-91	344
+LYZE01000008.1|range_210522_to_210708	CP006116.2	100.000	186	0	0	1	186	561124	561309	3.70e-91	344
+LYZE01000008.1|range_210522_to_210708	CP006116.2	100.000	186	0	0	1	186	562950	563135	3.70e-91	344
+LYZE01000008.1|range_210522_to_210708	CP006116.2	100.000	186	0	0	1	186	564776	564961	3.70e-91	344
+LYZE01000008.1|range_210522_to_210708	CP006116.2	100.000	186	0	0	1	186	566602	566787	3.70e-91	344
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_211172_to_212237
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000008.1|range_211172_to_212237	CP006086.2	100.000	1065	0	0	1	1065	208762	209826	0.0	1967
+LYZE01000008.1|range_211172_to_212237	CP006086.2	100.000	1065	0	0	1	1065	210760	211824	0.0	1967
+LYZE01000008.1|range_211172_to_212237	CP006086.2	100.000	1065	0	0	1	1065	212758	213822	0.0	1967
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_212520_to_212706
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 12 hits found
+LYZE01000008.1|range_212520_to_212706	CP006116.2	100.000	186	0	0	1	186	546516	546701	3.70e-91	344
+LYZE01000008.1|range_212520_to_212706	CP006116.2	100.000	186	0	0	1	186	548342	548527	3.70e-91	344
+LYZE01000008.1|range_212520_to_212706	CP006116.2	100.000	186	0	0	1	186	550168	550353	3.70e-91	344
+LYZE01000008.1|range_212520_to_212706	CP006116.2	100.000	186	0	0	1	186	551994	552179	3.70e-91	344
+LYZE01000008.1|range_212520_to_212706	CP006116.2	100.000	186	0	0	1	186	553820	554005	3.70e-91	344
+LYZE01000008.1|range_212520_to_212706	CP006116.2	100.000	186	0	0	1	186	555646	555831	3.70e-91	344
+LYZE01000008.1|range_212520_to_212706	CP006116.2	100.000	186	0	0	1	186	557472	557657	3.70e-91	344
+LYZE01000008.1|range_212520_to_212706	CP006116.2	100.000	186	0	0	1	186	559298	559483	3.70e-91	344
+LYZE01000008.1|range_212520_to_212706	CP006116.2	100.000	186	0	0	1	186	561124	561309	3.70e-91	344
+LYZE01000008.1|range_212520_to_212706	CP006116.2	100.000	186	0	0	1	186	562950	563135	3.70e-91	344
+LYZE01000008.1|range_212520_to_212706	CP006116.2	100.000	186	0	0	1	186	564776	564961	3.70e-91	344
+LYZE01000008.1|range_212520_to_212706	CP006116.2	100.000	186	0	0	1	186	566602	566787	3.70e-91	344
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_213170_to_214235
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000008.1|range_213170_to_214235	CP006086.2	100.000	1065	0	0	1	1065	208762	209826	0.0	1967
+LYZE01000008.1|range_213170_to_214235	CP006086.2	100.000	1065	0	0	1	1065	210760	211824	0.0	1967
+LYZE01000008.1|range_213170_to_214235	CP006086.2	100.000	1065	0	0	1	1065	212758	213822	0.0	1967
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_214518_to_214704
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 12 hits found
+LYZE01000008.1|range_214518_to_214704	CP006116.2	100.000	186	0	0	1	186	546516	546701	3.70e-91	344
+LYZE01000008.1|range_214518_to_214704	CP006116.2	100.000	186	0	0	1	186	548342	548527	3.70e-91	344
+LYZE01000008.1|range_214518_to_214704	CP006116.2	100.000	186	0	0	1	186	550168	550353	3.70e-91	344
+LYZE01000008.1|range_214518_to_214704	CP006116.2	100.000	186	0	0	1	186	551994	552179	3.70e-91	344
+LYZE01000008.1|range_214518_to_214704	CP006116.2	100.000	186	0	0	1	186	553820	554005	3.70e-91	344
+LYZE01000008.1|range_214518_to_214704	CP006116.2	100.000	186	0	0	1	186	555646	555831	3.70e-91	344
+LYZE01000008.1|range_214518_to_214704	CP006116.2	100.000	186	0	0	1	186	557472	557657	3.70e-91	344
+LYZE01000008.1|range_214518_to_214704	CP006116.2	100.000	186	0	0	1	186	559298	559483	3.70e-91	344
+LYZE01000008.1|range_214518_to_214704	CP006116.2	100.000	186	0	0	1	186	561124	561309	3.70e-91	344
+LYZE01000008.1|range_214518_to_214704	CP006116.2	100.000	186	0	0	1	186	562950	563135	3.70e-91	344
+LYZE01000008.1|range_214518_to_214704	CP006116.2	100.000	186	0	0	1	186	564776	564961	3.70e-91	344
+LYZE01000008.1|range_214518_to_214704	CP006116.2	100.000	186	0	0	1	186	566602	566787	3.70e-91	344
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_215168_to_216233
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000008.1|range_215168_to_216233	CP006086.2	100.000	1065	0	0	1	1065	208762	209826	0.0	1967
+LYZE01000008.1|range_215168_to_216233	CP006086.2	100.000	1065	0	0	1	1065	210760	211824	0.0	1967
+LYZE01000008.1|range_215168_to_216233	CP006086.2	100.000	1065	0	0	1	1065	212758	213822	0.0	1967
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_216515_to_216701
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 12 hits found
+LYZE01000008.1|range_216515_to_216701	CP006116.2	100.000	186	0	0	1	186	546516	546701	3.70e-91	344
+LYZE01000008.1|range_216515_to_216701	CP006116.2	100.000	186	0	0	1	186	548342	548527	3.70e-91	344
+LYZE01000008.1|range_216515_to_216701	CP006116.2	100.000	186	0	0	1	186	550168	550353	3.70e-91	344
+LYZE01000008.1|range_216515_to_216701	CP006116.2	100.000	186	0	0	1	186	551994	552179	3.70e-91	344
+LYZE01000008.1|range_216515_to_216701	CP006116.2	100.000	186	0	0	1	186	553820	554005	3.70e-91	344
+LYZE01000008.1|range_216515_to_216701	CP006116.2	100.000	186	0	0	1	186	555646	555831	3.70e-91	344
+LYZE01000008.1|range_216515_to_216701	CP006116.2	100.000	186	0	0	1	186	557472	557657	3.70e-91	344
+LYZE01000008.1|range_216515_to_216701	CP006116.2	100.000	186	0	0	1	186	559298	559483	3.70e-91	344
+LYZE01000008.1|range_216515_to_216701	CP006116.2	100.000	186	0	0	1	186	561124	561309	3.70e-91	344
+LYZE01000008.1|range_216515_to_216701	CP006116.2	100.000	186	0	0	1	186	562950	563135	3.70e-91	344
+LYZE01000008.1|range_216515_to_216701	CP006116.2	100.000	186	0	0	1	186	564776	564961	3.70e-91	344
+LYZE01000008.1|range_216515_to_216701	CP006116.2	100.000	186	0	0	1	186	566602	566787	3.70e-91	344
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_217165_to_218230
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000008.1|range_217165_to_218230	CP006086.2	100.000	1065	0	0	1	1065	208762	209826	0.0	1967
+LYZE01000008.1|range_217165_to_218230	CP006086.2	100.000	1065	0	0	1	1065	210760	211824	0.0	1967
+LYZE01000008.1|range_217165_to_218230	CP006086.2	100.000	1065	0	0	1	1065	212758	213822	0.0	1967
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_218513_to_218699
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 12 hits found
+LYZE01000008.1|range_218513_to_218699	CP006116.2	100.000	186	0	0	1	186	546516	546701	3.70e-91	344
+LYZE01000008.1|range_218513_to_218699	CP006116.2	100.000	186	0	0	1	186	548342	548527	3.70e-91	344
+LYZE01000008.1|range_218513_to_218699	CP006116.2	100.000	186	0	0	1	186	550168	550353	3.70e-91	344
+LYZE01000008.1|range_218513_to_218699	CP006116.2	100.000	186	0	0	1	186	551994	552179	3.70e-91	344
+LYZE01000008.1|range_218513_to_218699	CP006116.2	100.000	186	0	0	1	186	553820	554005	3.70e-91	344
+LYZE01000008.1|range_218513_to_218699	CP006116.2	100.000	186	0	0	1	186	555646	555831	3.70e-91	344
+LYZE01000008.1|range_218513_to_218699	CP006116.2	100.000	186	0	0	1	186	557472	557657	3.70e-91	344
+LYZE01000008.1|range_218513_to_218699	CP006116.2	100.000	186	0	0	1	186	559298	559483	3.70e-91	344
+LYZE01000008.1|range_218513_to_218699	CP006116.2	100.000	186	0	0	1	186	561124	561309	3.70e-91	344
+LYZE01000008.1|range_218513_to_218699	CP006116.2	100.000	186	0	0	1	186	562950	563135	3.70e-91	344
+LYZE01000008.1|range_218513_to_218699	CP006116.2	100.000	186	0	0	1	186	564776	564961	3.70e-91	344
+LYZE01000008.1|range_218513_to_218699	CP006116.2	100.000	186	0	0	1	186	566602	566787	3.70e-91	344
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_219163_to_220228
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000008.1|range_219163_to_220228	CP006086.2	100.000	1065	0	0	1	1065	208762	209826	0.0	1967
+LYZE01000008.1|range_219163_to_220228	CP006086.2	100.000	1065	0	0	1	1065	210760	211824	0.0	1967
+LYZE01000008.1|range_219163_to_220228	CP006086.2	100.000	1065	0	0	1	1065	212758	213822	0.0	1967
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_220510_to_220696
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 12 hits found
+LYZE01000008.1|range_220510_to_220696	CP006116.2	100.000	186	0	0	1	186	546516	546701	3.70e-91	344
+LYZE01000008.1|range_220510_to_220696	CP006116.2	100.000	186	0	0	1	186	548342	548527	3.70e-91	344
+LYZE01000008.1|range_220510_to_220696	CP006116.2	100.000	186	0	0	1	186	550168	550353	3.70e-91	344
+LYZE01000008.1|range_220510_to_220696	CP006116.2	100.000	186	0	0	1	186	551994	552179	3.70e-91	344
+LYZE01000008.1|range_220510_to_220696	CP006116.2	100.000	186	0	0	1	186	553820	554005	3.70e-91	344
+LYZE01000008.1|range_220510_to_220696	CP006116.2	100.000	186	0	0	1	186	555646	555831	3.70e-91	344
+LYZE01000008.1|range_220510_to_220696	CP006116.2	100.000	186	0	0	1	186	557472	557657	3.70e-91	344
+LYZE01000008.1|range_220510_to_220696	CP006116.2	100.000	186	0	0	1	186	559298	559483	3.70e-91	344
+LYZE01000008.1|range_220510_to_220696	CP006116.2	100.000	186	0	0	1	186	561124	561309	3.70e-91	344
+LYZE01000008.1|range_220510_to_220696	CP006116.2	100.000	186	0	0	1	186	562950	563135	3.70e-91	344
+LYZE01000008.1|range_220510_to_220696	CP006116.2	100.000	186	0	0	1	186	564776	564961	3.70e-91	344
+LYZE01000008.1|range_220510_to_220696	CP006116.2	100.000	186	0	0	1	186	566602	566787	3.70e-91	344
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_221160_to_222225
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000008.1|range_221160_to_222225	CP006086.2	100.000	1065	0	0	1	1065	208762	209826	0.0	1967
+LYZE01000008.1|range_221160_to_222225	CP006086.2	100.000	1065	0	0	1	1065	210760	211824	0.0	1967
+LYZE01000008.1|range_221160_to_222225	CP006086.2	100.000	1065	0	0	1	1065	212758	213822	0.0	1967
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_297170_to_297752
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000008.1|range_297170_to_297752	CP006106.2	99.828	583	0	1	1	582	281627	282209	0.0	1070
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_298940_to_300653
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000008.1|range_298940_to_300653	CP006106.2	100.000	1713	0	0	1	1713	283398	285110	0.0	3164
+LYZE01000008.1|range_298940_to_300653	CP006106.2	80.719	1530	257	32	21	1531	279586	281096	0.0	1157
+LYZE01000008.1|range_298940_to_300653	CP006106.2	77.451	1428	288	32	104	1514	287250	288660	0.0	822
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_302697_to_304476
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000008.1|range_302697_to_304476	CP006146.2	100.000	1779	0	0	1	1779	643088	644866	0.0	3286
+LYZE01000008.1|range_302697_to_304476	CP006146.2	76.290	1434	294	44	107	1517	639436	640846	0.0	723
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_305413_to_306109
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000008.1|range_305413_to_306109	CP006146.2	100.000	696	0	0	1	696	645804	646499	0.0	1286
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_458886_to_459225
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000008.1|range_458886_to_459225	CP006136.2	100.000	339	0	0	1	339	434995	435333	6.52e-176	627
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_473249_to_473741
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000008.1|range_473249_to_473741	CP006136.2	100.000	492	0	0	1	492	449386	449877	0.0	909
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_545827_to_546322
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000008.1|range_545827_to_546322	CP004457.2	100.000	494	0	0	1	494	193635	194128	0.0	913
+# BLASTN 2.6.0+
+# Query: LYZE01000008.1|range_555978_to_557415
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000008.1|range_555978_to_557415	CP011554.1	100.000	1437	0	0	1	1437	547907	549343	0.0	2654
+LYZE01000008.1|range_555978_to_557415	CP011554.1	100.000	116	0	0	810	925	548602	548717	2.75e-51	215
+LYZE01000008.1|range_555978_to_557415	CP011554.1	100.000	116	0	0	696	811	548716	548831	2.75e-51	215
+# BLASTN 2.6.0+
+# Query: LYZE01000009.1|range_356_to_5006
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000009.1|range_356_to_5006	CP014740.1	100.000	4650	0	0	1	4650	10581	15230	0.0	8588
+# BLASTN 2.6.0+
+# Query: LYZE01000009.1|range_5648_to_7418
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000009.1|range_5648_to_7418	CP005122.2	100.000	1770	0	0	1	1770	4679	6448	0.0	3269
+# BLASTN 2.6.0+
+# Query: LYZE01000009.1|range_8378_to_8708
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000009.1|range_8378_to_8708	CP005596.2	100.000	330	0	0	1	330	2980	3309	6.37e-171	610
+# BLASTN 2.6.0+
+# Query: LYZE01000009.1|range_11812_to_15136
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 29 hits found
+LYZE01000009.1|range_11812_to_15136	CP005003.2	99.669	3324	11	0	1	3324	5021	8344	0.0	6078
+LYZE01000009.1|range_11812_to_15136	CP005003.2	88.982	717	73	3	2386	3096	7364	8080	0.0	881
+LYZE01000009.1|range_11812_to_15136	CP005003.2	88.982	717	73	3	2344	3060	7406	8116	0.0	881
+LYZE01000009.1|range_11812_to_15136	CP005003.2	87.183	710	85	4	2344	3053	7448	8151	0.0	802
+LYZE01000009.1|range_11812_to_15136	CP005003.2	89.699	631	57	6	2512	3135	7364	7993	0.0	798
+LYZE01000009.1|range_11812_to_15136	CP005003.2	89.699	631	57	6	2344	2973	7532	8155	0.0	798
+LYZE01000009.1|range_11812_to_15136	CP005003.2	88.271	665	70	4	2344	3007	7490	8147	0.0	789
+LYZE01000009.1|range_11812_to_15136	CP005003.2	86.338	710	91	4	2428	3131	7364	8073	0.0	769
+LYZE01000009.1|range_11812_to_15136	CP005003.2	87.669	665	74	4	2470	3127	7364	8027	0.0	767
+LYZE01000009.1|range_11812_to_15136	CP005003.2	86.224	588	75	4	2554	3135	7364	7951	1.50e-176	632
+LYZE01000009.1|range_11812_to_15136	CP005003.2	86.224	588	75	4	2344	2931	7574	8155	1.50e-176	632
+LYZE01000009.1|range_11812_to_15136	CP005003.2	88.690	504	51	2	2344	2847	7658	8155	7.05e-170	610
+LYZE01000009.1|range_11812_to_15136	CP005003.2	86.431	538	67	4	2344	2881	7616	8147	4.27e-162	584
+LYZE01000009.1|range_11812_to_15136	CP005003.2	88.528	462	47	4	2344	2805	7700	8155	3.35e-153	555
+LYZE01000009.1|range_11812_to_15136	CP005003.2	87.689	463	49	4	2680	3135	7364	7825	1.57e-146	532
+LYZE01000009.1|range_11812_to_15136	CP005003.2	84.572	538	77	4	2596	3127	7364	7901	2.03e-145	529
+LYZE01000009.1|range_11812_to_15136	CP005003.2	85.743	505	64	4	2638	3135	7364	7867	7.30e-145	527
+LYZE01000009.1|range_11812_to_15136	CP005003.2	81.395	516	84	8	490	996	5288	5800	7.67e-110	411
+LYZE01000009.1|range_11812_to_15136	CP005003.2	81.431	517	82	11	268	780	5510	6016	7.67e-110	411
+LYZE01000009.1|range_11812_to_15136	CP005003.2	84.048	420	61	2	2722	3135	7364	7783	1.66e-106	399
+LYZE01000009.1|range_11812_to_15136	CP005003.2	82.857	420	66	4	2344	2763	7742	8155	3.62e-98	372
+LYZE01000009.1|range_11812_to_15136	CP005003.2	83.690	374	55	2	2764	3131	7364	7737	6.10e-91	348
+LYZE01000009.1|range_11812_to_15136	CP005003.2	85.163	337	42	4	2806	3135	7364	7699	3.67e-88	339
+LYZE01000009.1|range_11812_to_15136	CP005003.2	85.163	337	42	4	2344	2679	7826	8155	3.67e-88	339
+LYZE01000009.1|range_11812_to_15136	CP005003.2	82.973	370	57	2	2344	2713	7784	8147	2.21e-85	329
+LYZE01000009.1|range_11812_to_15136	CP005003.2	82.474	291	43	6	2848	3131	7364	7653	6.36e-61	248
+LYZE01000009.1|range_11812_to_15136	CP005003.2	82.474	291	43	6	2344	2633	7868	8151	6.36e-61	248
+LYZE01000009.1|range_11812_to_15136	CP005003.2	91.089	101	6	2	1238	1335	6219	6319	1.86e-26	134
+LYZE01000009.1|range_11812_to_15136	CP005003.2	91.089	101	6	2	1199	1299	6258	6355	1.86e-26	134
+# BLASTN 2.6.0+
+# Query: LYZE01000009.1|range_18445_to_19078
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000009.1|range_18445_to_19078	CP014740.1	100.000	633	0	0	1	633	31631	32263	0.0	1170
+# BLASTN 2.6.0+
+# Query: LYZE01000009.1|range_19967_to_21596
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000009.1|range_19967_to_21596	KX912916.1	100.000	1629	0	0	1	1629	1629	1	0.0	3009
+# BLASTN 2.6.0+
+# Query: LYZE01000009.1|range_23116_to_23716
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000009.1|range_23116_to_23716	CP005027.2	100.000	600	0	0	1	600	15696	16295	0.0	1109
+# BLASTN 2.6.0+
+# Query: LYZE01000009.1|range_58060_to_58198
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000009.1|range_58060_to_58198	CP005057.2	100.000	138	0	0	1	138	50161	50298	1.23e-64	255
+# BLASTN 2.6.0+
+# Query: LYZE01000009.1|range_117185_to_118040
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000009.1|range_117185_to_118040	CP005027.2	100.000	773	0	0	1	773	109804	110576	0.0	1428
+LYZE01000009.1|range_117185_to_118040	CP005027.2	100.000	70	0	0	786	855	109994	110063	6.01e-26	130
+# BLASTN 2.6.0+
+# Query: LYZE01000009.1|range_195769_to_196642
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000009.1|range_195769_to_196642	CP005022.2	100.000	873	0	0	1	873	187569	188441	0.0	1613
+# BLASTN 2.6.0+
+# Query: LYZE01000009.1|range_196715_to_200267
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000009.1|range_196715_to_200267	CP011555.1	100.000	3552	0	0	1	3552	206482	210033	0.0	6560
+LYZE01000009.1|range_196715_to_200267	CP011555.1	89.677	155	12	3	475	627	206878	207030	8.99e-45	195
+LYZE01000009.1|range_196715_to_200267	CP011555.1	89.677	155	12	3	397	549	206956	207108	8.99e-45	195
+# BLASTN 2.6.0+
+# Query: LYZE01000009.1|range_427623_to_428316
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000009.1|range_427623_to_428316	CP005057.2	100.000	693	0	0	1	693	412452	413144	0.0	1280
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_764_to_3863
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 25 hits found
+LYZE01000010.1|range_764_to_3863	BK006943.2	99.934	3046	2	0	1	3046	466	3511	0.0	5614
+LYZE01000010.1|range_764_to_3863	BK006943.2	85.952	662	91	2	1240	1900	1669	2329	0.0	706
+LYZE01000010.1|range_764_to_3863	BK006943.2	85.952	662	91	2	1204	1864	1705	2365	0.0	706
+LYZE01000010.1|range_764_to_3863	BK006943.2	84.579	642	85	8	1276	1904	1669	2309	2.34e-174	625
+LYZE01000010.1|range_764_to_3863	BK006943.2	84.579	642	85	8	1204	1844	1741	2369	2.34e-174	625
+LYZE01000010.1|range_764_to_3863	BK006943.2	83.784	555	90	0	1348	1902	1669	2223	6.80e-145	527
+LYZE01000010.1|range_764_to_3863	BK006943.2	83.784	555	90	0	1204	1758	1813	2367	6.80e-145	527
+LYZE01000010.1|range_764_to_3863	BK006943.2	81.757	592	106	2	1312	1902	1669	2259	6.90e-135	494
+LYZE01000010.1|range_764_to_3863	BK006943.2	81.757	592	106	2	1204	1794	1777	2367	6.90e-135	494
+LYZE01000010.1|range_764_to_3863	BK006943.2	82.592	517	90	0	1384	1900	1669	2185	9.05e-124	457
+LYZE01000010.1|range_764_to_3863	BK006943.2	82.592	517	90	0	1204	1720	1849	2365	9.05e-124	457
+LYZE01000010.1|range_764_to_3863	BK006943.2	82.510	486	85	0	1415	1900	1664	2149	7.09e-115	427
+LYZE01000010.1|range_764_to_3863	BK006943.2	82.510	486	85	0	1199	1684	1880	2365	7.09e-115	427
+LYZE01000010.1|range_764_to_3863	BK006943.2	83.784	444	68	4	1455	1896	1668	2109	4.27e-112	418
+LYZE01000010.1|range_764_to_3863	BK006943.2	83.784	444	68	4	1203	1644	1920	2361	4.27e-112	418
+LYZE01000010.1|range_764_to_3863	BK006943.2	80.542	406	77	2	1492	1896	1669	2073	7.45e-80	311
+LYZE01000010.1|range_764_to_3863	BK006943.2	80.542	406	77	2	1204	1608	1957	2361	7.45e-80	311
+LYZE01000010.1|range_764_to_3863	BK006943.2	81.351	370	69	0	1527	1896	1668	2037	4.49e-77	302
+LYZE01000010.1|range_764_to_3863	BK006943.2	81.351	370	69	0	1203	1572	1992	2361	4.49e-77	302
+LYZE01000010.1|range_764_to_3863	BK006943.2	79.525	337	69	0	1564	1900	1669	2005	9.92e-59	241
+LYZE01000010.1|range_764_to_3863	BK006943.2	79.525	337	69	0	1204	1540	2029	2365	9.92e-59	241
+LYZE01000010.1|range_764_to_3863	BK006943.2	80.135	297	59	0	1600	1896	1669	1965	3.59e-53	222
+LYZE01000010.1|range_764_to_3863	BK006943.2	80.135	297	59	0	1204	1500	2065	2361	3.59e-53	222
+LYZE01000010.1|range_764_to_3863	BK006943.2	77.903	267	55	4	1636	1900	1669	1933	2.21e-35	163
+LYZE01000010.1|range_764_to_3863	BK006943.2	77.903	267	55	4	1204	1468	2101	2365	2.21e-35	163
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_4573_to_5692
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000010.1|range_4573_to_5692	CP011556.1	99.905	1049	1	0	71	1119	3933	4981	0.0	1932
+LYZE01000010.1|range_4573_to_5692	CP011556.1	100.000	58	0	0	1	58	3957	4014	3.72e-19	108
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_5660_to_6842
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000010.1|range_5660_to_6842	CP011556.1	100.000	1182	0	0	1	1182	4950	6131	0.0	2183
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_9487_to_9850
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000010.1|range_9487_to_9850	CP011556.1	100.000	363	0	0	1	363	8777	9139	0.0	671
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_12226_to_16876
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000010.1|range_12226_to_16876	CP011556.1	100.000	4650	0	0	1	4650	11476	16125	0.0	8588
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_17518_to_19288
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000010.1|range_17518_to_19288	CP005122.2	100.000	1770	0	0	1	1770	4679	6448	0.0	3269
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_60607_to_60934
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000010.1|range_60607_to_60934	CP005097.2	100.000	327	0	0	1	327	42052	42378	2.93e-169	604
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_199061_to_199742
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000010.1|range_199061_to_199742	CP011819.1	100.000	681	0	0	1	681	197894	198574	0.0	1258
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_360669_to_361992
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000010.1|range_360669_to_361992	CP005195.2	99.546	1323	6	0	1	1323	747554	748876	0.0	2410
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_482606_to_485027
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000010.1|range_482606_to_485027	CP011556.1	99.833	2400	4	0	1	2400	479621	482020	0.0	4410
+LYZE01000010.1|range_482606_to_485027	CP011556.1	99.417	2400	14	0	1	2400	474037	476436	0.0	4355
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_486141_to_487464
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000010.1|range_486141_to_487464	CP011562.1	99.849	1323	2	0	1	1323	56748	58070	0.0	2433
+LYZE01000010.1|range_486141_to_487464	CP011562.1	99.471	1323	7	0	1	1323	856254	854932	0.0	2405
+LYZE01000010.1|range_486141_to_487464	CP011562.1	99.320	1324	7	2	1	1323	810266	808944	0.0	2394
+LYZE01000010.1|range_486141_to_487464	CP011562.1	98.793	1326	10	5	1	1323	844706	846028	0.0	2355
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_492062_to_493385
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000010.1|range_492062_to_493385	CP011562.1	100.000	1323	0	0	1	1323	56748	58070	0.0	2444
+LYZE01000010.1|range_492062_to_493385	CP011562.1	99.622	1323	5	0	1	1323	856254	854932	0.0	2416
+LYZE01000010.1|range_492062_to_493385	CP011562.1	99.169	1324	9	2	1	1323	810266	808944	0.0	2383
+LYZE01000010.1|range_492062_to_493385	CP011562.1	98.643	1326	12	5	1	1323	844706	846028	0.0	2344
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_493863_to_497331
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 10 hits found
+LYZE01000010.1|range_493863_to_497331	CP011550.1	99.452	3468	19	0	1	3468	1208661	1212128	0.0	6300
+LYZE01000010.1|range_493863_to_497331	CP011550.1	97.550	3469	83	2	1	3468	649201	645734	0.0	5934
+LYZE01000010.1|range_493863_to_497331	CP011550.1	97.147	3470	95	4	1	3468	1097727	1101194	0.0	5856
+LYZE01000010.1|range_493863_to_497331	CP011550.1	96.944	3469	104	2	1	3468	881988	878521	0.0	5818
+LYZE01000010.1|range_493863_to_497331	CP011550.1	99.900	2995	2	1	1	2994	990410	987416	0.0	5513
+LYZE01000010.1|range_493863_to_497331	CP011550.1	88.993	1808	189	10	1666	3468	515721	513919	0.0	2228
+LYZE01000010.1|range_493863_to_497331	CP011550.1	88.628	1829	198	10	1645	3468	875464	877287	0.0	2217
+LYZE01000010.1|range_493863_to_497331	CP011550.1	86.995	1830	226	12	1645	3468	984814	986637	0.0	2050
+LYZE01000010.1|range_493863_to_497331	CP011550.1	99.088	658	5	1	1	658	804859	805515	0.0	1181
+LYZE01000010.1|range_493863_to_497331	CP011550.1	98.246	57	1	0	3412	3468	987424	987368	1.97e-16	100
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_497645_to_498968
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000010.1|range_497645_to_498968	CP011556.1	100.000	1323	0	0	1	1323	477820	479142	0.0	2444
+LYZE01000010.1|range_497645_to_498968	CP011556.1	99.169	1324	9	2	1	1323	472236	473558	0.0	2383
+# BLASTN 2.6.0+
+# Query: LYZE01000010.1|range_575072_to_575450
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000010.1|range_575072_to_575450	CP005157.2	100.000	378	0	0	1	378	529736	530113	0.0	699
+# BLASTN 2.6.0+
+# Query: LYZE01000011.1|range_2693_to_3065
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000011.1|range_2693_to_3065	CP005304.2	100.000	372	0	0	1	372	1808	2179	0.0	688
+# BLASTN 2.6.0+
+# Query: LYZE01000011.1|range_4386_to_6504
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000011.1|range_4386_to_6504	CP005301.2	100.000	2118	0	0	1	2118	5849	7966	0.0	3912
+# BLASTN 2.6.0+
+# Query: LYZE01000011.1|range_6990_to_8412
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000011.1|range_6990_to_8412	CP005325.2	100.000	1422	0	0	1	1422	3660	5081	0.0	2627
+# BLASTN 2.6.0+
+# Query: LYZE01000011.1|range_9973_to_12109
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000011.1|range_9973_to_12109	CP005304.2	100.000	2136	0	0	1	2136	9090	11225	0.0	3945
+# BLASTN 2.6.0+
+# Query: LYZE01000011.1|range_15367_to_16591
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000011.1|range_15367_to_16591	CP005355.2	100.000	1224	0	0	1	1224	12186	13409	0.0	2261
+# BLASTN 2.6.0+
+# Query: LYZE01000011.1|range_18241_to_19222
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000011.1|range_18241_to_19222	CP005355.2	100.000	981	0	0	1	981	15059	16039	0.0	1812
+# BLASTN 2.6.0+
+# Query: LYZE01000011.1|range_23165_to_25016
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000011.1|range_23165_to_25016	CP008212.1	100.000	1851	0	0	1	1851	21533	23383	0.0	3419
+# BLASTN 2.6.0+
+# Query: LYZE01000011.1|range_26146_to_27091
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000011.1|range_26146_to_27091	CP005346.2	100.000	945	0	0	1	945	23937	24881	0.0	1746
+# BLASTN 2.6.0+
+# Query: LYZE01000011.1|range_208345_to_209668
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000011.1|range_208345_to_209668	CP011562.1	100.000	1323	0	0	1	1323	58070	56748	0.0	2444
+LYZE01000011.1|range_208345_to_209668	CP011562.1	99.622	1323	5	0	1	1323	854932	856254	0.0	2416
+LYZE01000011.1|range_208345_to_209668	CP011562.1	99.169	1324	9	2	1	1323	808944	810266	0.0	2383
+LYZE01000011.1|range_208345_to_209668	CP011562.1	98.643	1326	12	5	1	1323	846028	844706	0.0	2344
+# BLASTN 2.6.0+
+# Query: LYZE01000011.1|range_467855_to_470171
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000011.1|range_467855_to_470171	CP005374.2	100.000	2316	0	0	1	2316	474496	476811	0.0	4277
+# BLASTN 2.6.0+
+# Query: LYZE01000011.1|range_527075_to_527828
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000011.1|range_527075_to_527828	CP005357.2	100.000	753	0	0	1	753	516221	516973	0.0	1391
+# BLASTN 2.6.0+
+# Query: LYZE01000011.1|range_588134_to_589880
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000011.1|range_588134_to_589880	CP011562.1	98.397	1747	26	2	1	1746	849525	847780	0.0	3070
+LYZE01000011.1|range_588134_to_589880	CP011562.1	97.997	1747	33	2	1	1746	61564	59819	0.0	3031
+LYZE01000011.1|range_588134_to_589880	CP011562.1	97.825	1747	36	2	1	1746	851438	853183	0.0	3014
+LYZE01000011.1|range_588134_to_589880	CP011562.1	97.596	1747	40	2	1	1746	805450	807195	0.0	2992
+# BLASTN 2.6.0+
+# Query: LYZE01000011.1|range_593462_to_594791
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000011.1|range_593462_to_594791	CP005195.2	99.172	1329	5	1	1	1329	747554	748876	0.0	2388
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_329_to_1088
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_329_to_1088	CP011561.1	99.868	760	0	1	1	759	1084758	1083999	0.0	1397
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_1059_to_1845
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_1059_to_1845	CP011561.1	99.746	788	0	1	1	786	1084027	1083240	0.0	1443
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_2043_to_2166
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_2043_to_2166	CP005277.2	100.000	69	0	0	55	123	14082	14150	2.40e-26	128
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_4716_to_5751
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_4716_to_5751	CP004677.2	100.000	1035	0	0	1	1035	1451936	1450902	0.0	1912
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_8112_to_11214
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 30 hits found
+LYZE01000012.1|range_8112_to_11214	CP011562.1	99.710	3102	6	1	1	3102	947692	944594	0.0	5675
+LYZE01000012.1|range_8112_to_11214	CP011562.1	98.993	1788	18	0	1315	3102	1483	3270	0.0	3203
+LYZE01000012.1|range_8112_to_11214	CP011562.1	96.321	1631	57	1	1	1631	280	1907	0.0	2676
+LYZE01000012.1|range_8112_to_11214	CP011562.1	87.529	425	53	0	1207	1631	946381	945957	2.48e-134	492
+LYZE01000012.1|range_8112_to_11214	CP011562.1	87.529	425	53	0	1315	1739	946489	946065	2.48e-134	492
+LYZE01000012.1|range_8112_to_11214	CP011562.1	88.689	389	44	0	1207	1595	1519	1907	2.50e-129	475
+LYZE01000012.1|range_8112_to_11214	CP011562.1	87.918	389	47	0	1207	1595	946345	945957	2.52e-124	459
+LYZE01000012.1|range_8112_to_11214	CP011562.1	87.918	389	47	0	1351	1739	946489	946101	2.52e-124	459
+LYZE01000012.1|range_8112_to_11214	CP011562.1	86.632	389	52	0	1351	1739	1483	1871	5.49e-116	431
+LYZE01000012.1|range_8112_to_11214	CP011562.1	83.080	461	78	0	1207	1667	946417	945957	1.19e-112	420
+LYZE01000012.1|range_8112_to_11214	CP011562.1	83.080	461	78	0	1279	1739	946489	946029	1.19e-112	420
+LYZE01000012.1|range_8112_to_11214	CP011562.1	85.088	342	51	0	1218	1559	946298	945957	1.58e-91	350
+LYZE01000012.1|range_8112_to_11214	CP011562.1	85.088	342	51	0	1398	1739	946478	946137	1.58e-91	350
+LYZE01000012.1|range_8112_to_11214	CP011562.1	86.435	317	43	0	1423	1739	1483	1799	5.69e-91	348
+LYZE01000012.1|range_8112_to_11214	CP011562.1	83.569	353	58	0	1207	1559	1555	1907	5.73e-86	331
+LYZE01000012.1|range_8112_to_11214	CP011562.1	86.486	259	35	0	1207	1465	1627	1885	4.52e-72	285
+LYZE01000012.1|range_8112_to_11214	CP011562.1	86.719	256	34	0	1210	1465	946234	945979	4.52e-72	285
+LYZE01000012.1|range_8112_to_11214	CP011562.1	86.719	256	34	0	1462	1717	946486	946231	4.52e-72	285
+LYZE01000012.1|range_8112_to_11214	CP011562.1	86.122	245	34	0	1207	1451	1663	1907	5.89e-66	265
+LYZE01000012.1|range_8112_to_11214	CP011562.1	86.122	245	34	0	1207	1451	946201	945957	5.89e-66	265
+LYZE01000012.1|range_8112_to_11214	CP011562.1	86.122	245	34	0	1495	1739	946489	946245	5.89e-66	265
+LYZE01000012.1|range_8112_to_11214	CP011562.1	80.757	317	61	0	1207	1523	946273	945957	5.93e-61	248
+LYZE01000012.1|range_8112_to_11214	CP011562.1	80.757	317	61	0	1423	1739	946489	946173	5.93e-61	248
+LYZE01000012.1|range_8112_to_11214	CP011562.1	80.126	317	63	0	1207	1523	1591	1907	1.28e-57	237
+LYZE01000012.1|range_8112_to_11214	CP011562.1	82.184	174	31	0	1206	1379	1734	1907	1.72e-31	150
+LYZE01000012.1|range_8112_to_11214	CP011562.1	82.184	174	31	0	1206	1379	946130	945957	1.72e-31	150
+LYZE01000012.1|range_8112_to_11214	CP011562.1	82.184	174	31	0	1566	1739	946490	946317	1.72e-31	150
+LYZE01000012.1|range_8112_to_11214	CP011562.1	84.672	137	21	0	1207	1343	1771	1907	1.34e-27	137
+LYZE01000012.1|range_8112_to_11214	CP011562.1	84.672	137	21	0	1207	1343	946093	945957	1.34e-27	137
+LYZE01000012.1|range_8112_to_11214	CP011562.1	84.672	137	21	0	1603	1739	946489	946353	1.34e-27	137
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_11628_to_12444
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_11628_to_12444	CP011559.1	100.000	816	0	0	1	816	3870	4685	0.0	1507
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_13755_to_16749
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 27 hits found
+LYZE01000012.1|range_13755_to_16749	CP011558.1	100.000	2994	0	0	1	2994	6089	9082	0.0	5529
+LYZE01000012.1|range_13755_to_16749	CP011558.1	99.699	2994	9	0	1	2994	1055352	1052359	0.0	5480
+LYZE01000012.1|range_13755_to_16749	CP011558.1	99.699	2994	9	0	1	2994	1062015	1059022	0.0	5480
+LYZE01000012.1|range_13755_to_16749	CP011558.1	99.161	1788	15	0	1207	2994	1760	3547	0.0	3219
+LYZE01000012.1|range_13755_to_16749	CP011558.1	96.440	1517	54	0	115	1631	560	2076	0.0	2503
+LYZE01000012.1|range_13755_to_16749	CP011558.1	88.432	389	45	0	1243	1631	1652	2040	1.12e-127	470
+LYZE01000012.1|range_13755_to_16749	CP011558.1	86.632	389	52	0	1243	1631	7295	7683	5.30e-116	431
+LYZE01000012.1|range_13755_to_16749	CP011558.1	86.632	389	52	0	1207	1595	7331	7719	5.30e-116	431
+LYZE01000012.1|range_13755_to_16749	CP011558.1	86.375	389	53	0	1207	1595	1796	2184	2.46e-114	425
+LYZE01000012.1|range_13755_to_16749	CP011558.1	86.375	389	53	0	1207	1595	1054110	1053722	2.46e-114	425
+LYZE01000012.1|range_13755_to_16749	CP011558.1	86.375	389	53	0	1243	1631	1054146	1053758	2.46e-114	425
+LYZE01000012.1|range_13755_to_16749	CP011558.1	86.375	389	53	0	1207	1595	1060773	1060385	2.46e-114	425
+LYZE01000012.1|range_13755_to_16749	CP011558.1	86.375	389	53	0	1243	1631	1060809	1060421	2.46e-114	425
+LYZE01000012.1|range_13755_to_16749	CP011558.1	86.120	317	44	0	1207	1523	1868	2184	2.55e-89	342
+LYZE01000012.1|range_13755_to_16749	CP011558.1	85.804	317	45	0	1315	1631	7295	7611	1.19e-87	337
+LYZE01000012.1|range_13755_to_16749	CP011558.1	85.804	317	45	0	1207	1523	7403	7719	1.19e-87	337
+LYZE01000012.1|range_13755_to_16749	CP011558.1	85.987	314	44	0	1318	1631	1054143	1053830	1.19e-87	337
+LYZE01000012.1|range_13755_to_16749	CP011558.1	85.987	314	44	0	1318	1631	1060806	1060493	1.19e-87	337
+LYZE01000012.1|range_13755_to_16749	CP011558.1	85.669	314	45	0	1210	1523	1054035	1053722	5.53e-86	331
+LYZE01000012.1|range_13755_to_16749	CP011558.1	85.669	314	45	0	1210	1523	1060698	1060385	5.53e-86	331
+LYZE01000012.1|range_13755_to_16749	CP011558.1	83.286	353	59	0	1279	1631	1652	2004	2.57e-84	326
+LYZE01000012.1|range_13755_to_16749	CP011558.1	86.100	259	36	0	1351	1609	1652	1910	2.03e-70	279
+LYZE01000012.1|range_13755_to_16749	CP011558.1	85.714	245	35	0	1387	1631	1652	1896	2.64e-64	259
+LYZE01000012.1|range_13755_to_16749	CP011558.1	79.811	317	64	0	1315	1631	1652	1968	5.77e-56	231
+LYZE01000012.1|range_13755_to_16749	CP011558.1	82.184	174	31	0	1458	1631	1651	1824	1.66e-31	150
+LYZE01000012.1|range_13755_to_16749	CP011558.1	100.000	78	0	0	1	78	483	560	7.73e-30	145
+LYZE01000012.1|range_13755_to_16749	CP011558.1	84.672	137	21	0	1495	1631	1652	1788	1.29e-27	137
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_17163_to_17979
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_17163_to_17979	CP011559.1	100.000	816	0	0	1	816	3870	4685	0.0	1507
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_20717_to_21080
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_20717_to_21080	CP005514.2	100.000	363	0	0	1	363	775698	775336	0.0	671
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_22282_to_23707
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_22282_to_23707	CP008247.1	100.000	1425	0	0	1	1425	14464	15888	0.0	2632
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_24273_to_25248
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_24273_to_25248	CP008247.1	100.000	975	0	0	1	975	16455	17429	0.0	1801
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_25590_to_27342
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_25590_to_27342	CP011558.1	100.000	1752	0	0	1	1752	17925	19676	0.0	3236
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_28772_to_29474
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_28772_to_29474	CP011558.1	100.000	702	0	0	1	702	21107	21808	0.0	1297
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_30108_to_30615
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_30108_to_30615	CP011558.1	100.000	507	0	0	1	507	22443	22949	0.0	937
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_31203_to_32931
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_31203_to_32931	CP011558.1	100.000	1728	0	0	1	1728	23538	25265	0.0	3192
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_33390_to_34629
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_33390_to_34629	LN907795.1	100.000	1239	0	0	1	1239	1006440	1005202	0.0	2289
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_35043_to_35940
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_35043_to_35940	CP011558.1	100.000	897	0	0	1	897	27378	28274	0.0	1657
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_37743_to_39339
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_37743_to_39339	CP014727.1	100.000	1596	0	0	1	1596	18063	19658	0.0	2948
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_40307_to_42839
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_40307_to_42839	CP014727.1	100.000	2532	0	0	1	2532	20627	23158	0.0	4676
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_43546_to_43996
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_43546_to_43996	CP014727.1	100.000	450	0	0	1	450	23866	24315	0.0	832
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_177953_to_181994
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000012.1|range_177953_to_181994	LN907795.1	99.604	4042	15	1	1	4041	393251	397292	0.0	7374
+LYZE01000012.1|range_177953_to_181994	LN907795.1	99.555	4041	18	0	1	4041	123915	119875	0.0	7363
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_183986_to_184562
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_183986_to_184562	CP008332.1	100.000	576	0	0	1	576	168813	169388	0.0	1064
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_184865_to_185234
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_184865_to_185234	CP008332.1	100.000	369	0	0	1	369	169692	170060	0.0	682
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_218168_to_218966
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_218168_to_218966	CP008332.1	99.875	799	0	1	1	798	203000	203798	0.0	1469
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_234602_to_235925
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000012.1|range_234602_to_235925	CP011559.1	100.000	1323	0	0	1	1323	377011	378333	0.0	2444
+LYZE01000012.1|range_234602_to_235925	CP011559.1	99.773	1323	3	0	1	1323	185792	184470	0.0	2427
+LYZE01000012.1|range_234602_to_235925	CP011559.1	98.866	1323	15	0	1	1323	197959	196637	0.0	2361
+LYZE01000012.1|range_234602_to_235925	CP011559.1	85.886	1332	170	12	1	1323	361313	362635	0.0	1402
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_236737_to_237349
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_236737_to_237349	CP008332.1	100.000	612	0	0	1	612	221231	221842	0.0	1131
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_458707_to_459448
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000012.1|range_458707_to_459448	CP008247.1	100.000	682	0	0	60	741	432860	433541	0.0	1260
+LYZE01000012.1|range_458707_to_459448	CP008247.1	100.000	49	0	0	1	49	443258	443306	2.44e-14	91.6
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_459592_to_459781
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_459592_to_459781	CP008332.1	100.000	189	0	0	1	189	433580	433768	8.11e-93	350
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_459880_to_460186
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_459880_to_460186	CP008247.1	100.000	306	0	0	1	306	433974	434279	1.29e-157	566
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_460363_to_461833
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_460363_to_461833	CP008247.1	99.932	1471	0	1	1	1470	434457	435927	0.0	2710
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_463352_to_465545
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_463352_to_465545	CP008349.1	100.000	2193	0	0	1	2193	436858	439050	0.0	4050
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_466188_to_467010
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_466188_to_467010	CP008247.1	100.000	822	0	0	1	822	440283	441104	0.0	1519
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_467436_to_468459
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_467436_to_468459	CP008417.1	100.000	1023	0	0	1	1023	441364	442386	0.0	1890
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_468679_to_470410
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_468679_to_470410	CP014727.1	100.000	1731	0	0	1	1731	430662	432392	0.0	3197
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_634503_to_635376
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_634503_to_635376	LN907798.1	100.000	873	0	0	1	873	584460	585332	0.0	1613
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_635449_to_639148
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 5 hits found
+LYZE01000012.1|range_635449_to_639148	CP005257.2	99.838	3699	6	0	1	3699	683496	687194	0.0	6798
+LYZE01000012.1|range_635449_to_639148	CP005257.2	100.000	49	0	0	3651	3699	205200	205152	1.26e-13	91.6
+LYZE01000012.1|range_635449_to_639148	CP005257.2	100.000	49	0	0	3651	3699	554101	554053	1.26e-13	91.6
+LYZE01000012.1|range_635449_to_639148	CP005257.2	100.000	49	0	0	3651	3699	712792	712744	1.26e-13	91.6
+LYZE01000012.1|range_635449_to_639148	CP005257.2	97.959	49	1	0	3651	3699	682136	682184	5.88e-12	86.1
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_926710_to_930751
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 7 hits found
+LYZE01000012.1|range_926710_to_930751	CP011558.1	99.975	4041	1	0	1	4041	928259	932299	0.0	7457
+LYZE01000012.1|range_926710_to_930751	CP011558.1	98.987	3357	33	1	1	3357	965639	962284	0.0	6010
+LYZE01000012.1|range_926710_to_930751	CP011558.1	91.288	1825	157	2	2218	4041	582395	584218	0.0	2488
+LYZE01000012.1|range_926710_to_930751	CP011558.1	89.036	1888	193	14	2161	4041	640019	641899	0.0	2327
+LYZE01000012.1|range_926710_to_930751	CP011558.1	89.252	1805	190	4	2239	4041	471114	469312	0.0	2255
+LYZE01000012.1|range_926710_to_930751	CP011558.1	86.205	1805	245	4	2239	4041	217132	215330	0.0	1951
+LYZE01000012.1|range_926710_to_930751	CP011558.1	99.448	181	1	0	3861	4041	962295	962115	2.69e-85	329
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_960566_to_964091
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 11 hits found
+LYZE01000012.1|range_960566_to_964091	CP011558.1	100.000	3525	0	0	1	3525	962115	965639	0.0	6510
+LYZE01000012.1|range_960566_to_964091	CP011558.1	99.017	3357	32	1	170	3525	931615	928259	0.0	6015
+LYZE01000012.1|range_960566_to_964091	CP011558.1	86.503	1141	151	3	170	1308	583534	582395	0.0	1251
+LYZE01000012.1|range_960566_to_964091	CP011558.1	86.161	1120	152	3	170	1287	469996	471114	0.0	1206
+LYZE01000012.1|range_960566_to_964091	CP011558.1	86.022	1116	154	2	173	1287	216018	217132	0.0	1195
+LYZE01000012.1|range_960566_to_964091	CP011558.1	82.724	1204	193	14	170	1365	641215	640019	0.0	1057
+LYZE01000012.1|range_960566_to_964091	CP011558.1	100.000	181	0	0	1	181	469312	469492	5.04e-87	335
+LYZE01000012.1|range_960566_to_964091	CP011558.1	99.448	181	1	0	1	181	584218	584038	2.34e-85	329
+LYZE01000012.1|range_960566_to_964091	CP011558.1	99.448	181	1	0	1	181	641899	641719	2.34e-85	329
+LYZE01000012.1|range_960566_to_964091	CP011558.1	99.448	181	1	0	1	181	932299	932119	2.34e-85	329
+LYZE01000012.1|range_960566_to_964091	CP011558.1	88.587	184	20	1	1	184	215330	215512	4.09e-53	222
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_971016_to_971109
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_971016_to_971109	CP008247.1	100.000	93	0	0	1	93	986878	986970	7.44e-40	172
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_1051039_to_1053631
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 13 hits found
+LYZE01000012.1|range_1051039_to_1053631	BK006945.2	99.923	2594	0	2	1	2592	1067087	1069680	0.0	4778
+LYZE01000012.1|range_1051039_to_1053631	BK006945.2	99.570	2557	8	3	39	2592	1073787	1076343	0.0	4658
+LYZE01000012.1|range_1051039_to_1053631	BK006945.2	99.587	1696	5	2	899	2592	3835	2140	0.0	3092
+LYZE01000012.1|range_1051039_to_1053631	BK006945.2	99.587	1696	5	2	899	2592	9370	7675	0.0	3092
+LYZE01000012.1|range_1051039_to_1053631	BK006945.2	98.305	59	1	0	382	440	3887	3829	1.13e-17	104
+LYZE01000012.1|range_1051039_to_1053631	BK006945.2	98.305	59	1	0	382	440	9422	9364	1.13e-17	104
+LYZE01000012.1|range_1051039_to_1053631	BK006945.2	98.246	57	1	0	159	215	4009	3953	1.47e-16	100
+LYZE01000012.1|range_1051039_to_1053631	BK006945.2	98.246	57	1	0	159	215	9544	9488	1.47e-16	100
+LYZE01000012.1|range_1051039_to_1053631	BK006945.2	88.158	76	7	2	2519	2592	2107	2032	3.17e-13	89.8
+LYZE01000012.1|range_1051039_to_1053631	BK006945.2	88.158	76	7	2	2519	2592	7642	7567	3.17e-13	89.8
+LYZE01000012.1|range_1051039_to_1053631	BK006945.2	88.158	76	7	2	2519	2592	1069713	1069788	3.17e-13	89.8
+LYZE01000012.1|range_1051039_to_1053631	BK006945.2	88.158	76	7	2	2519	2592	1076376	1076451	3.17e-13	89.8
+LYZE01000012.1|range_1051039_to_1053631	BK006945.2	86.842	76	8	2	2519	2592	1927	1852	1.48e-11	84.2
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_1055951_to_1058957
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_1055951_to_1058957	CP011561.1	99.967	3006	0	1	1	3006	1083240	1086244	0.0	5544
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_1065322_to_1065997
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_1065322_to_1065997	CP006235.2	99.852	676	0	1	1	675	555243	555918	0.0	1242
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_1066005_to_1066530
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 5 hits found
+LYZE01000012.1|range_1066005_to_1066530	CP011561.1	99.620	527	0	2	1	525	1086855	1087381	0.0	961
+LYZE01000012.1|range_1066005_to_1066530	CP011561.1	85.979	378	51	2	146	521	1087036	1087413	1.92e-108	403
+LYZE01000012.1|range_1066005_to_1066530	CP011561.1	85.260	346	49	2	182	525	1087000	1087345	5.45e-94	355
+LYZE01000012.1|range_1066005_to_1066530	CP011561.1	85.669	314	44	1	146	458	1087108	1087421	3.30e-86	329
+LYZE01000012.1|range_1066005_to_1066530	CP011561.1	86.567	268	34	2	254	519	1087000	1087267	1.20e-75	294
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_1066678_to_1067779
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_1066678_to_1067779	CP011561.1	100.000	1101	0	0	1	1101	1087530	1088630	0.0	2034
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_1069558_to_1069726
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_1069558_to_1069726	CP004956.2	100.000	168	0	0	1	168	274397	274564	3.31e-81	311
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_1072521_to_1073130
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000012.1|range_1072521_to_1073130	CP011821.1	100.000	609	0	0	1	609	1065930	1066538	0.0	1125
+LYZE01000012.1|range_1072521_to_1073130	CP011821.1	98.841	604	7	0	1	604	1072482	1073085	0.0	1077
+LYZE01000012.1|range_1072521_to_1073130	CP011821.1	98.946	569	6	0	1	569	4782	4214	0.0	1018
+LYZE01000012.1|range_1072521_to_1073130	CP011821.1	100.000	211	0	0	1	211	10317	10107	1.75e-104	390
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_1073652_to_1077801
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 37 hits found
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	99.663	4149	14	0	1	4149	1067087	1071235	0.0	7585
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	99.441	4112	22	1	39	4149	1073787	1077898	0.0	7465
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	99.231	3251	25	0	899	4149	9370	6120	0.0	5866
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	99.022	2045	20	0	899	2943	3835	1791	0.0	3666
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	95.711	1632	62	2	2519	4149	2107	483	0.0	2619
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	89.203	389	42	0	2519	2907	7714	7326	1.55e-132	486
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	88.946	389	43	0	2519	2907	1069641	1070029	7.21e-131	481
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	88.946	389	43	0	2519	2907	1076304	1076692	7.21e-131	481
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	87.918	389	47	0	2519	2907	2071	1683	3.38e-124	459
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	86.118	425	59	0	2519	2943	2179	1755	3.38e-124	459
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	88.328	317	37	0	2627	2943	2215	1899	7.52e-101	381
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	88.013	317	38	0	2627	2943	7750	7434	3.50e-99	375
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	87.898	314	38	0	2627	2940	1069605	1069918	1.63e-97	370
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	87.898	314	38	0	2627	2940	1076268	1076581	1.63e-97	370
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	83.548	389	64	0	2555	2943	7750	7362	7.58e-96	364
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	83.290	389	65	0	2555	2943	1069605	1069993	3.52e-94	359
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	83.290	389	65	0	2555	2943	1076268	1076656	3.52e-94	359
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	84.703	353	54	0	2519	2871	2035	1683	1.64e-92	353
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	85.174	317	47	0	2519	2835	7642	7326	3.58e-84	326
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	85.174	317	47	0	2519	2835	1069713	1070029	3.58e-84	326
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	85.174	317	47	0	2519	2835	1076376	1076692	3.58e-84	326
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	82.153	353	63	0	2519	2871	7678	7326	1.68e-77	303
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	81.870	353	64	0	2519	2871	1069677	1070029	7.79e-76	298
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	81.870	353	64	0	2519	2871	1076340	1076692	7.79e-76	298
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	85.714	259	37	0	2541	2799	1941	1683	1.31e-68	274
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	85.306	245	36	0	2519	2763	1927	1683	1.71e-62	254
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	79.180	317	66	0	2519	2835	1999	1683	1.74e-52	220
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	86.842	152	20	0	2793	2944	2193	2042	1.77e-37	171
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	86.842	152	20	0	2793	2944	7728	7577	1.77e-37	171
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	86.184	152	21	0	2793	2944	1069627	1069778	8.25e-36	165
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	86.184	152	21	0	2793	2944	1076290	1076441	8.25e-36	165
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	81.609	174	32	0	2519	2692	1855	1682	1.07e-29	145
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	83.942	137	22	0	2519	2655	1819	1683	8.36e-26	132
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	98.305	59	1	0	382	440	3887	3829	1.82e-17	104
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	98.305	59	1	0	382	440	9422	9364	1.82e-17	104
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	98.246	57	1	0	159	215	4009	3953	2.36e-16	100
+LYZE01000012.1|range_1073652_to_1077801	BK006945.2	98.246	57	1	0	159	215	9544	9488	2.36e-16	100
+# BLASTN 2.6.0+
+# Query: LYZE01000012.1|range_1079276_to_1082705
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000012.1|range_1079276_to_1082705	CP011561.1	99.942	3431	0	1	1	3429	1083240	1086670	0.0	6324
+# BLASTN 2.6.0+
+# Query: LYZE01000013.1|range_9219_to_9501
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000013.1|range_9219_to_9501	CP005477.2	100.000	282	0	0	1	282	8704	8985	2.57e-144	521
+# BLASTN 2.6.0+
+# Query: LYZE01000013.1|range_179055_to_180378
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000013.1|range_179055_to_180378	CP011559.1	100.000	1323	0	0	1	1323	184470	185792	0.0	2444
+LYZE01000013.1|range_179055_to_180378	CP011559.1	99.773	1323	3	0	1	1323	378333	377011	0.0	2427
+LYZE01000013.1|range_179055_to_180378	CP011559.1	98.791	1323	16	0	1	1323	196637	197959	0.0	2355
+LYZE01000013.1|range_179055_to_180378	CP011559.1	85.886	1332	170	12	1	1323	362635	361313	0.0	1402
+# BLASTN 2.6.0+
+# Query: LYZE01000013.1|range_184637_to_185960
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000013.1|range_184637_to_185960	CP011559.1	100.000	1323	0	0	1	1323	184470	185792	0.0	2444
+LYZE01000013.1|range_184637_to_185960	CP011559.1	99.773	1323	3	0	1	1323	378333	377011	0.0	2427
+LYZE01000013.1|range_184637_to_185960	CP011559.1	98.791	1323	16	0	1	1323	196637	197959	0.0	2355
+LYZE01000013.1|range_184637_to_185960	CP011559.1	85.886	1332	170	12	1	1323	362635	361313	0.0	1402
+# BLASTN 2.6.0+
+# Query: LYZE01000013.1|range_196805_to_198128
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000013.1|range_196805_to_198128	CP011559.1	100.000	1323	0	0	1	1323	196637	197959	0.0	2444
+LYZE01000013.1|range_196805_to_198128	CP011559.1	98.866	1323	15	0	1	1323	378333	377011	0.0	2361
+LYZE01000013.1|range_196805_to_198128	CP011559.1	98.791	1323	16	0	1	1323	184470	185792	0.0	2355
+LYZE01000013.1|range_196805_to_198128	CP011559.1	86.682	1329	165	7	1	1323	362635	361313	0.0	1463
+# BLASTN 2.6.0+
+# Query: LYZE01000013.1|range_238518_to_238743
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000013.1|range_238518_to_238743	CP008214.1	100.000	225	0	0	1	225	237678	237902	9.64e-113	416
+# BLASTN 2.6.0+
+# Query: LYZE01000013.1|range_263808_to_264681
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000013.1|range_263808_to_264681	CP008248.1	100.000	873	0	0	1	873	262931	263803	0.0	1613
+# BLASTN 2.6.0+
+# Query: LYZE01000013.1|range_283406_to_283874
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000013.1|range_283406_to_283874	CP007942.1	100.000	468	0	0	1	468	282575	283042	0.0	865
+# BLASTN 2.6.0+
+# Query: LYZE01000013.1|range_361627_to_362950
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000013.1|range_361627_to_362950	CP011559.1	99.924	1323	1	0	1	1323	361313	362635	0.0	2438
+LYZE01000013.1|range_361627_to_362950	CP011559.1	86.757	1329	164	7	1	1323	197959	196637	0.0	1469
+LYZE01000013.1|range_361627_to_362950	CP011559.1	85.961	1332	169	12	1	1323	185792	184470	0.0	1408
+LYZE01000013.1|range_361627_to_362950	CP011559.1	85.961	1332	169	12	1	1323	377011	378333	0.0	1408
+# BLASTN 2.6.0+
+# Query: LYZE01000013.1|range_377325_to_378648
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000013.1|range_377325_to_378648	CP011559.1	100.000	1323	0	0	1	1323	377011	378333	0.0	2444
+LYZE01000013.1|range_377325_to_378648	CP011559.1	99.773	1323	3	0	1	1323	185792	184470	0.0	2427
+LYZE01000013.1|range_377325_to_378648	CP011559.1	98.866	1323	15	0	1	1323	197959	196637	0.0	2361
+LYZE01000013.1|range_377325_to_378648	CP011559.1	85.886	1332	170	12	1	1323	361313	362635	0.0	1402
+# BLASTN 2.6.0+
+# Query: LYZE01000013.1|range_752836_to_754159
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000013.1|range_752836_to_754159	GU224294.1	100.000	1323	0	0	1	1323	3138	1816	0.0	2444
+# BLASTN 2.6.0+
+# Query: LYZE01000013.1|range_927026_to_929095
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000013.1|range_927026_to_929095	CP004734.2	99.758	2069	5	0	1	2069	1464498	1466566	0.0	3794
+LYZE01000013.1|range_927026_to_929095	CP004734.2	99.758	2069	5	0	1	2069	1470474	1472542	0.0	3794
+LYZE01000013.1|range_927026_to_929095	CP004734.2	99.758	2069	5	0	1	2069	1475804	1477872	0.0	3794
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_599_to_5987
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 19 hits found
+LYZE01000014.1|range_599_to_5987	CP011562.1	100.000	5388	0	0	1	5388	280	5667	0.0	9950
+LYZE01000014.1|range_599_to_5987	CP011562.1	99.120	2045	18	0	1204	3248	946381	944337	0.0	3677
+LYZE01000014.1|range_599_to_5987	CP011562.1	96.867	1628	51	0	1	1628	947692	946065	0.0	2724
+LYZE01000014.1|range_599_to_5987	CP011562.1	98.623	799	10	1	4591	5388	944161	943363	0.0	1413
+LYZE01000014.1|range_599_to_5987	CP011562.1	88.689	389	44	0	1240	1628	946489	946101	4.36e-129	475
+LYZE01000014.1|range_599_to_5987	CP011562.1	86.632	389	52	0	1240	1628	1483	1871	9.58e-116	431
+LYZE01000014.1|range_599_to_5987	CP011562.1	86.632	389	52	0	1204	1592	1519	1907	9.58e-116	431
+LYZE01000014.1|range_599_to_5987	CP011562.1	86.632	389	52	0	1204	1592	946345	945957	9.58e-116	431
+LYZE01000014.1|range_599_to_5987	CP011562.1	86.435	317	43	0	1204	1520	946273	945957	9.92e-91	348
+LYZE01000014.1|range_599_to_5987	CP011562.1	85.804	317	45	0	1312	1628	1483	1799	2.15e-87	337
+LYZE01000014.1|range_599_to_5987	CP011562.1	85.804	317	45	0	1204	1520	1591	1907	2.15e-87	337
+LYZE01000014.1|range_599_to_5987	CP011562.1	83.569	353	58	0	1276	1628	946489	946137	9.99e-86	331
+LYZE01000014.1|range_599_to_5987	CP011562.1	86.719	256	34	0	1351	1606	946486	946231	7.89e-72	285
+LYZE01000014.1|range_599_to_5987	CP011562.1	86.122	245	34	0	1384	1628	946489	946245	1.03e-65	265
+LYZE01000014.1|range_599_to_5987	CP011562.1	80.255	314	62	0	1315	1628	946486	946173	2.24e-57	237
+LYZE01000014.1|range_599_to_5987	CP011562.1	82.184	174	31	0	1455	1628	946490	946317	3.00e-31	150
+LYZE01000014.1|range_599_to_5987	CP011562.1	84.672	137	21	0	1492	1628	946489	946353	2.34e-27	137
+LYZE01000014.1|range_599_to_5987	CP011562.1	98.246	57	1	0	3932	3988	944219	944163	3.07e-16	100
+LYZE01000014.1|range_599_to_5987	CP011562.1	98.214	56	1	0	3710	3765	944340	944285	1.10e-15	99.0
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_6789_to_7404
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000014.1|range_6789_to_7404	CP006397.1	88.608	632	25	37	1	615	454	1055	0.0	725
+LYZE01000014.1|range_6789_to_7404	CP006397.1	88.359	524	35	26	103	615	1701	2209	1.61e-169	606
+LYZE01000014.1|range_6789_to_7404	CP006397.1	88.235	102	4	6	1	102	1646	1739	1.19e-21	115
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_8759_to_9905
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_8759_to_9905	CP011560.1	100.000	1146	0	0	1	1146	8331	9476	0.0	2117
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_11880_to_12558
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_11880_to_12558	CP014737.1	100.000	678	0	0	1	678	16267	16944	0.0	1253
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_12636_to_13305
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_12636_to_13305	CP004907.2	100.000	669	0	0	1	669	3298	3966	0.0	1236
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_13697_to_14594
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_13697_to_14594	CP011560.1	100.000	897	0	0	1	897	13268	14164	0.0	1657
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_15263_to_16286
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_15263_to_16286	BK006947.3	100.000	1023	0	0	1	1023	14832	15854	0.0	1890
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_97453_to_98770
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 6 hits found
+LYZE01000014.1|range_97453_to_98770	CP011558.1	99.848	1317	2	0	1	1317	966912	965596	0.0	2422
+LYZE01000014.1|range_97453_to_98770	CP011558.1	98.405	1317	21	0	1	1317	926986	928302	0.0	2316
+LYZE01000014.1|range_97453_to_98770	CP011558.1	83.149	362	51	9	1	357	220598	220242	1.44e-83	322
+LYZE01000014.1|range_97453_to_98770	CP011558.1	83.056	360	55	6	1	357	578950	579306	1.44e-83	322
+LYZE01000014.1|range_97453_to_98770	CP011558.1	82.825	361	54	8	1	357	474580	474224	6.71e-82	316
+LYZE01000014.1|range_97453_to_98770	CP011558.1	82.825	361	54	8	1	357	636629	636985	6.71e-82	316
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_98726_to_102767
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000014.1|range_98726_to_102767	CP011561.1	99.184	4042	31	2	1	4041	969618	973658	0.0	7280
+LYZE01000014.1|range_98726_to_102767	CP011561.1	99.035	4042	37	2	1	4041	706225	702185	0.0	7247
+LYZE01000014.1|range_98726_to_102767	CP011561.1	89.276	1809	192	2	2234	4041	121461	123268	0.0	2265
+LYZE01000014.1|range_98726_to_102767	CP011561.1	84.632	1809	276	2	2234	4041	596339	598146	0.0	1799
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_522993_to_525642
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_522993_to_525642	NM_001281536.2	100.000	2647	0	0	1	2647	1802	4448	0.0	4889
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_527820_to_530328
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_527820_to_530328	CP014729.1	100.000	2486	0	0	1	2486	538009	540494	0.0	4591
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_531510_to_532779
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000014.1|range_531510_to_532779	CP011559.1	99.764	1270	2	1	1	1269	375263	376532	0.0	2327
+LYZE01000014.1|range_531510_to_532779	CP011559.1	99.685	1270	3	1	1	1269	187540	186271	0.0	2322
+LYZE01000014.1|range_531510_to_532779	CP011559.1	99.606	1270	4	1	1	1269	199707	198438	0.0	2316
+LYZE01000014.1|range_531510_to_532779	CP011559.1	99.133	1269	10	1	2	1269	359566	360834	0.0	2281
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_533256_to_534384
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_533256_to_534384	CP005266.2	100.000	1086	0	0	1	1086	757783	758868	0.0	2006
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_535917_to_538641
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_535917_to_538641	CP006119.1	98.568	2724	38	1	1	2724	903371	900649	0.0	4813
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_538723_to_539251
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000014.1|range_538723_to_539251	CP011560.1	99.811	529	0	1	1	528	524013	524541	0.0	970
+LYZE01000014.1|range_538723_to_539251	CP011560.1	99.433	529	2	1	1	528	563018	562490	0.0	959
+LYZE01000014.1|range_538723_to_539251	CP011560.1	83.396	530	85	3	1	528	97611	97083	5.18e-134	488
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_577065_to_581106
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 3 hits found
+LYZE01000014.1|range_577065_to_581106	CP011560.1	100.000	4041	0	0	1	4041	562356	566396	0.0	7463
+LYZE01000014.1|range_577065_to_581106	CP011560.1	91.958	1828	139	7	1	1824	524675	522852	0.0	2555
+LYZE01000014.1|range_577065_to_581106	CP011560.1	83.914	1809	279	12	1	1803	96949	98751	0.0	1718
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_634352_to_634625
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_634352_to_634625	CP005576.2	100.000	258	0	0	16	273	595454	595711	5.45e-131	477
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_680808_to_682737
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_680808_to_682737	CP005552.2	100.000	1929	0	0	1	1929	641858	643786	0.0	3563
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_761430_to_761583
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_761430_to_761583	CP005576.2	100.000	153	0	0	1	153	722092	722244	6.43e-73	283
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_762740_to_764564
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_762740_to_764564	CP005561.2	100.000	1824	0	0	1	1824	722064	723887	0.0	3369
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_764933_to_765806
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_764933_to_765806	CP005585.2	100.000	873	0	0	1	873	734220	735092	0.0	1613
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_766887_to_767019
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_766887_to_767019	CP005566.2	100.000	132	0	0	1	132	725253	725384	2.51e-61	244
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_768549_to_770832
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_768549_to_770832	CP005495.2	99.956	2284	0	1	1	2283	728706	730989	0.0	4211
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_771549_to_774903
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_771549_to_774903	CP005585.2	100.000	3354	0	0	1	3354	740830	744183	0.0	6194
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_775866_to_778392
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_775866_to_778392	CP005585.2	100.000	2526	0	0	1	2526	745147	747672	0.0	4665
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_782057_to_783182
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_782057_to_783182	CP014729.1	100.000	1125	0	0	1	1125	778689	779813	0.0	2078
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_784058_to_784421
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000014.1|range_784058_to_784421	CP014740.1	99.449	363	2	0	1	363	8092	7730	0.0	660
+LYZE01000014.1|range_784058_to_784421	CP014740.1	85.305	279	32	3	1	270	456584	456862	2.27e-71	279
+LYZE01000014.1|range_784058_to_784421	CP014740.1	88.024	167	20	0	185	351	456862	457028	6.53e-47	198
+LYZE01000014.1|range_784058_to_784421	CP014740.1	98.947	95	1	0	269	363	462921	463015	1.42e-38	171
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_787065_to_788247
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000014.1|range_787065_to_788247	CP011556.1	100.000	1182	0	0	1	1182	6131	4950	0.0	2183
+# BLASTN 2.6.0+
+# Query: LYZE01000014.1|range_788215_to_792730
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 25 hits found
+LYZE01000014.1|range_788215_to_792730	BK006943.2	100.000	4515	0	0	1	4515	4980	466	0.0	8338
+LYZE01000014.1|range_788215_to_792730	BK006943.2	85.952	662	91	2	2616	3276	2329	1669	0.0	706
+LYZE01000014.1|range_788215_to_792730	BK006943.2	85.952	662	91	2	2652	3312	2365	1705	0.0	706
+LYZE01000014.1|range_788215_to_792730	BK006943.2	84.579	642	85	8	2612	3240	2309	1669	3.43e-174	625
+LYZE01000014.1|range_788215_to_792730	BK006943.2	84.579	642	85	8	2672	3312	2369	1741	3.43e-174	625
+LYZE01000014.1|range_788215_to_792730	BK006943.2	83.784	555	90	0	2614	3168	2223	1669	9.94e-145	527
+LYZE01000014.1|range_788215_to_792730	BK006943.2	83.784	555	90	0	2758	3312	2367	1813	9.94e-145	527
+LYZE01000014.1|range_788215_to_792730	BK006943.2	81.757	592	106	2	2614	3204	2259	1669	1.01e-134	494
+LYZE01000014.1|range_788215_to_792730	BK006943.2	81.757	592	106	2	2722	3312	2367	1777	1.01e-134	494
+LYZE01000014.1|range_788215_to_792730	BK006943.2	82.592	517	90	0	2616	3132	2185	1669	1.32e-123	457
+LYZE01000014.1|range_788215_to_792730	BK006943.2	82.592	517	90	0	2796	3312	2365	1849	1.32e-123	457
+LYZE01000014.1|range_788215_to_792730	BK006943.2	82.510	486	85	0	2616	3101	2149	1664	1.04e-114	427
+LYZE01000014.1|range_788215_to_792730	BK006943.2	82.510	486	85	0	2832	3317	2365	1880	1.04e-114	427
+LYZE01000014.1|range_788215_to_792730	BK006943.2	83.784	444	68	4	2620	3061	2109	1668	6.24e-112	418
+LYZE01000014.1|range_788215_to_792730	BK006943.2	83.784	444	68	4	2872	3313	2361	1920	6.24e-112	418
+LYZE01000014.1|range_788215_to_792730	BK006943.2	80.542	406	77	2	2620	3024	2073	1669	1.09e-79	311
+LYZE01000014.1|range_788215_to_792730	BK006943.2	80.542	406	77	2	2908	3312	2361	1957	1.09e-79	311
+LYZE01000014.1|range_788215_to_792730	BK006943.2	81.351	370	69	0	2620	2989	2037	1668	6.56e-77	302
+LYZE01000014.1|range_788215_to_792730	BK006943.2	81.351	370	69	0	2944	3313	2361	1992	6.56e-77	302
+LYZE01000014.1|range_788215_to_792730	BK006943.2	79.525	337	69	0	2616	2952	2005	1669	1.45e-58	241
+LYZE01000014.1|range_788215_to_792730	BK006943.2	79.525	337	69	0	2976	3312	2365	2029	1.45e-58	241
+LYZE01000014.1|range_788215_to_792730	BK006943.2	80.135	297	59	0	2620	2916	1965	1669	5.25e-53	222
+LYZE01000014.1|range_788215_to_792730	BK006943.2	80.135	297	59	0	3016	3312	2361	2065	5.25e-53	222
+LYZE01000014.1|range_788215_to_792730	BK006943.2	77.903	267	55	4	2616	2880	1933	1669	3.23e-35	163
+LYZE01000014.1|range_788215_to_792730	BK006943.2	77.903	267	55	4	3048	3312	2365	2101	3.23e-35	163
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_120075_to_123054
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000015.1|range_120075_to_123054	CP011561.1	100.000	2978	0	0	1	2978	119801	122778	0.0	5500
+LYZE01000015.1|range_120075_to_123054	CP011561.1	97.482	2978	75	0	1	2978	594679	597656	0.0	5084
+LYZE01000015.1|range_120075_to_123054	CP011561.1	88.052	1314	155	2	1666	2978	703987	702675	0.0	1555
+LYZE01000015.1|range_120075_to_123054	CP011561.1	86.872	1394	177	6	1588	2978	971778	973168	0.0	1555
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_240478_to_240799
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000015.1|range_240478_to_240799	CP005605.2	100.000	321	0	0	1	321	222338	222658	6.22e-166	593
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_270089_to_270695
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000015.1|range_270089_to_270695	CP005642.2	100.000	606	0	0	1	606	251133	251738	0.0	1120
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_595536_to_596859
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000015.1|range_595536_to_596859	CP011562.1	100.000	1323	0	0	1	1323	844706	846028	0.0	2444
+LYZE01000015.1|range_595536_to_596859	CP011562.1	98.715	1323	17	0	1	1323	856254	854932	0.0	2350
+LYZE01000015.1|range_595536_to_596859	CP011562.1	98.643	1326	12	5	1	1323	56748	58070	0.0	2344
+LYZE01000015.1|range_595536_to_596859	CP011562.1	98.267	1327	15	7	1	1323	810266	808944	0.0	2316
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_705173_to_709214
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000015.1|range_705173_to_709214	CP011561.1	100.000	4041	0	0	1	4041	702185	706225	0.0	7463
+LYZE01000015.1|range_705173_to_709214	CP011561.1	99.530	4041	19	0	1	4041	973658	969618	0.0	7358
+LYZE01000015.1|range_705173_to_709214	CP011561.1	88.170	1885	215	8	1	1881	123268	121388	0.0	2239
+LYZE01000015.1|range_705173_to_709214	CP011561.1	83.501	1885	303	8	1	1881	598146	596266	0.0	1751
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_946022_to_947435
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000015.1|range_946022_to_947435	CP014730.1	100.000	1413	0	0	1	1413	944977	946389	0.0	2610
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_973322_to_977363
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000015.1|range_973322_to_977363	CP011561.1	100.000	4041	0	0	1	4041	969618	973658	0.0	7463
+LYZE01000015.1|range_973322_to_977363	CP011561.1	99.530	4041	19	0	1	4041	706225	702185	0.0	7358
+LYZE01000015.1|range_973322_to_977363	CP011561.1	88.329	1885	212	8	2161	4041	121388	123268	0.0	2255
+LYZE01000015.1|range_973322_to_977363	CP011561.1	83.873	1885	296	8	2161	4041	596266	598146	0.0	1790
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_1082625_to_1083258
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000015.1|range_1082625_to_1083258	CP005437.2	100.000	633	0	0	1	633	903426	904058	0.0	1170
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_1084386_to_1084881
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000015.1|range_1084386_to_1084881	CP011562.1	100.000	495	0	0	1	495	8427	7933	0.0	915
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_1087482_to_1087995
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000015.1|range_1087482_to_1087995	CP011561.1	99.612	515	0	1	1	513	1083582	1084096	0.0	939
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_1089757_to_1090834
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000015.1|range_1089757_to_1090834	CP011561.1	100.000	1051	0	0	1	1051	1074551	1075601	0.0	1941
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_1091572_to_1092886
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000015.1|range_1091572_to_1092886	CP011562.1	100.000	1314	0	0	1	1314	10870	9557	0.0	2427
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_1094056_to_1094551
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000015.1|range_1094056_to_1094551	CP011562.1	100.000	495	0	0	1	495	8427	7933	0.0	915
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_1096811_to_1101113
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 5 hits found
+LYZE01000015.1|range_1096811_to_1101113	CP011561.1	99.884	4305	0	5	1	4302	1083240	1087542	0.0	7917
+LYZE01000015.1|range_1096811_to_1101113	CP011561.1	85.422	391	53	4	3761	4149	1087036	1087424	1.67e-107	403
+LYZE01000015.1|range_1096811_to_1101113	CP011561.1	85.166	391	54	4	3797	4185	1087000	1087388	7.75e-106	398
+LYZE01000015.1|range_1096811_to_1101113	CP011561.1	84.858	317	45	3	3761	4076	1087108	1087422	2.23e-81	316
+LYZE01000015.1|range_1096811_to_1101113	CP011561.1	84.858	317	42	5	3869	4182	1087000	1087313	8.03e-81	315
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_1101100_to_1102201
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000015.1|range_1101100_to_1102201	CP011561.1	100.000	1101	0	0	1	1101	1087530	1088630	0.0	2034
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_1105230_to_1105659
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000015.1|range_1105230_to_1105659	CP006216.2	99.304	431	0	2	1	429	1294	865	0.0	776
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_1105882_to_1107601
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 5 hits found
+LYZE01000015.1|range_1105882_to_1107601	CP011561.1	99.709	1717	0	3	1	1712	1085637	1087353	0.0	3138
+LYZE01000015.1|range_1105882_to_1107601	CP011561.1	84.181	354	51	3	1364	1712	1087036	1087389	1.88e-88	339
+LYZE01000015.1|range_1105882_to_1107601	CP011561.1	85.350	314	45	1	1364	1676	1087108	1087421	5.27e-84	324
+LYZE01000015.1|range_1105882_to_1107601	CP011561.1	85.382	301	43	1	1400	1699	1087000	1087300	4.10e-80	311
+LYZE01000015.1|range_1105882_to_1107601	CP011561.1	89.796	196	19	1	1472	1666	1087000	1087195	9.07e-62	250
+# BLASTN 2.6.0+
+# Query: LYZE01000015.1|range_1107767_to_1108329
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000015.1|range_1107767_to_1108329	CP014729.1	99.822	563	0	1	1	562	1024	462	0.0	1033
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_18920_to_19631
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000016.1|range_18920_to_19631	CP011562.1	100.000	711	0	0	1	711	18369	19079	0.0	1314
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_23489_to_25253
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000016.1|range_23489_to_25253	CP011562.1	100.000	1764	0	0	1	1764	22938	24701	0.0	3258
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_57296_to_58619
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000016.1|range_57296_to_58619	CP011562.1	100.000	1323	0	0	1	1323	56748	58070	0.0	2444
+LYZE01000016.1|range_57296_to_58619	CP011562.1	99.622	1323	5	0	1	1323	856254	854932	0.0	2416
+LYZE01000016.1|range_57296_to_58619	CP011562.1	99.169	1324	9	2	1	1323	810266	808944	0.0	2383
+LYZE01000016.1|range_57296_to_58619	CP011562.1	98.643	1326	12	5	1	1323	844706	846028	0.0	2344
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_65457_to_66780
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000016.1|range_65457_to_66780	CP011562.1	100.000	1323	0	0	1	1323	808944	810266	0.0	2444
+LYZE01000016.1|range_65457_to_66780	CP011562.1	99.169	1324	9	2	1	1323	58070	56748	0.0	2383
+LYZE01000016.1|range_65457_to_66780	CP011562.1	98.792	1324	14	2	1	1323	854932	856254	0.0	2355
+LYZE01000016.1|range_65457_to_66780	CP011562.1	98.267	1327	15	7	1	1323	846028	844706	0.0	2316
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_101259_to_102582
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000016.1|range_101259_to_102582	CP011562.1	100.000	1323	0	0	1	1323	844706	846028	0.0	2444
+LYZE01000016.1|range_101259_to_102582	CP011562.1	98.715	1323	17	0	1	1323	856254	854932	0.0	2350
+LYZE01000016.1|range_101259_to_102582	CP011562.1	98.643	1326	12	5	1	1323	56748	58070	0.0	2344
+LYZE01000016.1|range_101259_to_102582	CP011562.1	98.267	1327	15	7	1	1323	810266	808944	0.0	2316
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_206798_to_209897
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 30 hits found
+LYZE01000016.1|range_206798_to_209897	CP011562.1	100.000	3099	0	0	1	3099	944594	947692	0.0	5723
+LYZE01000016.1|range_206798_to_209897	CP011562.1	98.993	1788	18	0	1	1788	3270	1483	0.0	3203
+LYZE01000016.1|range_206798_to_209897	CP011562.1	96.867	1628	51	0	1472	3099	1907	280	0.0	2724
+LYZE01000016.1|range_206798_to_209897	CP011562.1	87.529	425	53	0	1472	1896	945957	946381	2.48e-134	492
+LYZE01000016.1|range_206798_to_209897	CP011562.1	87.529	425	53	0	1364	1788	946065	946489	2.48e-134	492
+LYZE01000016.1|range_206798_to_209897	CP011562.1	88.689	389	44	0	1508	1896	1907	1519	2.50e-129	475
+LYZE01000016.1|range_206798_to_209897	CP011562.1	87.918	389	47	0	1508	1896	945957	946345	2.52e-124	459
+LYZE01000016.1|range_206798_to_209897	CP011562.1	87.918	389	47	0	1364	1752	946101	946489	2.52e-124	459
+LYZE01000016.1|range_206798_to_209897	CP011562.1	86.632	389	52	0	1364	1752	1871	1483	5.48e-116	431
+LYZE01000016.1|range_206798_to_209897	CP011562.1	83.080	461	78	0	1436	1896	945957	946417	1.19e-112	420
+LYZE01000016.1|range_206798_to_209897	CP011562.1	83.080	461	78	0	1364	1824	946029	946489	1.19e-112	420
+LYZE01000016.1|range_206798_to_209897	CP011562.1	85.088	342	51	0	1544	1885	945957	946298	1.58e-91	350
+LYZE01000016.1|range_206798_to_209897	CP011562.1	85.088	342	51	0	1364	1705	946137	946478	1.58e-91	350
+LYZE01000016.1|range_206798_to_209897	CP011562.1	86.435	317	43	0	1364	1680	1799	1483	5.68e-91	348
+LYZE01000016.1|range_206798_to_209897	CP011562.1	83.569	353	58	0	1544	1896	1907	1555	5.72e-86	331
+LYZE01000016.1|range_206798_to_209897	CP011562.1	86.486	259	35	0	1638	1896	1885	1627	4.52e-72	285
+LYZE01000016.1|range_206798_to_209897	CP011562.1	86.719	256	34	0	1638	1893	945979	946234	4.52e-72	285
+LYZE01000016.1|range_206798_to_209897	CP011562.1	86.719	256	34	0	1386	1641	946231	946486	4.52e-72	285
+LYZE01000016.1|range_206798_to_209897	CP011562.1	86.122	245	34	0	1652	1896	1907	1663	5.89e-66	265
+LYZE01000016.1|range_206798_to_209897	CP011562.1	86.122	245	34	0	1652	1896	945957	946201	5.89e-66	265
+LYZE01000016.1|range_206798_to_209897	CP011562.1	86.122	245	34	0	1364	1608	946245	946489	5.89e-66	265
+LYZE01000016.1|range_206798_to_209897	CP011562.1	80.757	317	61	0	1580	1896	945957	946273	5.93e-61	248
+LYZE01000016.1|range_206798_to_209897	CP011562.1	80.757	317	61	0	1364	1680	946173	946489	5.93e-61	248
+LYZE01000016.1|range_206798_to_209897	CP011562.1	80.126	317	63	0	1580	1896	1907	1591	1.28e-57	237
+LYZE01000016.1|range_206798_to_209897	CP011562.1	82.184	174	31	0	1724	1897	1907	1734	1.72e-31	150
+LYZE01000016.1|range_206798_to_209897	CP011562.1	82.184	174	31	0	1724	1897	945957	946130	1.72e-31	150
+LYZE01000016.1|range_206798_to_209897	CP011562.1	82.184	174	31	0	1364	1537	946317	946490	1.72e-31	150
+LYZE01000016.1|range_206798_to_209897	CP011562.1	84.672	137	21	0	1760	1896	1907	1771	1.34e-27	137
+LYZE01000016.1|range_206798_to_209897	CP011562.1	84.672	137	21	0	1760	1896	945957	946093	1.34e-27	137
+LYZE01000016.1|range_206798_to_209897	CP011562.1	84.672	137	21	0	1364	1500	946353	946489	1.34e-27	137
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_212568_to_215667
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 30 hits found
+LYZE01000016.1|range_212568_to_215667	CP011562.1	100.000	3099	0	0	1	3099	944594	947692	0.0	5723
+LYZE01000016.1|range_212568_to_215667	CP011562.1	98.993	1788	18	0	1	1788	3270	1483	0.0	3203
+LYZE01000016.1|range_212568_to_215667	CP011562.1	96.867	1628	51	0	1472	3099	1907	280	0.0	2724
+LYZE01000016.1|range_212568_to_215667	CP011562.1	87.529	425	53	0	1472	1896	945957	946381	2.48e-134	492
+LYZE01000016.1|range_212568_to_215667	CP011562.1	87.529	425	53	0	1364	1788	946065	946489	2.48e-134	492
+LYZE01000016.1|range_212568_to_215667	CP011562.1	88.689	389	44	0	1508	1896	1907	1519	2.50e-129	475
+LYZE01000016.1|range_212568_to_215667	CP011562.1	87.918	389	47	0	1508	1896	945957	946345	2.52e-124	459
+LYZE01000016.1|range_212568_to_215667	CP011562.1	87.918	389	47	0	1364	1752	946101	946489	2.52e-124	459
+LYZE01000016.1|range_212568_to_215667	CP011562.1	86.632	389	52	0	1364	1752	1871	1483	5.48e-116	431
+LYZE01000016.1|range_212568_to_215667	CP011562.1	83.080	461	78	0	1436	1896	945957	946417	1.19e-112	420
+LYZE01000016.1|range_212568_to_215667	CP011562.1	83.080	461	78	0	1364	1824	946029	946489	1.19e-112	420
+LYZE01000016.1|range_212568_to_215667	CP011562.1	85.088	342	51	0	1544	1885	945957	946298	1.58e-91	350
+LYZE01000016.1|range_212568_to_215667	CP011562.1	85.088	342	51	0	1364	1705	946137	946478	1.58e-91	350
+LYZE01000016.1|range_212568_to_215667	CP011562.1	86.435	317	43	0	1364	1680	1799	1483	5.68e-91	348
+LYZE01000016.1|range_212568_to_215667	CP011562.1	83.569	353	58	0	1544	1896	1907	1555	5.72e-86	331
+LYZE01000016.1|range_212568_to_215667	CP011562.1	86.486	259	35	0	1638	1896	1885	1627	4.52e-72	285
+LYZE01000016.1|range_212568_to_215667	CP011562.1	86.719	256	34	0	1638	1893	945979	946234	4.52e-72	285
+LYZE01000016.1|range_212568_to_215667	CP011562.1	86.719	256	34	0	1386	1641	946231	946486	4.52e-72	285
+LYZE01000016.1|range_212568_to_215667	CP011562.1	86.122	245	34	0	1652	1896	1907	1663	5.89e-66	265
+LYZE01000016.1|range_212568_to_215667	CP011562.1	86.122	245	34	0	1652	1896	945957	946201	5.89e-66	265
+LYZE01000016.1|range_212568_to_215667	CP011562.1	86.122	245	34	0	1364	1608	946245	946489	5.89e-66	265
+LYZE01000016.1|range_212568_to_215667	CP011562.1	80.757	317	61	0	1580	1896	945957	946273	5.93e-61	248
+LYZE01000016.1|range_212568_to_215667	CP011562.1	80.757	317	61	0	1364	1680	946173	946489	5.93e-61	248
+LYZE01000016.1|range_212568_to_215667	CP011562.1	80.126	317	63	0	1580	1896	1907	1591	1.28e-57	237
+LYZE01000016.1|range_212568_to_215667	CP011562.1	82.184	174	31	0	1724	1897	1907	1734	1.72e-31	150
+LYZE01000016.1|range_212568_to_215667	CP011562.1	82.184	174	31	0	1724	1897	945957	946130	1.72e-31	150
+LYZE01000016.1|range_212568_to_215667	CP011562.1	82.184	174	31	0	1364	1537	946317	946490	1.72e-31	150
+LYZE01000016.1|range_212568_to_215667	CP011562.1	84.672	137	21	0	1760	1896	1907	1771	1.34e-27	137
+LYZE01000016.1|range_212568_to_215667	CP011562.1	84.672	137	21	0	1760	1896	945957	946093	1.34e-27	137
+LYZE01000016.1|range_212568_to_215667	CP011562.1	84.672	137	21	0	1364	1500	946353	946489	1.34e-27	137
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_218338_to_221425
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 30 hits found
+LYZE01000016.1|range_218338_to_221425	CP011562.1	100.000	3060	0	0	1	3060	944594	947653	0.0	5651
+LYZE01000016.1|range_218338_to_221425	CP011562.1	98.993	1788	18	0	1	1788	3270	1483	0.0	3203
+LYZE01000016.1|range_218338_to_221425	CP011562.1	96.790	1589	51	0	1472	3060	1907	319	0.0	2652
+LYZE01000016.1|range_218338_to_221425	CP011562.1	87.529	425	53	0	1472	1896	945957	946381	2.47e-134	492
+LYZE01000016.1|range_218338_to_221425	CP011562.1	87.529	425	53	0	1364	1788	946065	946489	2.47e-134	492
+LYZE01000016.1|range_218338_to_221425	CP011562.1	88.689	389	44	0	1508	1896	1907	1519	2.49e-129	475
+LYZE01000016.1|range_218338_to_221425	CP011562.1	87.918	389	47	0	1508	1896	945957	946345	2.51e-124	459
+LYZE01000016.1|range_218338_to_221425	CP011562.1	87.918	389	47	0	1364	1752	946101	946489	2.51e-124	459
+LYZE01000016.1|range_218338_to_221425	CP011562.1	86.632	389	52	0	1364	1752	1871	1483	5.46e-116	431
+LYZE01000016.1|range_218338_to_221425	CP011562.1	83.080	461	78	0	1436	1896	945957	946417	1.18e-112	420
+LYZE01000016.1|range_218338_to_221425	CP011562.1	83.080	461	78	0	1364	1824	946029	946489	1.18e-112	420
+LYZE01000016.1|range_218338_to_221425	CP011562.1	85.088	342	51	0	1544	1885	945957	946298	1.57e-91	350
+LYZE01000016.1|range_218338_to_221425	CP011562.1	85.088	342	51	0	1364	1705	946137	946478	1.57e-91	350
+LYZE01000016.1|range_218338_to_221425	CP011562.1	86.435	317	43	0	1364	1680	1799	1483	5.66e-91	348
+LYZE01000016.1|range_218338_to_221425	CP011562.1	83.569	353	58	0	1544	1896	1907	1555	5.70e-86	331
+LYZE01000016.1|range_218338_to_221425	CP011562.1	86.486	259	35	0	1638	1896	1885	1627	4.50e-72	285
+LYZE01000016.1|range_218338_to_221425	CP011562.1	86.719	256	34	0	1638	1893	945979	946234	4.50e-72	285
+LYZE01000016.1|range_218338_to_221425	CP011562.1	86.719	256	34	0	1386	1641	946231	946486	4.50e-72	285
+LYZE01000016.1|range_218338_to_221425	CP011562.1	86.122	245	34	0	1652	1896	1907	1663	5.86e-66	265
+LYZE01000016.1|range_218338_to_221425	CP011562.1	86.122	245	34	0	1652	1896	945957	946201	5.86e-66	265
+LYZE01000016.1|range_218338_to_221425	CP011562.1	86.122	245	34	0	1364	1608	946245	946489	5.86e-66	265
+LYZE01000016.1|range_218338_to_221425	CP011562.1	80.757	317	61	0	1580	1896	945957	946273	5.91e-61	248
+LYZE01000016.1|range_218338_to_221425	CP011562.1	80.757	317	61	0	1364	1680	946173	946489	5.91e-61	248
+LYZE01000016.1|range_218338_to_221425	CP011562.1	80.126	317	63	0	1580	1896	1907	1591	1.28e-57	237
+LYZE01000016.1|range_218338_to_221425	CP011562.1	82.184	174	31	0	1724	1897	1907	1734	1.71e-31	150
+LYZE01000016.1|range_218338_to_221425	CP011562.1	82.184	174	31	0	1724	1897	945957	946130	1.71e-31	150
+LYZE01000016.1|range_218338_to_221425	CP011562.1	82.184	174	31	0	1364	1537	946317	946490	1.71e-31	150
+LYZE01000016.1|range_218338_to_221425	CP011562.1	84.672	137	21	0	1760	1896	1907	1771	1.33e-27	137
+LYZE01000016.1|range_218338_to_221425	CP011562.1	84.672	137	21	0	1760	1896	945957	946093	1.33e-27	137
+LYZE01000016.1|range_218338_to_221425	CP011562.1	84.672	137	21	0	1364	1500	946353	946489	1.33e-27	137
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_222049_to_222574
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000016.1|range_222049_to_222574	CP011562.1	100.000	525	0	0	1	525	943363	943887	0.0	970
+LYZE01000016.1|range_222049_to_222574	CP011562.1	99.048	525	4	1	1	525	5667	5144	0.0	941
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_223267_to_223606
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000016.1|range_223267_to_223606	CP006174.2	99.706	340	0	1	1	339	1664	1325	3.03e-174	621
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_223800_to_224883
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 12 hits found
+LYZE01000016.1|range_223800_to_224883	CP011562.1	99.816	1085	0	2	1	1083	945128	946212	0.0	1991
+LYZE01000016.1|range_223800_to_224883	CP011562.1	99.724	1085	1	2	1	1083	2736	1652	0.0	1986
+LYZE01000016.1|range_223800_to_224883	CP011562.1	86.667	255	32	2	830	1082	946101	946355	2.00e-71	281
+LYZE01000016.1|range_223800_to_224883	CP011562.1	86.747	249	32	1	830	1077	1799	1551	9.31e-70	276
+LYZE01000016.1|range_223800_to_224883	CP011562.1	88.034	234	27	1	830	1062	946065	946298	9.31e-70	276
+LYZE01000016.1|range_223800_to_224883	CP011562.1	85.714	245	34	1	830	1073	946245	946489	3.37e-64	257
+LYZE01000016.1|range_223800_to_224883	CP011562.1	85.903	227	31	1	852	1077	946231	946457	3.40e-59	241
+LYZE01000016.1|range_223800_to_224883	CP011562.1	95.035	141	7	0	937	1077	1907	1767	1.23e-53	222
+LYZE01000016.1|range_223800_to_224883	CP011562.1	95.035	141	7	0	937	1077	945957	946097	1.23e-53	222
+LYZE01000016.1|range_223800_to_224883	CP011562.1	82.329	249	43	1	830	1077	946137	946385	2.06e-51	215
+LYZE01000016.1|range_223800_to_224883	CP011562.1	81.609	174	31	1	830	1002	946317	946490	9.85e-30	143
+LYZE01000016.1|range_223800_to_224883	CP011562.1	83.942	137	21	1	830	965	946353	946489	7.67e-26	130
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_225025_to_225835
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 15 hits found
+LYZE01000016.1|range_225025_to_225835	CP011562.1	99.631	813	0	2	1	810	946356	947168	0.0	1482
+LYZE01000016.1|range_225025_to_225835	CP011562.1	98.153	812	12	2	2	810	1615	804	0.0	1413
+LYZE01000016.1|range_225025_to_225835	CP011562.1	93.443	122	8	0	2	123	1651	1530	1.55e-41	182
+LYZE01000016.1|range_225025_to_225835	CP011562.1	92.623	122	9	0	2	123	946177	946298	7.19e-40	176
+LYZE01000016.1|range_225025_to_225835	CP011562.1	88.889	126	14	0	2	127	946249	946374	9.37e-34	156
+LYZE01000016.1|range_225025_to_225835	CP011562.1	88.800	125	14	0	1	125	946284	946408	3.37e-33	154
+LYZE01000016.1|range_225025_to_225835	CP011562.1	86.466	133	16	1	2	132	1795	1663	2.03e-30	145
+LYZE01000016.1|range_225025_to_225835	CP011562.1	87.302	126	16	0	2	127	946069	946194	2.03e-30	145
+LYZE01000016.1|range_225025_to_225835	CP011562.1	86.508	126	17	0	2	127	946141	946266	9.44e-29	139
+LYZE01000016.1|range_225025_to_225835	CP011562.1	85.714	126	18	0	2	127	1723	1598	4.39e-27	134
+LYZE01000016.1|range_225025_to_225835	CP011562.1	82.836	134	21	1	1	132	1904	1771	1.23e-22	119
+LYZE01000016.1|range_225025_to_225835	CP011562.1	83.465	127	21	0	1	127	945960	946086	1.23e-22	119
+LYZE01000016.1|range_225025_to_225835	CP011562.1	83.740	123	20	0	1	123	1868	1746	4.42e-22	117
+LYZE01000016.1|range_225025_to_225835	CP011562.1	83.740	123	20	0	1	123	945996	946118	4.42e-22	117
+LYZE01000016.1|range_225025_to_225835	CP011562.1	93.443	61	4	0	2	62	946429	946489	2.68e-14	91.6
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_226990_to_228313
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000016.1|range_226990_to_228313	CP011562.1	100.000	1323	0	0	1	1323	56748	58070	0.0	2444
+LYZE01000016.1|range_226990_to_228313	CP011562.1	99.622	1323	5	0	1	1323	856254	854932	0.0	2416
+LYZE01000016.1|range_226990_to_228313	CP011562.1	99.169	1324	9	2	1	1323	810266	808944	0.0	2383
+LYZE01000016.1|range_226990_to_228313	CP011562.1	98.643	1326	12	5	1	1323	844706	846028	0.0	2344
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_309020_to_309149
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000016.1|range_309020_to_309149	CP006226.2	100.000	129	0	0	1	129	128197	128325	1.13e-59	239
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_608185_to_610348
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000016.1|range_608185_to_610348	CP014731.1	100.000	2163	0	0	1	2163	439076	441238	0.0	3995
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_612354_to_613596
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000016.1|range_612354_to_613596	CP006075.2	100.000	1242	0	0	1	1242	80881	79640	0.0	2294
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_673326_to_673884
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000016.1|range_673326_to_673884	CP014731.1	100.000	558	0	0	1	558	506155	506712	0.0	1031
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_790323_to_790392
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000016.1|range_790323_to_790392	CP006236.2	100.000	69	0	0	1	69	249521	249589	1.00e-26	128
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_976244_to_979712
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000016.1|range_976244_to_979712	CP011562.1	100.000	3468	0	0	1	3468	804998	808465	0.0	6405
+LYZE01000016.1|range_976244_to_979712	CP011562.1	98.097	3469	64	2	1	3468	62016	58549	0.0	6039
+LYZE01000016.1|range_976244_to_979712	CP011562.1	97.782	3472	72	3	1	3468	849977	846507	0.0	5980
+LYZE01000016.1|range_976244_to_979712	CP011562.1	96.944	3469	104	2	1	3468	850986	854453	0.0	5818
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_980189_to_981245
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 4 hits found
+LYZE01000016.1|range_980189_to_981245	CP011562.1	100.000	1056	0	0	1	1056	808944	809999	0.0	1951
+LYZE01000016.1|range_980189_to_981245	CP011562.1	99.716	1056	3	0	1	1056	846028	844973	0.0	1934
+LYZE01000016.1|range_980189_to_981245	CP011562.1	99.621	1056	4	0	1	1056	58070	57015	0.0	1929
+LYZE01000016.1|range_980189_to_981245	CP011562.1	99.527	1056	5	0	1	1056	854932	855987	0.0	1923
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_981621_to_982677
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000016.1|range_981621_to_982677	CP005266.2	100.000	1056	0	0	1	1056	758838	757783	0.0	1951
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_983156_to_983513
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000016.1|range_983156_to_983513	CP004697.2	99.721	358	0	1	1	357	783879	784236	0.0	654
+# BLASTN 2.6.0+
+# Query: LYZE01000016.1|range_983557_to_985066
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 6 hits found
+LYZE01000016.1|range_983557_to_985066	CP011561.1	100.000	793	0	0	1	793	120203	120995	0.0	1465
+LYZE01000016.1|range_983557_to_985066	CP011561.1	99.243	793	6	0	1	793	595081	595873	0.0	1432
+LYZE01000016.1|range_983557_to_985066	CP011561.1	99.853	678	1	0	804	1481	596349	597026	0.0	1247
+LYZE01000016.1|range_983557_to_985066	CP011561.1	99.558	678	3	0	804	1481	121471	122148	0.0	1236
+LYZE01000016.1|range_983557_to_985066	CP011561.1	83.652	679	109	2	804	1481	971861	972538	1.45e-178	638
+LYZE01000016.1|range_983557_to_985066	CP011561.1	83.505	679	110	2	804	1481	703982	703305	6.74e-177	632
+# BLASTN 2.6.0+
+# Query: LYZE01000017.1|range_10059_to_10224
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000017.1|range_10059_to_10224	CP008031.1	100.000	165	0	0	1	165	13875	14039	1.51e-79	305
+# BLASTN 2.6.0+
+# Query: LYZE01000017.1|range_10485_to_11109
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000017.1|range_10485_to_11109	CP006482.2	100.000	624	0	0	1	624	14470	15093	0.0	1153
+# BLASTN 2.6.0+
+# Query: LYZE01000017.1|range_13737_to_14304
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000017.1|range_13737_to_14304	KX657745.1	100.000	567	0	0	1	567	46449	47015	0.0	1048
+# BLASTN 2.6.0+
+# Query: LYZE01000017.1|range_14322_to_15015
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000017.1|range_14322_to_15015	KX657745.1	100.000	693	0	0	1	693	47034	47726	0.0	1280
+# BLASTN 2.6.0+
+# Query: LYZE01000017.1|range_15139_to_15493
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000017.1|range_15139_to_15493	CP008269.1	100.000	354	0	0	1	354	18920	19273	0.0	654
+# BLASTN 2.6.0+
+# Query: LYZE01000017.1|range_24709_to_24913
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000017.1|range_24709_to_24913	KX657747.1	100.000	204	0	0	1	204	55041	55244	4.05e-101	377
+# BLASTN 2.6.0+
+# Query: LYZE01000017.1|range_37311_to_37512
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000017.1|range_37311_to_37512	KX657749.1	100.000	201	0	0	1	201	45036	45236	1.85e-99	372
+# BLASTN 2.6.0+
+# Query: LYZE01000017.1|range_38880_to_39147
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000017.1|range_38880_to_39147	KX657745.1	100.000	267	0	0	1	267	71953	72219	5.27e-136	494
+# BLASTN 2.6.0+
+# Query: LYZE01000017.1|range_44694_to_44925
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000017.1|range_44694_to_44925	KX657745.1	100.000	231	0	0	1	231	77999	78229	4.59e-116	427
+# BLASTN 2.6.0+
+# Query: LYZE01000017.1|range_51984_to_52215
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000017.1|range_51984_to_52215	KX657745.1	100.000	231	0	0	1	231	77999	78229	4.59e-116	427
+# BLASTN 2.6.0+
+# Query: LYZE01000017.1|range_66136_to_66322
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000017.1|range_66136_to_66322	CP008252.1	100.000	186	0	0	1	186	61022	61207	3.70e-91	344
+# BLASTN 2.6.0+
+# Query: LYZE01000017.1|range_78890_to_79058
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000017.1|range_78890_to_79058	KX657749.1	100.000	168	0	0	1	168	14026	14193	3.31e-81	311
+# BLASTN 2.6.0+
+# Query: LYZE01000018.1|range_221_to_554
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000018.1|range_221_to_554	LC143900.1	97.368	342	0	2	1	333	346	5	8.44e-160	573
+# BLASTN 2.6.0+
+# Query: LYZE01000018.1|range_974_to_1607
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000018.1|range_974_to_1607	LK111048.1	98.905	639	0	2	1	633	1806	2443	0.0	1134
+LYZE01000018.1|range_974_to_1607	LK111048.1	98.905	639	0	2	1	633	4221	4858	0.0	1134
+# BLASTN 2.6.0+
+# Query: LYZE01000018.1|range_1674_to_2019
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 2 hits found
+LYZE01000018.1|range_1674_to_2019	LK111048.1	99.710	345	0	1	1	345	2511	2854	5.14e-177	630
+LYZE01000018.1|range_1674_to_2019	LK111048.1	99.710	345	0	1	1	345	4926	5269	5.14e-177	630
+# BLASTN 2.6.0+
+# Query: LYZE01000018.1|range_4316_to_5036
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000018.1|range_4316_to_5036	LK386839.1	100.000	720	0	0	1	720	19	738	0.0	1330
+# BLASTN 2.6.0+
+# Query: LYZE01000018.1|range_5707_to_6300
+# Database: nt
+# Fields: query acc.ver, subject acc.ver, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
+# 1 hits found
+LYZE01000018.1|range_5707_to_6300	LC143900.1	100.000	593	0	0	1	593	1147	555	0.0	1096
+# BLAST processed 320 queries
