@@ -60,10 +60,11 @@ typedef enum { /* feature category ... depending on conditions in the file: but 
 	TMR=2, /* a telomere */
 	FTH=3, /* fthing */
 	YTH=4, /* ything */
-	NCA=5 /* no categry assigned */
+	NCA=5, /* no categry assigned */
+	ALL=6 /* the fc member won't get this */
 } fcat;
-#define FCQUAN 5
-char *fcnames[FCQUAN]={"ABS", "TMR", "FTH", "YTH", "NCA"};
+#define FCQUAN 6
+char *fcnames[FCQUAN]={"ABS", "TMR", "FTH", "YTH", "NCA", "ALL"};
 fcat getfc(char *cnam) /* this function has special permission to be up here */
 {
 	int i;
@@ -117,7 +118,8 @@ typedef struct /* opt_t, a struct for the options */
 	char *ystr; /* the gf22_t type */
 	char *hstr; /* the gf22_t type */
 	char *astr; /* a fasta file */
-	char *zstr; /* for the feature category enum */
+	char *zstr; /* for the feature category enum in string format */
+	char *bstr; /* blast output format 7 */
 } opt_t;
 
 typedef struct /* i4_t */
@@ -168,6 +170,16 @@ typedef struct /* gf22_t: the y option, based on rmf_t */
 	fcat fc;
 } gf22_t;
 
+typedef struct /* blop_t: the b option, bast output format 7 */
+{
+	char *n;
+	size_t nsz; /* size of the name r ID field */
+	char *tc;
+	size_t tcsz; /* size of the name r ID field */
+	int al; /* alignment length */
+	long c[2]; /* coords on the target : 1) start 2) cols 8 and 9 */
+} blop_t;
+
 typedef struct /* gf23_t: the h option, based on rmf_t */
 {
 	char *n;
@@ -216,7 +228,7 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 	int c;
 	opterr = 0;
 
-	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:q:y:a:h:z:")) != -1)
+	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:q:y:a:h:z:b:")) != -1)
 		switch (c) {
 			case 'd':
 				opts->dflg = 1;
@@ -256,6 +268,9 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 				break;
 			case 'a':
 				opts->astr = optarg;
+				break;
+			case 'b':
+				opts->bstr = optarg;
 				break;
 			case 'z':
 				opts->zstr = optarg;
@@ -548,7 +563,7 @@ void prtsqbdg(i_s *sqisz, bgr_t *bgrow, int m, int sz)
 	for(i=0;i<sz;++i) {
 		for(j=0;j<m;++j) 
 			if(!strcmp(sqisz[i].id, bgrow[j].n)) {
-				sprintf(rangestr, "|range_%li_to_%li", bgrow[j].c[0], bgrow[j].c[1]);
+				sprintf(rangestr, "|range_%li:%li", bgrow[j].c[0], bgrow[j].c[1]);
 				printf(">%s", sqisz[i].id);
 				printf("%s\n", rangestr);
 				printf("%.*s\n", (int)(bgrow[j].c[1]-bgrow[j].c[0]), sqisz[i].sq+bgrow[j].c[0]);
@@ -562,15 +577,28 @@ void prtsqbdggf22(i_s *sqisz, gf22_t *gf22, int m, int sz, fcat fc)
 {
 	int i, j;
 	char rangestr[64]={0}; /* generally helpful to say what range is being given */
-	for(j=0;j<m;++j) 
-		for(i=0;i<sz;++i) {
-			if((gf22[j].fc == fc) & !strcmp(sqisz[i].id, gf22[j].n)) {
-				sprintf(rangestr, "|range_%li_to_%li", gf22[j].c[0], gf22[j].c[1]);
-				printf(">%s", sqisz[i].id);
-				printf("%s\n", rangestr);
-				printf("%.*s\n", (int)(gf22[j].c[1]-gf22[j].c[0]), sqisz[i].sq+gf22[j].c[0]);
-				break;
-			}
+	if(fc!=ALL) {
+		for(j=0;j<m;++j) 
+			for(i=0;i<sz;++i) {
+				if((gf22[j].fc == fc) & !strcmp(sqisz[i].id, gf22[j].n)) {
+					sprintf(rangestr, "|ID:%s|range_%li:%li", gf22[j].i, gf22[j].c[0], gf22[j].c[1]);
+					printf(">%s", sqisz[i].id);
+					printf("%s\n", rangestr);
+					printf("%.*s\n", (int)(gf22[j].c[1]-gf22[j].c[0]), sqisz[i].sq+gf22[j].c[0]);
+					break;
+				}
+		}
+	} else { // will print out all annotated sequences
+		for(j=0;j<m;++j) 
+			for(i=0;i<sz;++i) {
+				if(!strcmp(sqisz[i].id, gf22[j].n)) {
+					sprintf(rangestr, "|ID:%s|range_%li:%li", gf22[j].i, gf22[j].c[0], gf22[j].c[1]);
+					printf(">%s", sqisz[i].id);
+					printf("%s\n", rangestr);
+					printf("%.*s\n", (int)(gf22[j].c[1]-gf22[j].c[0]), sqisz[i].sq+gf22[j].c[0]);
+					break;
+				}
+		}
 	}
 	return;
 }
@@ -1337,6 +1365,117 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 	return gf22;
 }
 
+blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
+{
+	/* In order to make no assumptions, the file is treated as lines containing the same amount of words each,
+	 * except for lines starting with #, which are ignored (i.e. comments). These words are checked to make sure they contain only floating number-type
+	 * characters [0123456789+-.] only, one string variable is continually written over and copied into a growing floating point array each time */
+
+	/* declarations */
+	FILE *fp=fopen(fname,"r");
+	int i;
+	size_t couc /*count chars per line */, couw=0 /* count words */, oldcouw = 0;
+	int c;
+	int idanomals=0; /* this is for testing col 8 ... ID and string often the same, lie to keep it that way too. This will count when not */
+	boole inword=0;
+	wseq_t *wa=create_wseq_t(GBUF);
+	size_t bwbuf=WBUF;
+	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
+	int cncols /* canonical numcols ... we will use the first line */;
+
+	blop_t *blop=malloc(GBUF*sizeof(blop_t));
+
+	while( (c=fgetc(fp)) != EOF) { /* grab a char */
+		if( (c== '\n') | (c == ' ') | (c == '\t') | (c=='#')) { /* word closing events */
+			if( inword==1) { /* first word closing event */
+				wa->wln[couw]=couc;
+				bufword[couc++]='\0';
+				bufword = realloc(bufword, couc*sizeof(char)); /* normalize */
+				/* for the struct, we want to know if it's the first word in a line, like so: */
+				if(couw==oldcouw) {
+					blop[wa->numl].n=malloc(couc*sizeof(char));
+					blop[wa->numl].nsz=couc;
+					strcpy(blop[wa->numl].n, bufword);
+				} else if((couw-oldcouw)==8) { /* fourth col */
+					blop[wa->numl].c[0]=atol(bufword)-1L; // change to zero indexing
+				} else if((couw-oldcouw)==9) { /* it's not the first word, and it's 1st and second col */
+					blop[wa->numl].c[1]=atol(bufword); // no 0 indexing change required here.
+				} else if((couw-oldcouw)==3) { /* 4th col is alignment length */
+					blop[wa->numl].al=atoi(bufword); // no 0 indexing change required here.
+				} else if( (couw-oldcouw)==1) { // the type string
+					blop[wa->numl].tc=malloc(couc*sizeof(char));
+					blop[wa->numl].tcsz=couc;
+					strcpy(blop[wa->numl].tc, bufword);
+				}
+				couc=0;
+				couw++;
+			}
+			if(c=='#') { /* comment case */
+				while( (c=fgetc(fp)) != '\n') ;
+				continue;
+			} else if(c=='\n') { /* end of a line */
+				if(wa->numl == wa->lbuf-1) { /* enought space in our current array? */
+					wa->lbuf += WBUF;
+					wa->wpla=realloc(wa->wpla, wa->lbuf*sizeof(size_t));
+					blop=realloc(blop, wa->lbuf*sizeof(blop_t));
+					memset(wa->wpla+(wa->lbuf-WBUF), 0, WBUF*sizeof(size_t));
+				}
+				wa->wpla[wa->numl] = couw-oldcouw; /* number of words in current line */
+				/* extra bit to catch canonical colnums */
+				if(wa->numl==0)
+					cncols=couw-oldcouw;
+				oldcouw=couw; /* restart words per line count */
+				wa->numl++; /* brand new line coming up */
+			}
+			inword=0;
+		} else if(inword==0) { /* deal with first character of new word, + and - also allowed */
+			if(couw == wa->wsbuf-1) {
+				wa->wsbuf += GBUF;
+				wa->wln=realloc(wa->wln, wa->wsbuf*sizeof(size_t));
+				blop=realloc(blop, wa->wsbuf*sizeof(blop_t));
+				for(i=wa->wsbuf-GBUF;i<wa->wsbuf;++i)
+					wa->wln[i]=0;
+			}
+			couc=0;
+			bwbuf=WBUF;
+			bufword=realloc(bufword, bwbuf*sizeof(char)); /* don't bother with memset, it's not necessary */
+			bufword[couc++]=c; /* no need to check here, it's the first character */
+			inword=1;
+		} else {
+			if(couc == bwbuf-1) { /* the -1 so that we can always add and extra (say 0) when we want */
+				bwbuf += WBUF;
+				bufword = realloc(bufword, bwbuf*sizeof(char));
+			}
+			bufword[couc++]=c;
+		}
+
+
+	} /* end of big for statement */
+	fclose(fp);
+	free(bufword);
+
+	/* normalization stage */
+	wa->quan=couw;
+	wa->wln = realloc(wa->wln, wa->quan*sizeof(size_t)); /* normalize */
+	blop = realloc(blop, wa->quan*sizeof(blop_t)); /* normalize */
+	wa->wpla= realloc(wa->wpla, wa->numl*sizeof(size_t));
+
+	*m= wa->numl;
+#ifdef DBG2
+	for(i=1;i<wa->numl;++i)
+		// if(cncols != wa->wpla[i])
+		if(GF22IDCNUM != wa->wpla[i])
+			printf("Warning: Numcols is not uniform at %i words per line on all lines. This file has one with %zu.\n", cncols, wa->wpla[i]); 
+#endif
+	*n= cncols; 
+	free_wseq(wa);
+
+	if(idanomals)
+		printf("Warning, idanomals was not zero, it was %i, so some IDs and are not exactly the same as NAMEs.\n", idanomals); 
+
+	return blop;
+}
+
 gf23_t *processgf23(char *fname, int *m, int *n) /* this is dummy nmae .. it's for the special gff format for ;yze annottion */
 {
 	/* In order to make no assumptions, the file is treated as lines containing the same amount of words each,
@@ -1696,6 +1835,16 @@ void prtrmf(char *fname, rmf_t *rmf, int m6)
 	return;
 }
 
+void prtblop(char *fname, blop_t *blop, int mb)
+{
+	int i;
+	for(i=0;i<mb;++i) // note how we cut out the spurious parts of the motif string to leave it pure and raw (slightly weird why two-char deletion is necessary.
+		printf("%s\t%i\t%s\t%li\t%li\n", blop[i].n, blop[i].al, blop[i].tc, blop[i].c[0], blop[i].c[1]);
+
+	printf("You have just seen the %i entries of blast output file called \"%s\".\n", mb, fname); 
+	return;
+}
+
 void bed2in2(char *bed2fn, bgr_t2 *bed2, int m, int n, ia_t *ia) // split into 2 files
 {
 	int i, j, k=0;
@@ -1830,6 +1979,15 @@ void prtdetg(char *fname, gf_t *gf, int m, int n, char *label)
 	for(i=0;i<m;++i)
 		printf("%s\t%li\n", gf[i].n, gf[i].z);
 
+	return;
+}
+
+void prtbed2(bgr_t2 *bed2, int m, int n, char *label)
+{
+	int i, j, k;
+	printf("Separated feature file %s is %i rows by %i columns and is as follows:\n", label, m, n); 
+	for(i=0;i<m;++i)
+		printf("%s\t%li\t%li\t%s\n", bed2[i].n, bed2[i].c[0], bed2[i].c[1], bed2[i].f);
 	return;
 }
 
@@ -2206,12 +2364,110 @@ ia_t *marmfgf2a(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf
 #endif
 		}
 		free(ra);
-		if(istarthere >= m7)
+		if(istarthere >= m6)
 			break;
 	}
 	printf("Postheader:\n"); 
 	printf("%s\t%s\t%s\t%s\t%s\n", "GF22NAM", "BEGGF22", "ENDGFF2", "FEATIDNAM", "PCTCOVBYRMF");
 	return iagf22;
+}
+
+ia_t *mablopbed2(blop_t *blop, bgr_t2 *bed2, int mb, int m2) /* match up blop and bed2: blop is usually un ordered! */
+{
+	int i, j, k;
+	int reghits; /* hits for region: number of lines in bed1 which coincide with a region in bed2 */
+	int rbf /*reghit buf */;
+	int *ra=NULL; /* array for per-outer-loop rhits */
+	int cloci; /* as opposed to hit, catch the number of loci */
+	float cpct; /* cutoff pct */
+	int rangecov=0;
+	long rbeg, rend; /* real start, real end */
+	// int istarthere=0, catchingi=0;
+	boole startcaught, endcaught; // final two imply other end is not caught
+	ia_t *iabed2=malloc(sizeof(ia_t));
+	iabed2->b=GBUF;
+	iabed2->z=0;
+	iabed2->a=calloc(iabed2->b, sizeof(int));
+
+	/* outloop governed by bed2 ... it is more likely to have whole repat sections inside it */
+	for(j=0;j<m2;++j) {
+		startcaught=0;
+		endcaught=0;
+		reghits=0;
+		rbf=GBUF;
+		ra=calloc(rbf, sizeof(int));
+		cloci=0;
+		for(i=0;i<mb;++i) {
+			if( !strcmp(blop[i].tc, bed2[j].n) ) {
+				if((blop[i].c[0] >= bed2[j].c[0]) & (blop[i].c[1] <= bed2[j].c[1]) ) {
+					CONDREALLOC(reghits, rbf, GBUF, ra, int);
+					ra[reghits]=i;
+					reghits++;
+					CONDREALLOC(iabed2->z, iabed2->b, GBUF, iabed2->a, int);
+					iabed2->a[iabed2->z]=j;
+					iabed2->z++;
+					rend=blop[i].c[1];
+				   	rbeg=blop[i].c[0]; // range covered by this hit
+					rangecov=rend-rbeg; // range covered by this hit
+#ifdef DBG
+					printf("r:%li-%li\n", rend, rbeg);
+#endif
+					cloci+=rangecov;
+					startcaught=1;
+					endcaught=1;
+				} else if((blop[i].c[0] >= bed2[j].c[0]) & (blop[i].c[0] < bed2[j].c[1]) & (blop[i].c[1] > bed2[j].c[1]) ) {
+					CONDREALLOC(reghits, rbf, GBUF, ra, int);
+					ra[reghits]=i;
+					reghits++;
+					rend=bed2[j].c[1];
+					rbeg=blop[i].c[0]; // range covered by this hit
+					rangecov=rend-rbeg; // range covered by this hit
+#ifdef DBG
+					printf("r:%li-%li\n", rend, rbeg);
+#endif
+					cloci+=rangecov;
+					startcaught=1;
+				} else if((blop[i].c[0] < bed2[j].c[0]) & (blop[i].c[1] >= bed2[j].c[0]) & (blop[i].c[1] <= bed2[j].c[1]) ) {
+					CONDREALLOC(reghits, rbf, GBUF, ra, int);
+					ra[reghits]=i;
+					reghits++;
+					rend=blop[i].c[1];
+					rbeg=bed2[j].c[0];
+					rangecov=rend-rbeg; // range covered by this hit
+#ifdef DBG
+					printf("r:%li-%li\n", rend, rbeg);
+#endif
+					cloci+=rangecov;
+					endcaught=1;
+				}
+			// } else if((startcaught) | (endcaught)) { // because it's an else to the above if, will catch first untruth after a series of truths.
+			// 	startcaught=2;
+			// 	endcaught=2;
+			// 	break; // bed1 is ordered so we can forget about trying to match anymore.
+			}
+		}
+		// if((startcaught==2) & (endcaught==2))
+		// 	istarthere=catchingi+1;
+		if(startcaught & endcaught) { // only print bed2 lines if they whollycaught anything.
+#ifdef DBG
+			printf("bed2idx %i in chr:%s w/ feature %s / xtnt %li got %i hits from blop being %i loci\n", j, bed2[j].n, bed2[j].f, bed2[j].c[1]-bed2[j].c[0], reghits, cloci);
+#else
+			cpct=(100.*cloci)/(bed2[j].c[1]-bed2[j].c[0]);
+			if(cpct>CUTOFFPCT) {
+				printf("%s\t%li\t%li\t%s\t%i\t%4.4f%%\t", bed2[j].n, bed2[j].c[0], bed2[j].c[1], bed2[j].f, cloci, cpct);
+				for(k=0;k<reghits;++k) 
+					printf("%s|", blop[k].n);
+				printf("\n"); 
+			}
+#endif
+		}
+		free(ra);
+		// if(istarthere >= mb)
+		// 	break;
+	}
+	printf("Postheader:\n"); 
+	printf("%s\t%s\t%s\t%s\t%s\n", "GF22NAM", "BEGGF22", "ENDGFF2", "FEATIDNAM", "PCTCOVBYRMF");
+	return iabed2;
 }
 
 void mgf2bed(char *gfname, char *ffile, gf_t *gf, bgr_t2 *bed2, int m2, int m5) /* match gf to feature bed file */
@@ -2455,7 +2711,7 @@ int main(int argc, char *argv[])
 		prtusage();
 		exit(EXIT_FAILURE);
 	}
-	int i, m, n /*rows,cols for bgr_t*/, m2, n2, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6, m7, n7 /*gf22 dims */, m8, n8 /* gf23 dims */;
+	int i, m, n /*rows,cols for bgr_t*/, m2, n2 /*bed2 (gff conv to bed) dims */, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6, m7, n7 /*gf22 dims */, m8, n8 /* gf23 dims */, mb, nb /*blast out file */;
     unsigned numsq; /* number of sequences in the -a (fasta) option */
 	fcat fc;
 	opt_t opts={0};
@@ -2471,6 +2727,7 @@ int main(int argc, char *argv[])
 	rmf_t *rmf=NULL; /* usually genome size file */
 	gf22_t *gf22=NULL;
 	gf23_t *gf23=NULL;
+	blop_t *blop=NULL;
 	i_s *sqisz=NULL;
 
 	/* for the ystr, gf22 hash handling */
@@ -2490,6 +2747,8 @@ int main(int argc, char *argv[])
 		dpf2=processdpf(opts.pstr, &m4b, &n4b);
 	if(opts.gstr)
 		gf=processgf(opts.gstr, &m5, &n5);
+	if(opts.bstr)
+		blop=processblop(opts.bstr, &mb, &nb);
 	if(opts.rstr)
 		rmf=processrmf(opts.rstr, &m6, &n6);
 	if(opts.ystr) { // we're goign to try hashing the ID line of gf22 format */
@@ -2517,6 +2776,18 @@ int main(int argc, char *argv[])
 		prtdetg(opts.gstr, gf, m5, n5, "Size file");
 		goto final;
 	}
+
+	ia_t *iabed2=NULL;
+	if((opts.bstr) && (opts.fstr)) {
+		iabed2=mablopbed2(blop, bed2, mb, m2);
+		printf("%i indices where %s matched by %s:\n", iabed2->z, opts.ystr, opts.rstr); 
+		for(i=0;i<iabed2->z;++i) 
+			printf("%s ", bed2[iabed2->a[i]].f); 
+		printf("\n"); 
+		free(iabed2->a);
+		free(iabed2);
+	}
+
 	if((opts.nflg) && (opts.fstr)) {
 		// prtbed2fo(opts.fstr, bed2, m2, n2, "Feature (bed2)");
 		prtbed2fo2(opts.fstr, bed2, m2, n2, "Feature (bed2)"); // alterantive skipping . and _
@@ -2530,6 +2801,7 @@ int main(int argc, char *argv[])
 		fc=getfc(opts.zstr);
 		prtsqbdggf22(sqisz, gf22, m7, numsq, fc);
 	}
+
 	ia_t *iagf22=NULL; /* indexes where gf22 is matched by rmpmk file */
 	if((opts.rstr) && (opts.ystr)) {
 		iagf22=marmfgf2a(rmf, gf22, m6, m7); /* don't forget to try the alt version */
@@ -2541,7 +2813,9 @@ int main(int argc, char *argv[])
 		free(iagf22);
 	}
 
-	// prtbed2(bed2, m2, MXCOL2VIEW);
+	if((opts.dflg) && (opts.fstr))
+		prtbed2(bed2, m2, n2, opts.fstr);
+
 	if((opts.istr) && (opts.fstr))
 		m2beds(bgrow, bed2, m2, m);
 
@@ -2556,6 +2830,9 @@ int main(int argc, char *argv[])
 
 	if((opts.dflg) && (opts.rstr) )
 		prtrmf(opts.rstr, rmf, m6);
+
+	if((opts.dflg) && (opts.bstr) )
+		prtblop(opts.bstr, blop, mb);
 
 	if((opts.dflg) && (opts.ystr) ) {
 		prtgf22(opts.ystr, gf22, m7);
@@ -2625,6 +2902,13 @@ final:
 		for(i=0;i<m5;++i)
 			free(gf[i].n);
 		free(gf);
+	}
+	if(opts.bstr) {
+		for(i=0;i<mb;++i) {
+			free(blop[i].n);
+			free(blop[i].tc);
+		}
+		free(blop);
 	}
 	if(opts.ustr) {
 		for(i=0;i<m3;++i)
