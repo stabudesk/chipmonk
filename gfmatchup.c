@@ -1100,6 +1100,7 @@ rmf_t *processrmf(char *fname, int *m, int *n) /*fourth column is string, other 
 	wseq_t *wa=create_wseq_t(GBUF);
 	size_t bwbuf=WBUF;
 	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
+	char *fsm, *lqm /* first semicolon mark, last quotation mark*/;
 
 	rmf_t *rmf=malloc(GBUF*sizeof(rmf_t));
 
@@ -1121,9 +1122,12 @@ rmf_t *processrmf(char *fname, int *m, int *n) /*fourth column is string, other 
 				} else if((couw-oldcouw)==6 )  { /* the strand */
 					rmf[wa->numl].sd=bufword[0];
 				} else if( (couw-oldcouw)==9) { // the motif string
-					rmf[wa->numl].m=malloc(couc*sizeof(char));
-					rmf[wa->numl].msz=couc;
-					strcpy(rmf[wa->numl].m, bufword);
+					fsm=strchr(bufword, ':');
+					lqm=strrchr(bufword, '"');
+					rmf[wa->numl].msz=(size_t)(lqm-fsm);
+					rmf[wa->numl].m=malloc(rmf[wa->numl].msz*sizeof(char));
+					memcpy(rmf[wa->numl].m, fsm+1, (rmf[wa->numl].msz-1)*sizeof(char));
+					rmf[wa->numl].m[rmf[wa->numl].msz-1]='\0'; // null terminate
 				}
 				couc=0;
 				couw++;
@@ -2107,7 +2111,7 @@ void marmfgf2(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf22
 	return;
 }
 
-void marmfgf2_(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf22i: alt version only looks at ABS over a certain pct */
+ia_t *marmfgf2a(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf22i: alt version only looks at ABS over a certain pct */
 {
 	int i, j, k;
 	int reghits; /* hits for region: number of lines in bed1 which coincide with a region in gf22 */
@@ -2119,6 +2123,11 @@ void marmfgf2_(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf2
 	long rbeg, rend; /* real start, real end */
 	int istarthere=0, catchingi=0;
 	boole startcaught, endcaught; // final two imply other end is not caught
+	ia_t *iagf22=malloc(sizeof(ia_t));
+	iagf22->b=GBUF;
+	iagf22->z=0;
+	iagf22->a=calloc(iagf22->b, sizeof(int));
+
 	/* outloop governed by gf22 ... it is more likely to have whole repat sections inside it */
 	for(j=0;j<m7;++j) {
 		if(gf22[j].fc!=ABS)
@@ -2135,6 +2144,9 @@ void marmfgf2_(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf2
 					CONDREALLOC(reghits, rbf, GBUF, ra, int);
 					ra[reghits]=i;
 					reghits++;
+					CONDREALLOC(iagf22->z, iagf22->b, GBUF, iagf22->a, int);
+					iagf22->a[iagf22->z]=j;
+					iagf22->z++;
 					rend=rmf[i].c[1];
 				   	rbeg=rmf[i].c[0]; // range covered by this hit
 					rangecov=rend-rbeg; // range covered by this hit
@@ -2199,7 +2211,7 @@ void marmfgf2_(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf2
 	}
 	printf("Postheader:\n"); 
 	printf("%s\t%s\t%s\t%s\t%s\n", "GF22NAM", "BEGGF22", "ENDGFF2", "FEATIDNAM", "PCTCOVBYRMF");
-	return;
+	return iagf22;
 }
 
 void mgf2bed(char *gfname, char *ffile, gf_t *gf, bgr_t2 *bed2, int m2, int m5) /* match gf to feature bed file */
@@ -2518,8 +2530,16 @@ int main(int argc, char *argv[])
 		fc=getfc(opts.zstr);
 		prtsqbdggf22(sqisz, gf22, m7, numsq, fc);
 	}
-	if((opts.rstr) && (opts.ystr))
-		marmfgf2_(rmf, gf22, m6, m7); /* don't forget to try the alt version */
+	ia_t *iagf22=NULL; /* indexes where gf22 is matched by rmpmk file */
+	if((opts.rstr) && (opts.ystr)) {
+		iagf22=marmfgf2a(rmf, gf22, m6, m7); /* don't forget to try the alt version */
+		printf("%i indices where %s matched by %s:\n", iagf22->z, opts.ystr, opts.rstr); 
+		for(i=0;i<iagf22->z;++i) 
+			printf("%s ", gf22[iagf22->a[i]].i); 
+		printf("\n"); 
+		free(iagf22->a);
+		free(iagf22);
+	}
 
 	// prtbed2(bed2, m2, MXCOL2VIEW);
 	if((opts.istr) && (opts.fstr))
