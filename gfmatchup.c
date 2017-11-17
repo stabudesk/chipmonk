@@ -2023,32 +2023,72 @@ void marmfgf2(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf22
 	int reghits; /* hits for region: number of lines in bed1 which coincide with a region in gf22 */
 	int cloci; /* as opposed to hit, catch the number of loci */
 	int rangecov=0;
+	long rbeg, rend; /* real start, real end */
 	int istarthere=0, catchingi=0;
-	boole caught;
+	boole startcaught, endcaught; // final two imply other end is not caught
 	/* outloop governed by gf22 ... it is more likely to have whole repat sections inside it */
 	for(j=0;j<m7;++j) {
-		caught=0;
+		startcaught=0;
+		endcaught=0;
 		reghits=0;
 		cloci=0;
 		for(i=istarthere;i<m6;++i) {
-			if( !(strcmp(rmf[i].n, gf22[j].n)) & (rmf[i].c[0] >= gf22[j].c[0]) & (rmf[i].c[1] <= gf22[j].c[1]) ) {
-				reghits++;
-				rangecov=rmf[i].c[1] - rmf[i].c[0]; // range covered by this hit
-				cloci+=rangecov;
-				catchingi=i; // a way of not going back to the beginning, see later.
-				caught=1;
-			} else if (caught) { // because it's an else to the above if, will catch first untruth after a series of truths.
-				caught=2;
+			if( !strcmp(rmf[i].n, gf22[j].n) ) {
+				if((rmf[i].c[0] >= gf22[j].c[0]) & (rmf[i].c[1] <= gf22[j].c[1]) ) {
+					reghits++;
+					rend=rmf[i].c[1];
+				   	rbeg=rmf[i].c[0]; // range covered by this hit
+					rangecov=rend-rbeg; // range covered by this hit
+#ifdef DBG
+					printf("r:%li-%li\n", rend, rbeg);
+#endif
+					cloci+=rangecov;
+					catchingi=i; // a way of not going back to the beginning, see later.
+					startcaught=1;
+					endcaught=1;
+				} else if((rmf[i].c[0] >= gf22[j].c[0]) & (rmf[i].c[0] < gf22[j].c[1]) & (rmf[i].c[1] > gf22[j].c[1]) ) {
+					reghits++;
+					rend=gf22[j].c[1];
+					rbeg=rmf[i].c[0]; // range covered by this hit
+					rangecov=rend-rbeg; // range covered by this hit
+#ifdef DBG
+					printf("r:%li-%li\n", rend, rbeg);
+#endif
+					cloci+=rangecov;
+					catchingi=i; // a way of not going back to the beginning, see later.
+					startcaught=1;
+				} else if((rmf[i].c[0] < gf22[j].c[0]) & (rmf[i].c[1] >= gf22[j].c[0]) & (rmf[i].c[1] <= gf22[j].c[1]) ) {
+					reghits++;
+					rend=rmf[i].c[1];
+					rbeg=gf22[j].c[0];
+					rangecov=rend-rbeg; // range covered by this hit
+#ifdef DBG
+					printf("r:%li-%li\n", rend, rbeg);
+#endif
+					cloci+=rangecov;
+					catchingi=i; // a way of not going back to the beginning, see later.
+					endcaught=1;
+				}
+			} else if((startcaught) | (endcaught)) { // because it's an else to the above if, will catch first untruth after a series of truths.
+				startcaught=2;
+				endcaught=2;
 				break; // bed1 is ordered so we can forget about trying to match anymore.
 			}
 		}
-		if(caught==2)
+		if((startcaught==2) & (endcaught==2))
 			istarthere=catchingi+1;
-		if(caught) // only print gf22 lines if they caught anything.
+		if(startcaught & endcaught) { // only print gf22 lines if they whollycaught anything.
+#ifdef DBG
 			printf("gf22idx %i in chr:%s w/ ID %s / xtnt %li got %i hits from rmf being %i loci\n", j, gf22[j].n, gf22[j].i, gf22[j].c[1]-gf22[j].c[0], reghits, cloci);
+#else
+			printf("%s\t%li\t%li\t%s\t%4.4f\n", gf22[j].n, gf22[j].c[0], gf22[j].c[1], gf22[j].i, (float)cloci/(gf22[j].c[1]-gf22[j].c[0]));
+#endif
+		}
 		if(istarthere >= m7)
 			break;
 	}
+	printf("Postheader:\n"); 
+	printf("%s\t%s\t%s\t%s\t%s\n", "GF22NAM", "BEGGF22", "ENDGFF2", "FEATIDNAM", "PCTCOVBYRMF");
 	return;
 }
 
