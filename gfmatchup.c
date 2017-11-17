@@ -32,6 +32,7 @@
 #define SSZ 2 /* CG count, first, AT count second, third are the anomalous characters */
 #define NUMBUCKETS 20
 #define GF22IDCNUM 9 /* fr the ID field 9th col: GF22 ID Col Number */
+#define CUTOFFPCT 50.0
 
 // the following is the way we cut out later columns that we have chosen to ignore
 #define MXCOL2VIEW 4
@@ -2019,8 +2020,10 @@ void m2beds(bgr_t *bgrow, bgr_t2 *bed2, int m2, int m) /* match up 2 beds */
 
 void marmfgf2(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf22 */
 {
-	int i, j;
+	int i, j, k;
 	int reghits; /* hits for region: number of lines in bed1 which coincide with a region in gf22 */
+	int rbf /*reghit buf */;
+	int *ra=NULL; /* array for per-outer-loop rhits */
 	int cloci; /* as opposed to hit, catch the number of loci */
 	int rangecov=0;
 	long rbeg, rend; /* real start, real end */
@@ -2031,10 +2034,14 @@ void marmfgf2(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf22
 		startcaught=0;
 		endcaught=0;
 		reghits=0;
+		rbf=GBUF;
+		ra=calloc(rbf, sizeof(int));
 		cloci=0;
 		for(i=istarthere;i<m6;++i) {
 			if( !strcmp(rmf[i].n, gf22[j].n) ) {
 				if((rmf[i].c[0] >= gf22[j].c[0]) & (rmf[i].c[1] <= gf22[j].c[1]) ) {
+					CONDREALLOC(reghits, rbf, GBUF, ra, int);
+					ra[reghits]=i;
 					reghits++;
 					rend=rmf[i].c[1];
 				   	rbeg=rmf[i].c[0]; // range covered by this hit
@@ -2047,6 +2054,8 @@ void marmfgf2(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf22
 					startcaught=1;
 					endcaught=1;
 				} else if((rmf[i].c[0] >= gf22[j].c[0]) & (rmf[i].c[0] < gf22[j].c[1]) & (rmf[i].c[1] > gf22[j].c[1]) ) {
+					CONDREALLOC(reghits, rbf, GBUF, ra, int);
+					ra[reghits]=i;
 					reghits++;
 					rend=gf22[j].c[1];
 					rbeg=rmf[i].c[0]; // range covered by this hit
@@ -2058,6 +2067,8 @@ void marmfgf2(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf22
 					catchingi=i; // a way of not going back to the beginning, see later.
 					startcaught=1;
 				} else if((rmf[i].c[0] < gf22[j].c[0]) & (rmf[i].c[1] >= gf22[j].c[0]) & (rmf[i].c[1] <= gf22[j].c[1]) ) {
+					CONDREALLOC(reghits, rbf, GBUF, ra, int);
+					ra[reghits]=i;
 					reghits++;
 					rend=rmf[i].c[1];
 					rbeg=gf22[j].c[0];
@@ -2081,9 +2092,108 @@ void marmfgf2(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf22
 #ifdef DBG
 			printf("gf22idx %i in chr:%s w/ ID %s / xtnt %li got %i hits from rmf being %i loci\n", j, gf22[j].n, gf22[j].i, gf22[j].c[1]-gf22[j].c[0], reghits, cloci);
 #else
-			printf("%s\t%li\t%li\t%s\t%4.4f\n", gf22[j].n, gf22[j].c[0], gf22[j].c[1], gf22[j].i, (float)cloci/(gf22[j].c[1]-gf22[j].c[0]));
+			printf("%s\t%li\t%li\t%s\t%i\t%4.4f%%\t", gf22[j].n, gf22[j].c[0], gf22[j].c[1], gf22[j].i, cloci, (100.*cloci)/(gf22[j].c[1]-gf22[j].c[0]));
+			for(k=0;k<reghits;++k) 
+				printf("%s|", rmf[k].m);
+			printf("\n"); 
 #endif
 		}
+		free(ra);
+		if(istarthere >= m7)
+			break;
+	}
+	printf("Postheader:\n"); 
+	printf("%s\t%s\t%s\t%s\t%s\n", "GF22NAM", "BEGGF22", "ENDGFF2", "FEATIDNAM", "PCTCOVBYRMF");
+	return;
+}
+
+void marmfgf2_(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf22i: alt version only looks at ABS over a certain pct */
+{
+	int i, j, k;
+	int reghits; /* hits for region: number of lines in bed1 which coincide with a region in gf22 */
+	int rbf /*reghit buf */;
+	int *ra=NULL; /* array for per-outer-loop rhits */
+	int cloci; /* as opposed to hit, catch the number of loci */
+	float cpct; /* cutoff pct */
+	int rangecov=0;
+	long rbeg, rend; /* real start, real end */
+	int istarthere=0, catchingi=0;
+	boole startcaught, endcaught; // final two imply other end is not caught
+	/* outloop governed by gf22 ... it is more likely to have whole repat sections inside it */
+	for(j=0;j<m7;++j) {
+		if(gf22[j].fc!=ABS)
+			continue;
+		startcaught=0;
+		endcaught=0;
+		reghits=0;
+		rbf=GBUF;
+		ra=calloc(rbf, sizeof(int));
+		cloci=0;
+		for(i=istarthere;i<m6;++i) {
+			if( !strcmp(rmf[i].n, gf22[j].n) ) {
+				if((rmf[i].c[0] >= gf22[j].c[0]) & (rmf[i].c[1] <= gf22[j].c[1]) ) {
+					CONDREALLOC(reghits, rbf, GBUF, ra, int);
+					ra[reghits]=i;
+					reghits++;
+					rend=rmf[i].c[1];
+				   	rbeg=rmf[i].c[0]; // range covered by this hit
+					rangecov=rend-rbeg; // range covered by this hit
+#ifdef DBG
+					printf("r:%li-%li\n", rend, rbeg);
+#endif
+					cloci+=rangecov;
+					catchingi=i; // a way of not going back to the beginning, see later.
+					startcaught=1;
+					endcaught=1;
+				} else if((rmf[i].c[0] >= gf22[j].c[0]) & (rmf[i].c[0] < gf22[j].c[1]) & (rmf[i].c[1] > gf22[j].c[1]) ) {
+					CONDREALLOC(reghits, rbf, GBUF, ra, int);
+					ra[reghits]=i;
+					reghits++;
+					rend=gf22[j].c[1];
+					rbeg=rmf[i].c[0]; // range covered by this hit
+					rangecov=rend-rbeg; // range covered by this hit
+#ifdef DBG
+					printf("r:%li-%li\n", rend, rbeg);
+#endif
+					cloci+=rangecov;
+					catchingi=i; // a way of not going back to the beginning, see later.
+					startcaught=1;
+				} else if((rmf[i].c[0] < gf22[j].c[0]) & (rmf[i].c[1] >= gf22[j].c[0]) & (rmf[i].c[1] <= gf22[j].c[1]) ) {
+					CONDREALLOC(reghits, rbf, GBUF, ra, int);
+					ra[reghits]=i;
+					reghits++;
+					rend=rmf[i].c[1];
+					rbeg=gf22[j].c[0];
+					rangecov=rend-rbeg; // range covered by this hit
+#ifdef DBG
+					printf("r:%li-%li\n", rend, rbeg);
+#endif
+					cloci+=rangecov;
+					catchingi=i; // a way of not going back to the beginning, see later.
+					endcaught=1;
+				}
+			} else if((startcaught) | (endcaught)) { // because it's an else to the above if, will catch first untruth after a series of truths.
+				startcaught=2;
+				endcaught=2;
+				break; // bed1 is ordered so we can forget about trying to match anymore.
+			}
+		}
+		if((startcaught==2) & (endcaught==2))
+			istarthere=catchingi+1;
+		if(startcaught & endcaught) { // only print gf22 lines if they whollycaught anything.
+#ifdef DBG
+			printf("gf22idx %i in chr:%s w/ ID %s / xtnt %li got %i hits from rmf being %i loci\n", j, gf22[j].n, gf22[j].i, gf22[j].c[1]-gf22[j].c[0], reghits, cloci);
+#else
+			cpct=(100.*cloci)/(gf22[j].c[1]-gf22[j].c[0]);
+			if(cpct>CUTOFFPCT) {
+				printf("%s\t%li\t%li\t%s\t%i\t%4.4f%%\t", gf22[j].n, gf22[j].c[0], gf22[j].c[1], gf22[j].i, cloci, cpct);
+				for(k=0;k<reghits;++k) 
+					printf("%s|", rmf[k].m);
+				printf("\n"); 
+			}
+#endif
+		}
+		free(ra);
 		if(istarthere >= m7)
 			break;
 	}
@@ -2409,7 +2519,7 @@ int main(int argc, char *argv[])
 		prtsqbdggf22(sqisz, gf22, m7, numsq, fc);
 	}
 	if((opts.rstr) && (opts.ystr))
-		marmfgf2(rmf, gf22, m6, m7);
+		marmfgf2_(rmf, gf22, m6, m7); /* don't forget to try the alt version */
 
 	// prtbed2(bed2, m2, MXCOL2VIEW);
 	if((opts.istr) && (opts.fstr))
