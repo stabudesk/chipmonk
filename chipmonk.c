@@ -54,6 +54,55 @@
 
 typedef unsigned char boole;
 
+typedef enum { /* type category: CDS, gene or whitever */
+	GNE=1, /* gene */
+	CDS=2, /* cds */
+	MRN=3, /* cds */
+	ARS=4, /* cds */
+	TEL=5, /* cds */
+	INR=6, /* cds */
+	NCE=7, /* uncat */
+	TRG=8, /* uncat */
+	NRG=9, /* uncat */
+	RRG=10, /* uncat */
+	ORR=11, /* uncat */
+	TLR=12,
+	XEL=13,
+	XEC=14,
+	CE1=15,
+	CE2=16,
+	CE3=17,
+	ACS=18,
+	SRG=19,
+	P1T=20,
+	LTR=21,
+	TEG=22,
+	LT0=23,
+	YPE=24,
+	RGN=25,
+	MAS=26,
+	PSU=27,
+	UI5=28,
+	CE0=29,
+	ETS=30,
+	ITS=31,
+	NTR=32,
+	SNR=33,
+	BRF=34,
+	TR0=35,
+	SMT=36,
+	WRG=37,
+	XRG=38,
+	YRG=39,
+	Z1R=40,
+	Z2R=41,
+	MTR=42,
+	IER=43,
+	UCT=44 /* uncat */
+} tcat;
+#define TCQUAN 44
+char *tcnames[TCQUAN]={"gene", "CDS", "mRNA", "ARS", "telomere", "intron", "noncoding_exon", "tRNA_gene", "ncRNA_gene", "rRNA_gene", "origin_of_replication", "telomeric_repeat", "X_element", "X_element_combinatorial_repeat", "centromere_DNA_Element_I", "centromere_DNA_Element_II", "centromere_DNA_Element_III", "ARS_consensus_sequence", "snoRNA_gene", "plus_1_translational_frameshift", "LTR_retrotransposon", "transposable_element_gene", "long_terminal_repeat",  "Y_prime_element", "region", "matrix_attachment_site", "pseudogene", "five_prime_UTR_intron", "centromere", "external_transcribed_spacer_region", "internal_transcribed_spacer_region", "non_transcribed_region", "snRNA_gene", "blocked_reading_frame", "telomerase_RNA_gene", "silent_mating_type_cassette_array", "W_region", "X_region", "Y_region", "Z1_region", "Z2_region", "mating_type_region", "intein_encoding_region", "uncat"};
+
 typedef struct /* onefa */
 {
 	char *id;
@@ -127,6 +176,7 @@ typedef struct /* bgr_t2 */
 	long c[2]; /* coords: 1) start 2) end */
 	char *f, *s, *t; /* f for feature .. 4th col */
 	size_t fsz, ssz, tsz; /* size of the feature field*/
+	tcat tc;
 } bgr_t2; /* bedgraph row type 2i. column is the feature */
 
 typedef struct /* rmf_t: repeatmasker gff2 file format */
@@ -1133,7 +1183,7 @@ bgr_t2 *processinpf2(char *fname, int *m, int *n) /*fourth column is string, oth
 	int i;
 	size_t couc /*count chars per line */, couw=0 /* count words */, oldcouw = 0;
 	int c;
-	boole inword=0;
+	boole inword=0, foundtype;
 	wseq_t *wa=create_wseq_t(GBUF);
 	size_t bwbuf=WBUF;
 	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
@@ -1165,6 +1215,15 @@ bgr_t2 *processinpf2(char *fname, int *m, int *n) /*fourth column is string, oth
 					bgrow[wa->numl].t=malloc(couc*sizeof(char));
 					bgrow[wa->numl].tsz=couc;
 					strcpy(bgrow[wa->numl].t, bufword);
+					foundtype=0;
+					for(i=0;i<TCQUAN-1;++i) 
+						if(!strcmp(bufword, tcnames[i])) {
+							bgrow[wa->numl].tc=i+1;
+							foundtype=1;
+							break;
+						}
+					if(!foundtype)
+						bgrow[wa->numl].tc=UCT;
 				}
 				couc=0;
 				couw++;
@@ -2019,6 +2078,28 @@ ia_t *gensplbdx(bgr_t2 *bed2, int m, int n, words_t *bedword, int m3, int n3) /*
 	return ia;
 }
 
+void prtbed2fo_(char *fname, bgr_t2 *bgrow, int m, int n, char *label) /* will print all -f feature bed file */
+{
+	int i;
+	printf("%s file called %s is %i rows by %i columns and has following features:\n", label, fname, m, n); 
+	printf("Type quantities:\n"); 
+	tcat tcarr[TCQUAN]={0};
+	for(i=0;i<m;++i) {
+		tcarr[bgrow[i].tc-1]++;
+		if(bgrow[i].tc == UCT) 
+			printf("%i|%s ", i, bgrow[i].t);
+		printf("\n"); 
+	}
+	// for(i=0;i<TCQUAN;++i)
+	// 	printf((i==TCQUAN-1)?"%s\n":"%s\t", tcnames[i]); 
+	// for(i=0;i<TCQUAN;++i)
+	// 	printf((i==TCQUAN-1)?"%i\n":"%i\t", tcarr[i]); 
+	for(i=0;i<TCQUAN;++i)
+		printf("%s:%i\n", tcnames[i], tcarr[i]); 
+
+	return;
+}
+
 void prtbed2fo(char *fname, bgr_t2 *bgrow, int m, int n, char *label) /* will print all -f feature bed file */
 {
 	int i;
@@ -2034,22 +2115,37 @@ void prtbed2fo(char *fname, bgr_t2 *bgrow, int m, int n, char *label) /* will pr
 
 void mbed2yg(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, ygl_t *yglst, int myg, ygsnod **stab, unsigned tsz)
 {
-	int i;
+	unsigned char found;
+	int i, k=0;
     ygsnod *tsnod0, *tsnod2;
     unsigned tint;
+	unsigned gbuf=GBUF;
+	int *nfiarr=malloc(gbuf*sizeof(int)); /* the not found index array */
 	printf("%s bed file with %i records matched again YG list file %s with %i records:\n", fname0, m2, fname2, myg); 
 	for(i=0;i<m2;++i) {
+		found = 0;
         tint=hashit(bgrow[i].f, tsz);
         tsnod2=stab[tint];
         while( (tsnod2 != NULL) ){
             if(!strcmp(tsnod2->yglst->y, bgrow[i].f)) {
 				printf("%s\t%s\t%s matches %s\t%s\t%s\n", bgrow[i].f, bgrow[i].s, bgrow[i].t, tsnod2->yglst->s, tsnod2->yglst->g, tsnod2->yglst->d);
+				found = 1;
 				break;
 			}
             tsnod0=tsnod2;
             tsnod2=tsnod2->n;
 		}
+		if(!found) {
+			CONDREALLOC(k, gbuf, GBUF, nfiarr, int);
+			nfiarr[k++]=i;
+		}
 	}
+	nfiarr=realloc(nfiarr, k*sizeof(int));
+	printf("features from %s which did not match:\n", fname0);
+	for(i=0;i<k;++i) 
+		printf("%i|%s ", nfiarr[i], bgrow[nfiarr[i]].f); 
+	printf("\n"); 
+	free(nfiarr);
 
 	return;
 }
@@ -2442,7 +2538,7 @@ int main(int argc, char *argv[])
 		goto final;
 	}
 	if((opts.dflg) && (opts.fstr)) {
-		prtbed2fo(opts.fstr, bed2, m2, n2, "Feature (bed2)");
+		prtbed2fo_(opts.fstr, bed2, m2, n2, "Feature (bed2)");
 		goto final;
 	}
 	if((opts.nflg) && (opts.fstr)) {
@@ -2470,6 +2566,8 @@ int main(int argc, char *argv[])
 	}
 
 	if((opts.fstr) && (opts.lstr) )
+		// ./chipmonk -f sacchmys_annotsnochrline.bed -l ygallg.tsv
+		// with his yo can match up the S228 annotation witht he YG list
 		mbed2yg(opts.fstr, opts.lstr, bed2, m2, yglst, myg, stabyg, htszyg);
 
 	if((opts.dflg) && (opts.rstr) )
