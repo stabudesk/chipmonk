@@ -102,6 +102,7 @@ typedef enum { /* type category: CDS, gene or whitever */
 } tcat;
 #define TCQUAN 44
 char *tcnames[TCQUAN]={"gene", "CDS", "mRNA", "ARS", "telomere", "intron", "noncoding_exon", "tRNA_gene", "ncRNA_gene", "rRNA_gene", "origin_of_replication", "telomeric_repeat", "X_element", "X_element_combinatorial_repeat", "centromere_DNA_Element_I", "centromere_DNA_Element_II", "centromere_DNA_Element_III", "ARS_consensus_sequence", "snoRNA_gene", "plus_1_translational_frameshift", "LTR_retrotransposon", "transposable_element_gene", "long_terminal_repeat",  "Y_prime_element", "region", "matrix_attachment_site", "pseudogene", "five_prime_UTR_intron", "centromere", "external_transcribed_spacer_region", "internal_transcribed_spacer_region", "non_transcribed_region", "snRNA_gene", "blocked_reading_frame", "telomerase_RNA_gene", "silent_mating_type_cassette_array", "W_region", "X_region", "Y_region", "Z1_region", "Z2_region", "mating_type_region", "intein_encoding_region", "uncat"};
+// const char *importantf="gene";
 
 typedef struct /* onefa */
 {
@@ -143,7 +144,7 @@ typedef struct /* opt_t, a struct for the options */
 	char *gstr; /* genome file name */
 	char *rstr; /* repeatmasker gtf/gff2 file */
 	char *ystr; /* the gf22_t type */
-	char *hstr; /* the gf22_t type */
+	char *hstr; /* the gf23_t type */
 	char *astr; /* a fasta file */
 } opt_t;
 
@@ -251,7 +252,14 @@ struct strchainode /* gf22snod struct */
 };
 typedef struct strchainode gf22snod; /* yes, leave this alone, it's the way a struct can have a ptr ot its own type! */
 
-struct strchainode3 /* gf22snod struct */
+struct strchainode2 /* bt2snod struct ..e for the -f option */
+{
+    bgr_t2 *bed2; /* ptr to a single element, not an array, TODO void* it .. oh yeah sure. */
+    struct strchainode2 *n;
+};
+typedef struct strchainode2 bt2snod; /* yes, leave this alone, it's the way a struct can have a ptr ot its own type! */
+
+struct strchainode3 /* gf23snod struct */
 {
     gf23_t *gf23; /* ptr to a single element, not an array, TODO void* it. */
     struct strchainode3 *n;
@@ -305,6 +313,40 @@ gf22snod **gf22tochainharr(gf22_t *gf22, unsigned numsq, unsigned tsz)
         }
         tsnod0->n=malloc(sizeof(gf22snod));
         tsnod0->n->gf22=gf22+i;
+        tsnod0->n->n=NULL;
+nxt:        continue;
+    }
+    return stab;
+}
+
+bt2snod **bt2tochainharr(bgr_t2 *bed2, unsigned numsq, unsigned tsz)
+{
+    unsigned i;
+
+    bt2snod **stab=malloc(tsz*sizeof(bt2snod *));
+    for(i=0;i<tsz;++i) 
+        stab[i]=NULL; /* _is_ a valid ptr, but it's unallocated. Initialization is possible though. */
+    bt2snod *tsnod0, *tsnod2;
+
+    unsigned tint;
+    for(i=0; i<numsq; ++i) {
+        tint=hashit(bed2[i].f, tsz);
+        if( (stab[tint] == NULL) ) {
+            stab[tint]=malloc(sizeof(bt2snod));
+            stab[tint]->bed2=bed2+i;
+            stab[tint]->n=NULL;
+            continue;
+        }
+        tsnod2=stab[tint];
+        while( (tsnod2 != NULL) ){
+            if(!strcmp(tsnod2->bed2->f, bed2[i].f)) {
+                goto nxt;
+            }
+            tsnod0=tsnod2;
+            tsnod2=tsnod2->n;
+        }
+        tsnod0->n=malloc(sizeof(bt2snod));
+        tsnod0->n->bed2=bed2+i;
         tsnod0->n->n=NULL;
 nxt:        continue;
     }
@@ -377,6 +419,22 @@ ygsnod **ygtochainharr(ygl_t *yglst, unsigned numsq, unsigned tsz)
 nxt:        continue;
     }
     return stab;
+}
+
+void prtbt2chaharr(bt2snod **stab, unsigned tsz)
+{
+    unsigned i;
+    bt2snod *tsnod2;
+    for(i=0;i<tsz;++i) {
+        printf("Tablepos %i: ", i); 
+        tsnod2=stab[i];
+        while(tsnod2) {
+            printf("\"%s\" ", tsnod2->bed2->f); 
+            tsnod2=tsnod2->n;
+        }
+        printf("\n"); 
+    }
+    return;
 }
 
 void prtgf22chaharr(gf22snod **stab, unsigned tsz)
@@ -454,6 +512,29 @@ void freegf23chainharr(gf23snod **stab, size_t tsz)
 {
     int i;
     gf23snod *tsnod0, *tsnod2;
+    for(i=0; i<tsz; ++i) {
+        if( (stab[i] != NULL) ) {
+            while( (stab[i]->n != NULL) ) {
+                tsnod0=stab[i];
+                tsnod2=stab[i]->n;
+                while((tsnod2->n != NULL) ){
+                    tsnod0=tsnod2;
+                    tsnod2=tsnod2->n;
+                }
+                free(tsnod0->n);
+                tsnod0->n=NULL;
+            }
+            free(stab[i]);
+        }
+    }
+    free(stab);
+    return;
+}
+
+void freebt2chainharr(bt2snod **stab, size_t tsz)
+{
+    int i;
+    bt2snod *tsnod0, *tsnod2;
     for(i=0; i<tsz; ++i) {
         if( (stab[i] != NULL) ) {
             while( (stab[i]->n != NULL) ) {
@@ -581,6 +662,23 @@ void prtsq(i_s *sqisz, int sz)
 }
 
 void prtsqbdg(i_s *sqisz, bgr_t *bgrow, int m, int sz)
+{
+	int i, j;
+	char rangestr[64]={0}; /* generally helpful to say what range is being given */
+	for(i=0;i<sz;++i) {
+		for(j=0;j<m;++j) 
+			if(!strcmp(sqisz[i].id, bgrow[j].n)) {
+				sprintf(rangestr, "|range_%li_to_%li", bgrow[j].c[0], bgrow[j].c[1]);
+				printf(">%s", sqisz[i].id);
+				printf("%s\n", rangestr);
+				printf("%.*s\n", (int)(bgrow[j].c[1]-bgrow[j].c[0]), sqisz[i].sq+bgrow[j].c[0]);
+				break;
+			}
+	}
+	return;
+}
+
+void prtsqbdgf(i_s *sqisz, bgr_t2 *bgrow, int m, int sz)
 {
 	int i, j;
 	char rangestr[64]={0}; /* generally helpful to say what range is being given */
@@ -2150,6 +2248,149 @@ void mbed2yg(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, ygl_t *yglst, in
 	return;
 }
 
+void mbed2ya(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2, unsigned htsz2, gf22_t *gf22, int m7, gf22snod **stab, unsigned tsz)
+{
+	unsigned char found;
+	int numfound=0i, numfound2=0;
+	int i, k=0;
+    gf22snod *tsnod0=NULL, *tsnod2=NULL;
+    bt2snod *tsnodd0=NULL, *tsnodd2=NULL;
+    unsigned tint;
+	unsigned gbuf=GBUF;
+	int *nfiarr=malloc(gbuf*sizeof(int)); /* the not found index array */
+	printf("%s bed file with %i records matched against YA file %s with %i records:\n", fname0, m2, fname2, m7); 
+	for(i=0;i<m2;++i) {
+		found = 0;
+        tint=hashit(bgrow[i].f, tsz);
+        tsnod2=stab[tint];
+        while( (tsnod2 != NULL) ){
+            if(!strcmp(tsnod2->gf22->i, bgrow[i].f)) {
+				printf("%s\t%s\t%s matches.\n", bgrow[i].f, bgrow[i].s, bgrow[i].t);
+				numfound++;
+				found = 1;
+				break;
+			}
+            tsnod0=tsnod2;
+            tsnod2=tsnod2->n;
+		}
+		if(!found) {
+			CONDREALLOC(k, gbuf, GBUF, nfiarr, int);
+			nfiarr[k++]=i;
+		}
+	}
+	nfiarr=realloc(nfiarr, k*sizeof(int));
+	printf("%i features found, though %i features in \"%s\" did not match \"%s\".\n", numfound, k, fname0, fname2);
+#if DBG
+	printf("features from %s which did not match:\n", fname0);
+	for(i=0;i<k;++i) 
+		printf("%i|%s ", nfiarr[i], bgrow[nfiarr[i]].f); 
+	printf("\n"); 
+#endif
+	free(nfiarr);
+	gbuf=GBUF;
+	k=0;
+	nfiarr=malloc(gbuf*sizeof(int));
+	for(i=0;i<m7;++i) {
+		found = 0;
+        tint=hashit(gf22[i].i, tsz);
+        tsnodd2=stab2[tint];
+        while( (tsnodd2 != NULL) ) {
+			printf("%s vs. %s\n", tsnodd2->bed2->f, gf22[i].i);
+            if(!strcmp(tsnodd2->bed2->f, gf22[i].i)) {
+				printf("%s\t%s\t%s in \%s\" matches.\n", gf22[i].i, fname2);
+				numfound2++;
+				found = 1;
+				break;
+			}
+            tsnodd0=tsnodd2;
+            tsnodd2=tsnodd2->n;
+		}
+		if(!found) {
+			CONDREALLOC(k, gbuf, GBUF, nfiarr, int);
+			nfiarr[k++]=i;
+		}
+	}
+	nfiarr=realloc(nfiarr, k*sizeof(int));
+	printf("%i features found, though %i features in \"%s\" did not match \"%s\".\n", numfound2, k, fname2, fname0);
+	free(nfiarr);
+
+	return;
+}
+
+void mbed2ya1(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2, unsigned htsz2, gf22_t *gf22, int m7, gf22snod **stab, unsigned tsz) /* S288 ref is very big .. we only want genes */
+{
+	/* this version of mbed2ya only check for 1 feature type, usually gene. */
+	unsigned char found;
+	int numfound=0, numfound2=0;
+	int i, k=0;
+    gf22snod *tsnod0=NULL, *tsnod2=NULL;
+    bt2snod *tsnodd0=NULL, *tsnodd2=NULL;
+    unsigned tint;
+	unsigned gbuf=GBUF;
+	int *nfiarr=malloc(gbuf*sizeof(int)); /* the not found index array */
+	printf("%s bed file with %i records matched against YA file %s with %i records:\n", fname0, m2, fname2, m7); 
+	for(i=0;i<m2;++i) {
+		if(bgrow[i].tc != GNE)
+			continue;
+		found = 0;
+        tint=hashit(bgrow[i].f, tsz);
+        tsnod2=stab[tint];
+        while( (tsnod2 != NULL) ){
+            if(!strcmp(tsnod2->gf22->i, bgrow[i].f)) {
+				printf("%s\t%s\t%s matches.\n", bgrow[i].f, bgrow[i].s, bgrow[i].t);
+				numfound++;
+				found = 1;
+				break;
+			}
+            tsnod0=tsnod2;
+            tsnod2=tsnod2->n;
+		}
+		if(!found) {
+			CONDREALLOC(k, gbuf, GBUF, nfiarr, int);
+			nfiarr[k++]=i;
+		}
+	}
+	nfiarr=realloc(nfiarr, k*sizeof(int));
+	printf("%i features found, though %i features in \"%s\" did not match \"%s\".\n", numfound, k, fname0, fname2);
+#if DBG
+	printf("features from %s which did not match:\n", fname0);
+	for(i=0;i<k;++i) 
+		printf("%i|%s ", nfiarr[i], bgrow[nfiarr[i]].f); 
+	printf("\n"); 
+#endif
+	free(nfiarr);
+	gbuf=GBUF;
+	k=0;
+	nfiarr=malloc(gbuf*sizeof(int));
+	for(i=0;i<m7;++i) {
+		found = 0;
+        tint=hashit(gf22[i].i, tsz);
+        tsnodd2=stab2[tint];
+        while( (tsnodd2 != NULL) ) {
+			if(tsnodd2->bed2->tc != GNE)
+				goto keepmoving;
+			printf("%s vs. %s\n", tsnodd2->bed2->f, gf22[i].i);
+            if(!strcmp(tsnodd2->bed2->f, gf22[i].i)) {
+				printf("%s\t%s\t%s in \%s\" matches.\n", gf22[i].i, fname2);
+				numfound2++;
+				found = 1;
+				break;
+			}
+keepmoving: tsnodd0=tsnodd2;
+            tsnodd2=tsnodd2->n;
+		}
+		if(!found) {
+			CONDREALLOC(k, gbuf, GBUF, nfiarr, int);
+			nfiarr[k++]=i;
+		}
+	}
+	nfiarr=realloc(nfiarr, k*sizeof(int));
+	printf("%i features found, though %i features in \"%s\" did not match \"%s\".\n", numfound2, k, fname2, fname0);
+	free(nfiarr);
+
+	return;
+}
+
 void prtbed2fo2(char *fname, bgr_t2 *bgrow, int m, int n, char *label) /* all -f bed file features except dots and _mRNA ending ones */
 {
 	int i;
@@ -2459,8 +2700,8 @@ void prtusage()
 	printf("-d, this is a flag, it stands of details, to be used with a single filename specification option, merely allows you see details of the file.\n");
 	printf("-a: takes a fasta file.\n");
 	printf("-h: takes a GFF3 format, but rejects . and mRNA and grabs ID on 10th not 9th column.\n");
-	printf("-y: takes a variation of the GFF2 format, a table, column nine gives the Y-name.\n");
-	printf("-l: takes a Yeast Genome listing file ... obtaned from their website.\n");
+	printf("-y: takes a variation of the GFF2 format, a table, column nine gives the Y-name. eg. Output of YG annotator service\n");
+	printf("-l: takes a Yeast Genome listing file ... obtained from their website.\n");
 	printf("-n: the names flag ... to only print out feature names.\n");
 	return;
 }
@@ -2491,8 +2732,9 @@ int main(int argc, char *argv[])
 	i_s *sqisz=NULL;
 
 	/* for the ystr, gf22 hash handling */
-    unsigned htsz, htsz3, htszyg;
+    unsigned htsz, htsz2, htsz3, htszyg;
     gf22snod **stab=NULL;
+    bt2snod **stab2=NULL;
     gf23snod **stab3=NULL;
     ygsnod **stabyg=NULL;
 
@@ -2503,8 +2745,11 @@ int main(int argc, char *argv[])
 	}
 	if(opts.istr)
 		bgrow=processinpf(opts.istr, &m, &n);
-	if(opts.fstr)
+	if(opts.fstr) {
 		bed2=processinpf2(opts.fstr, &m2, &n2);
+		htsz2=2*m2/3; /* our hash table size */
+		stab2=bt2tochainharr(bed2, m2, htsz2);
+	}
 	if(opts.ustr)
 		bedword=processwordf(opts.ustr, &m3, &n3);
 	if(opts.pstr)
@@ -2538,9 +2783,11 @@ int main(int argc, char *argv[])
 		goto final;
 	}
 	if((opts.dflg) && (opts.fstr)) {
-		prtbed2fo_(opts.fstr, bed2, m2, n2, "Feature (bed2)");
+		// prtbed2fo_(opts.fstr, bed2, m2, n2, "Feature (bed2)");
+		prtbt2chaharr(stab2, htsz2);
 		goto final;
 	}
+
 	if((opts.nflg) && (opts.fstr)) {
 		// prtbed2fo(opts.fstr, bed2, m2, n2, "Feature (bed2)");
 		prtbed2fo2(opts.fstr, bed2, m2, n2, "Feature (bed2)"); // alterantive skipping . and _
@@ -2570,6 +2817,9 @@ int main(int argc, char *argv[])
 		// with his yo can match up the S228 annotation witht he YG list
 		mbed2yg(opts.fstr, opts.lstr, bed2, m2, yglst, myg, stabyg, htszyg);
 
+	if((opts.fstr) && (opts.ystr) )
+		mbed2ya1(opts.fstr, opts.ystr, bed2, m2, stab2, htsz2, gf22, m7, stab, htsz);
+
 	if((opts.dflg) && (opts.rstr) )
 		prtrmf(opts.rstr, rmf, m6);
 
@@ -2588,6 +2838,10 @@ int main(int argc, char *argv[])
 
 	/* bedgraph and fasta file */
 	if((opts.istr) && (opts.astr) )
+		prtsqbdg(sqisz, bgrow, m, numsq);
+
+	/* bed2 feature and fasta file */
+	if((opts.fstr) && (opts.astr) )
 		prtsqbdg(sqisz, bgrow, m, numsq);
 
 	if((opts.gstr) && (opts.rstr) )
