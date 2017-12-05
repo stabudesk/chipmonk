@@ -88,6 +88,7 @@ typedef struct /* opt_t, a struct for the options */
 	char *istr; /* first bedgraph file, the target of the filtering by the second */
 	char *fstr; /* the name of the feature bed file, often converted from GFF3 */
 	char *ustr; /* the name of a file with the list of elements to be unified */
+	char *lstr; /* YG list with IDs */
 	char *pstr; /* depth file name */
 	char *qstr; /* 2nddepth file name */
 	char *gstr; /* genome file name */
@@ -112,6 +113,12 @@ typedef struct /* bgr_t: bedgraph file chrom|start|exend|float */
 	long c[2]; /* coords: 1) start 2) end */
 	float co; /* signal value */
 } bgr_t; /* bedgraph row type */
+
+typedef struct /* ygl_t */
+{
+	char *s /* S-id */, *y /* Y-id */, *g /* Gene-id, if any */, *d /* Desc, if any */;
+	size_t ssz, ysz, gsz, dsz;
+} ygl_t; /* Listing from Yeast Genome */
 
 typedef struct /* bgr_t2 */
 {
@@ -676,7 +683,7 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 	int c;
 	opterr = 0;
 
-	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:q:y:a:h:")) != -1)
+	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:q:y:a:h:l:")) != -1)
 		switch (c) {
 			case 'd':
 				opts->dflg = 1;
@@ -686,6 +693,9 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 				break;
 			case 'n':
 				opts->nflg = 1;
+				break;
+			case 'l':
+				opts->lstr = optarg;
 				break;
 			case 'i':
 				opts->istr = optarg;
@@ -928,6 +938,104 @@ bgr_t *processinpf(char *fname, int *m, int *n)
 	free_wseq(wa);
 
 	return bgrow;
+}
+
+ygl_t *processygl(char *fname, int *m, int *n)
+{
+	/* In order to make no assumptions, the file is treated as lines containing the same amount of words each,
+	 * except for lines starting with #, which are ignored (i.e. comments). These words are checked to make sure they contain only floating number-type
+	 * characters [0123456789+-.] only, one string variable is continually written over and copied into a growing floating point array each time */
+
+	/* declarations */
+	FILE *fp=fopen(fname,"r");
+	int i;
+	size_t couc /*count chars per line */, couw=0 /* count words */, oldcouw = 0;
+	int c;
+	boole inword=0;
+	wseq_t *wa=create_wseq_t(GBUF);
+	size_t bwbuf=WBUF;
+	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
+
+	ygl_t *yglst=malloc(GBUF*sizeof(ygl_t));
+
+	while( (c=fgetc(fp)) != EOF) { /* grab a char */
+		if( (c== '\n') | (c == '\t') | (c=='#')) { /* word closing events */
+			if( inword==1) { /* first word closing event */
+				wa->wln[couw]=couc;
+				bufword[couc++]='\0';
+				bufword = realloc(bufword, couc*sizeof(char)); /* normalize */
+				/* for the struct, we want to know if it's the first word in a line, like so: */
+				if(couw==oldcouw) {
+					yglst[wa->numl].s=malloc(couc*sizeof(char));
+					yglst[wa->numl].ssz=couc;
+					strcpy(yglst[wa->numl].s, bufword);
+				} else if((couw-oldcouw)== 1) {
+					yglst[wa->numl].y=malloc(couc*sizeof(char));
+					yglst[wa->numl].ysz=couc;
+					strcpy(yglst[wa->numl].y, bufword);
+				} else if((couw-oldcouw)== 3) {
+					yglst[wa->numl].g=malloc(couc*sizeof(char));
+					yglst[wa->numl].gsz=couc;
+					strcpy(yglst[wa->numl].g, bufword);
+				}
+				couc=0;
+				couw++;
+			}
+			if(c=='#') { /* comment case */
+				while( (c=fgetc(fp)) != '\n') ;
+				continue;
+			} else if(c=='\n') { /* end of a line */
+				if(wa->numl == wa->lbuf-1) { /* enought space in our current array? */
+					wa->lbuf += WBUF;
+					wa->wpla=realloc(wa->wpla, wa->lbuf*sizeof(size_t));
+					yglst=realloc(yglst, wa->lbuf*sizeof(ygl_t));
+					memset(wa->wpla+(wa->lbuf-WBUF), 0, WBUF*sizeof(size_t));
+				}
+				wa->wpla[wa->numl] = couw-oldcouw; /* number of words in current line */
+				oldcouw=couw; /* restart words per line count */
+				wa->numl++; /* brand new line coming up */
+			}
+			inword=0;
+		} else if(inword==0) { /* deal with first character of new word, + and - also allowed */
+			if(couw == wa->wsbuf-1) {
+				wa->wsbuf += GBUF;
+				wa->wln=realloc(wa->wln, wa->wsbuf*sizeof(size_t));
+				yglst=realloc(yglst, wa->wsbuf*sizeof(ygl_t));
+				for(i=wa->wsbuf-GBUF;i<wa->wsbuf;++i)
+					wa->wln[i]=0;
+			}
+			couc=0;
+			bwbuf=WBUF;
+			bufword=realloc(bufword, bwbuf*sizeof(char)); /* don't bother with memset, it's not necessary */
+			bufword[couc++]=c; /* no need to check here, it's the first character */
+			inword=1;
+		} else {
+			if(couc == bwbuf-1) { /* the -1 so that we can always add and extra (say 0) when we want */
+				bwbuf += WBUF;
+				bufword = realloc(bufword, bwbuf*sizeof(char));
+			}
+			bufword[couc++]=c;
+		}
+
+	} /* end of big for statement */
+	fclose(fp);
+	free(bufword);
+
+	/* normalization stage */
+	wa->quan=couw;
+	wa->wln = realloc(wa->wln, wa->quan*sizeof(size_t)); /* normalize */
+	yglst = realloc(yglst, wa->quan*sizeof(ygl_t)); /* normalize */
+	wa->wpla= realloc(wa->wpla, wa->numl*sizeof(size_t));
+
+	*m= wa->numl;
+	int k=wa->wpla[0];
+	for(i=1;i<wa->numl;++i)
+		if(k != wa->wpla[i])
+			printf("Warning: Numcols is not uniform at %i words per line on all lines. This file has one with %zu.\n", k, wa->wpla[i]); 
+	*n= k; 
+	free_wseq(wa);
+
+	return yglst;
 }
 
 bgr_t2 *processinpf2(char *fname, int *m, int *n) /*fourth column is string, other columns to be ignored */
@@ -1618,6 +1726,16 @@ void prtrmf(char *fname, rmf_t *rmf, int m6)
 	return;
 }
 
+void prtygl(char *fname, ygl_t *yglst, int myg)
+{
+	int i;
+	for(i=0;i<myg;++i) 
+		printf("%s\t%s\t%s\n", yglst[i].s, yglst[i].y, yglst[i].g);
+
+	printf("You have just seen the %i entries of yeast genome lst file called \"%s\".\n", myg, fname); 
+	return;
+}
+
 void bed2in2(char *bed2fn, bgr_t2 *bed2, int m, int n, ia_t *ia) // split into 2 files
 {
 	int i, j, k=0;
@@ -2141,7 +2259,7 @@ int main(int argc, char *argv[])
 		prtusage();
 		exit(EXIT_FAILURE);
 	}
-	int i, m, n /*rows,cols for bgr_t*/, m2, n2, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6, m7, n7 /*gf22 dims */, m8, n8 /* gf23 dims */;
+	int i, m, n /*rows,cols for bgr_t*/, m2, n2, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6, m7, n7 /*gf22 dims */, m8, n8 /* gf23 dims */, myg, nyg;
     unsigned numsq; /* number of sequences in the -a (fasta) option */
 	opt_t opts={0};
 	catchopts(&opts, argc, argv);
@@ -2156,6 +2274,7 @@ int main(int argc, char *argv[])
 	rmf_t *rmf=NULL; /* usually genome size file */
 	gf22_t *gf22=NULL;
 	gf23_t *gf23=NULL;
+	ygl_t *yglst=NULL;
 	i_s *sqisz=NULL;
 
 	/* for the ystr, gf22 hash handling */
@@ -2163,6 +2282,8 @@ int main(int argc, char *argv[])
     gf22snod **stab=NULL;
     gf23snod **stab3=NULL;
 
+	if(opts.lstr)
+		yglst=processygl(opts.lstr, &myg, &nyg);
 	if(opts.istr)
 		bgrow=processinpf(opts.istr, &m, &n);
 	if(opts.fstr)
@@ -2216,6 +2337,9 @@ int main(int argc, char *argv[])
 
 	if((opts.pstr) && (opts.fstr) )
 		md2bedp(dpf, bed2, m2, m4);
+
+	if((opts.dflg) && (opts.lstr) )
+		prtygl(opts.ystr, yglst, myg);
 
 	if((opts.dflg) && (opts.rstr) )
 		prtrmf(opts.rstr, rmf, m6);
@@ -2293,6 +2417,14 @@ final:
 		for(i=0;i<m3;++i)
 			free(bedword[i].n);
 		free(bedword);
+	}
+	if(opts.lstr) {
+		for(i=0;i<myg;++i) {
+			free(yglst[i].s);
+			free(yglst[i].y);
+			free(yglst[i].g);
+		}
+		free(yglst);
 	}
 	if(opts.ystr) {
 		freegf22chainharr(stab, htsz);
