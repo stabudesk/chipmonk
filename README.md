@@ -33,3 +33,9 @@ so in as363's gff file we have five entries for chr18 (although with subnumbers 
 The reference not only has 18, but also 19, 20, and 21. QUite likely these are contigs that could
 not not be packaged into the other chromosomes.
 What we shall do is take the 5 annotations in chr18, and render their subnumbers as 1.
+
+# data files
+Beware W303\_LYZE\_ioptrf\_v2.gff, this is an output of chip monk
+there isn't really a way of inputting it,
+use the raw  W303\_LYZE\_IGVoptimised\_rf.gff
+instead
