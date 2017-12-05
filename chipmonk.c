@@ -125,8 +125,8 @@ typedef struct /* bgr_t2 */
 	char *n;
 	size_t nsz; /* size of the name r ID field */
 	long c[2]; /* coords: 1) start 2) end */
-	char *f; /* f for feature .. 4th col */
-	size_t fsz; /* size of the feature field*/
+	char *f, *s, *t; /* f for feature .. 4th col */
+	size_t fsz, ssz, tsz; /* size of the feature field*/
 } bgr_t2; /* bedgraph row type 2i. column is the feature */
 
 typedef struct /* rmf_t: repeatmasker gff2 file format */
@@ -208,6 +208,13 @@ struct strchainode3 /* gf22snod struct */
 };
 typedef struct strchainode3 gf23snod; /* yes, leave this alone, it's the way a struct can have a ptr ot its own type! */
 
+struct strchainodeyg /* ygsnod struct */
+{
+    ygl_t *yglst; /* ptr to a single element, not an array, TODO void* it. */
+    struct strchainodeyg *n;
+};
+typedef struct strchainodeyg ygsnod; /* yes, leave this alone, it's the way a struct can have a ptr ot its own type! */
+
 unsigned hashit(char *str, unsigned tsz) /* Dan Bernstein's one */
 {
     unsigned long hash = 5381;
@@ -288,6 +295,40 @@ nxt:        continue;
     return stab;
 }
 
+ygsnod **ygtochainharr(ygl_t *yglst, unsigned numsq, unsigned tsz)
+{
+    unsigned i;
+
+    ygsnod **stab=malloc(tsz*sizeof(ygsnod *));
+    for(i=0;i<tsz;++i) 
+        stab[i]=NULL; /* _is_ a valid ptr, but it's unallocated. Initialization is possible though. */
+    ygsnod *tsnod0, *tsnod2;
+
+    unsigned tint;
+    for(i=0; i<numsq; ++i) {
+        tint=hashit(yglst[i].y, tsz);
+        if( (stab[tint] == NULL) ) {
+            stab[tint]=malloc(sizeof(ygsnod));
+            stab[tint]->yglst=yglst+i;
+            stab[tint]->n=NULL;
+            continue;
+        }
+        tsnod2=stab[tint];
+        while( (tsnod2 != NULL) ){
+            if(!strcmp(tsnod2->yglst->y, yglst[i].y)) {
+                goto nxt;
+            }
+            tsnod0=tsnod2;
+            tsnod2=tsnod2->n;
+        }
+        tsnod0->n=malloc(sizeof(ygsnod));
+        tsnod0->n->yglst=yglst+i;
+        tsnod0->n->n=NULL;
+nxt:        continue;
+    }
+    return stab;
+}
+
 void prtgf22chaharr(gf22snod **stab, unsigned tsz)
 {
     unsigned i;
@@ -343,10 +384,49 @@ void prtgf23chaharr(gf23snod **stab, unsigned tsz)
     return;
 }
 
+void prtygchaharr(ygsnod **stab, unsigned tsz)
+{
+    unsigned i;
+    ygsnod *tsnod2;
+    for(i=0;i<tsz;++i) {
+        printf("Tablepos %i: ", i); 
+        tsnod2=stab[i];
+        while(tsnod2) {
+            printf("\"%s\" ", tsnod2->yglst->y); 
+            tsnod2=tsnod2->n;
+        }
+        printf("\n"); 
+    }
+    return;
+}
+
 void freegf23chainharr(gf23snod **stab, size_t tsz)
 {
     int i;
     gf23snod *tsnod0, *tsnod2;
+    for(i=0; i<tsz; ++i) {
+        if( (stab[i] != NULL) ) {
+            while( (stab[i]->n != NULL) ) {
+                tsnod0=stab[i];
+                tsnod2=stab[i]->n;
+                while((tsnod2->n != NULL) ){
+                    tsnod0=tsnod2;
+                    tsnod2=tsnod2->n;
+                }
+                free(tsnod0->n);
+                tsnod0->n=NULL;
+            }
+            free(stab[i]);
+        }
+    }
+    free(stab);
+    return;
+}
+
+void freeygchainharr(ygsnod **stab, size_t tsz)
+{
+    int i;
+    ygsnod *tsnod0, *tsnod2;
     for(i=0; i<tsz; ++i) {
         if( (stab[i] != NULL) ) {
             while( (stab[i]->n != NULL) ) {
@@ -977,6 +1057,10 @@ ygl_t *processygl(char *fname, int *m, int *n)
 					yglst[wa->numl].g=malloc(couc*sizeof(char));
 					yglst[wa->numl].gsz=couc;
 					strcpy(yglst[wa->numl].g, bufword);
+				} else if((couw-oldcouw)== 4) {
+					yglst[wa->numl].d=malloc(couc*sizeof(char));
+					yglst[wa->numl].dsz=couc;
+					strcpy(yglst[wa->numl].d, bufword);
 				}
 				couc=0;
 				couw++;
@@ -1069,10 +1153,18 @@ bgr_t2 *processinpf2(char *fname, int *m, int *n) /*fourth column is string, oth
 					strcpy(bgrow[wa->numl].n, bufword);
 				} else if((couw-oldcouw)<3) { /* it's not the first word, and it's 1st and second col */
 					bgrow[wa->numl].c[couw-oldcouw-1]=atol(bufword);
-				} else if( (couw-oldcouw)==3) { // assume float
+				} else if( (couw-oldcouw)==3) {
 					bgrow[wa->numl].f=malloc(couc*sizeof(char));
 					bgrow[wa->numl].fsz=couc;
 					strcpy(bgrow[wa->numl].f, bufword);
+				} else if( (couw-oldcouw)==6) {
+					bgrow[wa->numl].s=malloc(couc*sizeof(char));
+					bgrow[wa->numl].ssz=couc;
+					strcpy(bgrow[wa->numl].s, bufword);
+				} else if( (couw-oldcouw)==7) {
+					bgrow[wa->numl].t=malloc(couc*sizeof(char));
+					bgrow[wa->numl].tsz=couc;
+					strcpy(bgrow[wa->numl].t, bufword);
 				}
 				couc=0;
 				couw++;
@@ -1730,7 +1822,7 @@ void prtygl(char *fname, ygl_t *yglst, int myg)
 {
 	int i;
 	for(i=0;i<myg;++i) 
-		printf("%s\t%s\t%s\n", yglst[i].s, yglst[i].y, yglst[i].g);
+		printf("%s\t%s\t%s\t%s\n", yglst[i].s, yglst[i].y, yglst[i].g, yglst[i].d);
 
 	printf("You have just seen the %i entries of yeast genome lst file called \"%s\".\n", myg, fname); 
 	return;
@@ -1931,10 +2023,33 @@ void prtbed2fo(char *fname, bgr_t2 *bgrow, int m, int n, char *label) /* will pr
 {
 	int i;
 	printf("%s file called %s is %i rows by %i columns and has following features:\n", label, fname, m, n); 
-	printf("You can direct these name into a file and then present to this program again under the -u option,\n");
+	printf("You can direct these names into a file and then present to this program again under the -u option,\n");
 	printf("whereupon only those names will be looked at\n");
-	for(i=0;i<m;++i)
-		printf("%s\n", bgrow[i].f);
+	for(i=0;i<m;++i) {
+		printf("%s\t%s\t%s\n", bgrow[i].f, bgrow[i].s, bgrow[i].t);
+	}
+
+	return;
+}
+
+void mbed2yg(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, ygl_t *yglst, int myg, ygsnod **stab, unsigned tsz)
+{
+	int i;
+    ygsnod *tsnod0, *tsnod2;
+    unsigned tint;
+	printf("%s bed file with %i records matched again YG list file %s with %i records:\n", fname0, m2, fname2, myg); 
+	for(i=0;i<m2;++i) {
+        tint=hashit(bgrow[i].f, tsz);
+        tsnod2=stab[tint];
+        while( (tsnod2 != NULL) ){
+            if(!strcmp(tsnod2->yglst->y, bgrow[i].f)) {
+				printf("%s\t%s\t%s matches %s\t%s\t%s\n", bgrow[i].f, bgrow[i].s, bgrow[i].t, tsnod2->yglst->s, tsnod2->yglst->g, tsnod2->yglst->d);
+				break;
+			}
+            tsnod0=tsnod2;
+            tsnod2=tsnod2->n;
+		}
+	}
 
 	return;
 }
@@ -2242,13 +2357,15 @@ i4_t *difca(bgr_t *bgrow, int m, int *dcasz, float minsig) /* An temmpt to merge
 
 void prtusage()
 {
-	printf("chipmonk: this takes a bedgraph file, specified by -i, probably the bedgraph from a MACS2 intensity signal,\n");
-	printf("and another bedgraph file, specified by -f, and merges the first into lines defined by the second.\n");
-	printf("Before filtering however, please run with the -d (details) option. This will show a rough spread of the values,\n");
-	printf("Other options:\n");
+	printf("chipmonk: takes a variety of genomic features ifles (principally yeast, but can be modified) with following options:\n");
+	printf("-i, this is for a bedgraph type file.\n");
+	printf("-f, this is for a feature file in bed format, probably converted from gff.\n");
+	printf("-d, this is a flag, it stands of details, to be used with a single filename specification option, merely allows you see details of the file.\n");
 	printf("-a: takes a fasta file.\n");
 	printf("-h: takes a GFF3 format, but rejects . and mRNA and grabs ID on 10th not 9th column.\n");
 	printf("-y: takes a variation of the GFF2 format, a table, column nine gives the Y-name.\n");
+	printf("-l: takes a Yeast Genome listing file ... obtaned from their website.\n");
+	printf("-n: the names flag ... to only print out feature names.\n");
 	return;
 }
 
@@ -2278,12 +2395,16 @@ int main(int argc, char *argv[])
 	i_s *sqisz=NULL;
 
 	/* for the ystr, gf22 hash handling */
-    unsigned htsz, htsz3;
+    unsigned htsz, htsz3, htszyg;
     gf22snod **stab=NULL;
     gf23snod **stab3=NULL;
+    ygsnod **stabyg=NULL;
 
-	if(opts.lstr)
+	if(opts.lstr) {
 		yglst=processygl(opts.lstr, &myg, &nyg);
+		htszyg=2*myg/3;
+		stabyg=ygtochainharr(yglst, myg, htszyg);
+	}
 	if(opts.istr)
 		bgrow=processinpf(opts.istr, &m, &n);
 	if(opts.fstr)
@@ -2320,6 +2441,10 @@ int main(int argc, char *argv[])
 		prtdetg(opts.gstr, gf, m5, n5, "Size file");
 		goto final;
 	}
+	if((opts.dflg) && (opts.fstr)) {
+		prtbed2fo(opts.fstr, bed2, m2, n2, "Feature (bed2)");
+		goto final;
+	}
 	if((opts.nflg) && (opts.fstr)) {
 		// prtbed2fo(opts.fstr, bed2, m2, n2, "Feature (bed2)");
 		prtbed2fo2(opts.fstr, bed2, m2, n2, "Feature (bed2)"); // alterantive skipping . and _
@@ -2338,8 +2463,14 @@ int main(int argc, char *argv[])
 	if((opts.pstr) && (opts.fstr) )
 		md2bedp(dpf, bed2, m2, m4);
 
-	if((opts.dflg) && (opts.lstr) )
-		prtygl(opts.ystr, yglst, myg);
+	if((opts.dflg) && (opts.lstr) ) {
+		// ./chipmonk -d -l yg0.lst
+		prtygl(opts.lstr, yglst, myg);
+		prtygchaharr(stabyg, htszyg);
+	}
+
+	if((opts.fstr) && (opts.lstr) )
+		mbed2yg(opts.fstr, opts.lstr, bed2, m2, yglst, myg, stabyg, htszyg);
 
 	if((opts.dflg) && (opts.rstr) )
 		prtrmf(opts.rstr, rmf, m6);
@@ -2368,7 +2499,9 @@ int main(int argc, char *argv[])
 		mgf2dpf(opts.gstr, opts.pstr, gf, dpf, m4, m5);
 
 	if((opts.gstr) && (opts.fstr) )
+		// i.e. ./chipmonk_d -f sacchmys_annotsnochrline.bed -g S288_maniid.sizes
 		mgf2bed(opts.gstr, opts.fstr, gf, bed2, m2, m5);
+
 	// if((opts.ustr) && (opts.fstr) && opts.sflg)
 	// 	prtbed2s(bed2, m2, MXCOL2VIEW, bedword, m3, n3, "bed2 features that are in interesting-feature-file");
 
@@ -2398,6 +2531,8 @@ final:
 		for(i=0;i<m2;++i) {
 			free(bed2[i].n);
 			free(bed2[i].f);
+			free(bed2[i].s);
+			free(bed2[i].t);
 		}
 		free(bed2);
 	}
@@ -2419,10 +2554,12 @@ final:
 		free(bedword);
 	}
 	if(opts.lstr) {
+		freeygchainharr(stabyg, htszyg);
 		for(i=0;i<myg;++i) {
 			free(yglst[i].s);
 			free(yglst[i].y);
 			free(yglst[i].g);
+			free(yglst[i].d);
 		}
 		free(yglst);
 	}
