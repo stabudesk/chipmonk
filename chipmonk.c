@@ -218,7 +218,7 @@ typedef struct /* words_t: file with only single words per line */
 {
 	char *n;
 	size_t nsz; /* size of the name r ID field */
-} words_t; /* bedgraph row type */
+} words_t;
 
 typedef struct /* dpf_t : depth file type ... just chr name, pos and read quant: so, single base-locus positions, yes? */
 {
@@ -2215,7 +2215,7 @@ void mbed2yg(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, ygl_t *yglst, in
 {
 	unsigned char found;
 	int i, k=0;
-    ygsnod *tsnod0, *tsnod2;
+    ygsnod *tsnod0=NULL, *tsnod2=NULL;
     unsigned tint;
 	unsigned gbuf=GBUF;
 	int *nfiarr=malloc(gbuf*sizeof(int)); /* the not found index array */
@@ -2292,12 +2292,12 @@ void mbed2ya(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2,
 	nfiarr=malloc(gbuf*sizeof(int));
 	for(i=0;i<m7;++i) {
 		found = 0;
-        tint=hashit(gf22[i].i, tsz);
+        tint=hashit(gf22[i].i, htsz2);
         tsnodd2=stab2[tint];
         while( (tsnodd2 != NULL) ) {
 			printf("%s vs. %s\n", tsnodd2->bed2->f, gf22[i].i);
             if(!strcmp(tsnodd2->bed2->f, gf22[i].i)) {
-				printf("%s\t%s\t%s in \%s\" matches.\n", gf22[i].i, fname2);
+				printf("%s in \"%s\" matches at %s, %li to %li.\n", gf22[i].i, fname2, tsnodd2->bed2->n, tsnodd2->bed2->c[0], tsnodd2->bed2->c[1]);
 				numfound2++;
 				found = 1;
 				break;
@@ -2337,7 +2337,9 @@ void mbed2ya1(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2
         tsnod2=stab[tint];
         while( (tsnod2 != NULL) ){
             if(!strcmp(tsnod2->gf22->i, bgrow[i].f)) {
+#ifdef DBG
 				printf("%s\t%s\t%s matches.\n", bgrow[i].f, bgrow[i].s, bgrow[i].t);
+#endif
 				numfound++;
 				found = 1;
 				break;
@@ -2364,14 +2366,18 @@ void mbed2ya1(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2
 	nfiarr=malloc(gbuf*sizeof(int));
 	for(i=0;i<m7;++i) {
 		found = 0;
-        tint=hashit(gf22[i].i, tsz);
+        tint=hashit(gf22[i].i, htsz2); // be careful, had copy-pasted and forgot about changing tsz to htsz2
         tsnodd2=stab2[tint];
         while( (tsnodd2 != NULL) ) {
 			if(tsnodd2->bed2->tc != GNE)
-				goto keepmoving;
+				goto keepmoving; // not much point really, now we're on the row of the hashtable
+#ifdef DBG2
 			printf("%s vs. %s\n", tsnodd2->bed2->f, gf22[i].i);
+#endif
             if(!strcmp(tsnodd2->bed2->f, gf22[i].i)) {
-				printf("%s\t%s\t%s in \%s\" matches.\n", gf22[i].i, fname2);
+#ifdef DBG
+				printf("%s in \"%s\" matches at %s, %li to %li.\n", gf22[i].i, fname2, tsnodd2->bed2->n, tsnodd2->bed2->c[0], tsnodd2->bed2->c[1]);
+#endif
 				numfound2++;
 				found = 1;
 				break;
@@ -2386,6 +2392,46 @@ keepmoving: tsnodd0=tsnodd2;
 	}
 	nfiarr=realloc(nfiarr, k*sizeof(int));
 	printf("%i features found, though %i features in \"%s\" did not match \"%s\".\n", numfound2, k, fname2, fname0);
+	free(nfiarr);
+
+	return;
+}
+
+void mbed2wof(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2, unsigned tsz, words_t *bedword, int m3) /* search beds2 feature names from file of words */
+{
+	unsigned char found;
+	int numfound2=0;
+	int i, k=0;
+    bt2snod *tsnodd0=NULL, *tsnodd2=NULL;
+    unsigned tint;
+	unsigned gbuf=GBUF;
+	int *nfiarr=malloc(gbuf*sizeof(int)); /* the not found index array */
+	printf("%s bed file with %i records matched against words file file %s with %i records:\n", fname0, m2, fname2, m3); 
+	for(i=0;i<m3;++i) {
+		found = 0;
+        tint=hashit(bedword[i].n, tsz);
+        tsnodd2=stab2[tint];
+        while( (tsnodd2 != NULL) ) {
+            if(!strcmp(tsnodd2->bed2->f, bedword[i].n)) {
+				printf("%s in \"%s\" matches at %s, %li to %li.\n", bedword[i].n, fname2, tsnodd2->bed2->n, tsnodd2->bed2->c[0], tsnodd2->bed2->c[1]);
+				numfound2++;
+				found = 1;
+				break;
+			}
+keepmoving: tsnodd0=tsnodd2;
+            tsnodd2=tsnodd2->n;
+		}
+		if(!found) { // we're counting non-found items.
+			CONDREALLOC(k, gbuf, GBUF, nfiarr, int);
+			nfiarr[k++]=i;
+		}
+	}
+	if(k) {
+		nfiarr=realloc(nfiarr, k*sizeof(int)); // k can be zero
+		printf("%i features found, though %i features in \"%s\" did not match \"%s\".\n", numfound2, k, fname2, fname0);
+	} else
+		printf("%i features found, which were all in \"%s\"\n", numfound2, fname2);
+
 	free(nfiarr);
 
 	return;
@@ -2782,7 +2828,7 @@ int main(int argc, char *argv[])
 		prtdetg(opts.gstr, gf, m5, n5, "Size file");
 		goto final;
 	}
-	if((opts.dflg) && (opts.fstr)) {
+	if((opts.dflg) && (opts.fstr) && !(opts.dflg) ) {
 		// prtbed2fo_(opts.fstr, bed2, m2, n2, "Feature (bed2)");
 		prtbt2chaharr(stab2, htsz2);
 		goto final;
@@ -2802,6 +2848,11 @@ int main(int argc, char *argv[])
 		for(i=0;i<m3;++i)
 			printf("%s\n", bedword[i].n);
 	}
+
+	/* -d -u and -f, bit stealth here, looking for words in -f's features */
+	/* use as ./chipmonk -d -f sacchmys_annotsnochrline.bed -u gna.txt, where your gna.txt has Y-names for example */
+	if((opts.ustr) && (opts.fstr) && opts.dflg)
+		mbed2wof(opts.fstr, opts.ustr, bed2, m2, stab2, htsz2, bedword, m3);
 
 	if((opts.pstr) && (opts.fstr) )
 		md2bedp(dpf, bed2, m2, m4);

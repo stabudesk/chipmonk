@@ -39,3 +39,6 @@ Beware W303\_LYZE\_ioptrf\_v2.gff, this is an output of chip monk
 there isn't really a way of inputting it,
 use the raw  W303\_LYZE\_IGVoptimised\_rf.gff
 instead
+
+# Activities
+uf.depth, large 16M depth positions across S288 of some sort .. had to delete it
