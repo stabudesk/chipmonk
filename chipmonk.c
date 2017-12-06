@@ -146,6 +146,7 @@ typedef struct /* opt_t, a struct for the options */
 	char *ystr; /* the gf22_t type */
 	char *hstr; /* the gf23_t type */
 	char *astr; /* a fasta file */
+	char *zstr; /* the tcname of interest */
 } opt_t;
 
 typedef struct /* i4_t */
@@ -272,6 +273,68 @@ struct strchainodeyg /* ygsnod struct */
     struct strchainodeyg *n;
 };
 typedef struct strchainodeyg ygsnod; /* yes, leave this alone, it's the way a struct can have a ptr ot its own type! */
+
+int catchopts(opt_t *opts, int oargc, char **oargv)
+{
+	int c;
+	opterr = 0;
+
+	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:q:y:a:h:l:z:")) != -1)
+		switch (c) {
+			case 'd':
+				opts->dflg = 1;
+				break;
+			case 's':
+				opts->sflg = 1;
+				break;
+			case 'n':
+				opts->nflg = 1;
+				break;
+			case 'l':
+				opts->lstr = optarg;
+				break;
+			case 'z':
+				opts->zstr = optarg;
+				break;
+			case 'i':
+				opts->istr = optarg;
+				break;
+			case 'f':
+				opts->fstr = optarg;
+				break;
+			case 'u': /* unify certain bed2 elements into one file */
+				opts->ustr = optarg;
+				break;
+			case 'p': /* depth file */
+				opts->pstr = optarg;
+				break;
+			case 'q': /* 2nd depth file */
+				opts->qstr = optarg;
+				break;
+			case 'g': /* genome file */
+				opts->gstr = optarg;
+				break;
+			case 'r': /* repeatmasker gff2 file */
+				opts->rstr = optarg;
+				break;
+			case 'y': /* based on repeatmasker gff2 file */
+				opts->ystr = optarg;
+				break;
+			case 'h': /* w303sgd: based on repeatmasker gff2 file */
+				opts->hstr = optarg;
+				break;
+			case 'a':
+				opts->astr = optarg;
+				break;
+			case '?':
+				fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
+				return 1;
+			default:
+				fprintf (stderr, "Wrong arguments. Please launch without arguments to see help file.\n");
+				exit(EXIT_FAILURE);
+		}
+	return 0;
+}
 
 unsigned hashit(char *str, unsigned tsz) /* Dan Bernstein's one */
 {
@@ -664,9 +727,9 @@ void prtsq(i_s *sqisz, int sz)
 void prtsqbdg(i_s *sqisz, bgr_t *bgrow, int m, int sz)
 {
 	int i, j;
-	char rangestr[64]={0}; /* generally helpful to say what range is being given */
-	for(i=0;i<sz;++i) {
-		for(j=0;j<m;++j) 
+	char rangestr[128]={0}; /* generally helpful to say what range is being given */
+	for(j=0;j<m;++j) {
+		for(i=0;i<sz;++i) {
 			if(!strcmp(sqisz[i].id, bgrow[j].n)) {
 				sprintf(rangestr, "|range_%li_to_%li", bgrow[j].c[0], bgrow[j].c[1]);
 				printf(">%s", sqisz[i].id);
@@ -674,6 +737,7 @@ void prtsqbdg(i_s *sqisz, bgr_t *bgrow, int m, int sz)
 				printf("%.*s\n", (int)(bgrow[j].c[1]-bgrow[j].c[0]), sqisz[i].sq+bgrow[j].c[0]);
 				break;
 			}
+		}
 	}
 	return;
 }
@@ -681,16 +745,37 @@ void prtsqbdg(i_s *sqisz, bgr_t *bgrow, int m, int sz)
 void prtsqbdgf(i_s *sqisz, bgr_t2 *bgrow, int m, int sz)
 {
 	int i, j;
-	char rangestr[64]={0}; /* generally helpful to say what range is being given */
-	for(i=0;i<sz;++i) {
-		for(j=0;j<m;++j) 
+	char rangestr[128]={0}; /* generally helpful to say what range is being given */
+	for(j=0;j<m;++j) {
+		for(i=0;i<sz;++i) {
 			if(!strcmp(sqisz[i].id, bgrow[j].n)) {
-				sprintf(rangestr, "|range_%li_to_%li", bgrow[j].c[0], bgrow[j].c[1]);
+				sprintf(rangestr, "|range_%li_to_%li|%s", bgrow[j].c[0], bgrow[j].c[1], bgrow[j].f);
 				printf(">%s", sqisz[i].id);
 				printf("%s\n", rangestr);
 				printf("%.*s\n", (int)(bgrow[j].c[1]-bgrow[j].c[0]), sqisz[i].sq+bgrow[j].c[0]);
 				break;
 			}
+		}
+	}
+	return;
+}
+
+void prtsqbdgf2(i_s *sqisz, bgr_t2 *bgrow, int m, int sz, tcat ztcat)
+{
+	int i, j;
+	char rangestr[128]={0}; /* generally helpful to say what range is being given */
+	for(j=0;j<m;++j) {
+		for(i=0;i<sz;++i) {
+			if(bgrow[j].tc != ztcat) // only this feature type will figure
+				continue;
+			if(!strcmp(sqisz[i].id, bgrow[j].n)) {
+				sprintf(rangestr, "|range_%li_to_%li|%s", bgrow[j].c[0], bgrow[j].c[1], bgrow[j].f);
+				printf(">%s", sqisz[i].id);
+				printf("%s\n", rangestr);
+				printf("%.*s\n", (int)(bgrow[j].c[1]-bgrow[j].c[0]), sqisz[i].sq+bgrow[j].c[0]);
+				break;
+			}
+		}
 	}
 	return;
 }
@@ -904,65 +989,6 @@ wseq_t *create_wseq_t(size_t initsz)
 	words->numl=0;
 	words->wpla=calloc(words->lbuf, sizeof(size_t));
 	return words;
-}
-
-int catchopts(opt_t *opts, int oargc, char **oargv)
-{
-	int c;
-	opterr = 0;
-
-	while ((c = getopt (oargc, oargv, "dsni:f:u:p:g:r:q:y:a:h:l:")) != -1)
-		switch (c) {
-			case 'd':
-				opts->dflg = 1;
-				break;
-			case 's':
-				opts->sflg = 1;
-				break;
-			case 'n':
-				opts->nflg = 1;
-				break;
-			case 'l':
-				opts->lstr = optarg;
-				break;
-			case 'i':
-				opts->istr = optarg;
-				break;
-			case 'f':
-				opts->fstr = optarg;
-				break;
-			case 'u': /* unify certain bed2 elements into one file */
-				opts->ustr = optarg;
-				break;
-			case 'p': /* depth file */
-				opts->pstr = optarg;
-				break;
-			case 'q': /* 2nd depth file */
-				opts->qstr = optarg;
-				break;
-			case 'g': /* genome file */
-				opts->gstr = optarg;
-				break;
-			case 'r': /* repeatmasker gff2 file */
-				opts->rstr = optarg;
-				break;
-			case 'y': /* based on repeatmasker gff2 file */
-				opts->ystr = optarg;
-				break;
-			case 'h': /* w303sgd: based on repeatmasker gff2 file */
-				opts->hstr = optarg;
-				break;
-			case 'a':
-				opts->astr = optarg;
-				break;
-			case '?':
-				fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
-				return 1;
-			default:
-				fprintf (stderr, "Wrong arguments. Please launch without arguments to see help file.\n");
-				exit(EXIT_FAILURE);
-		}
-	return 0;
 }
 
 void free_wseq(wseq_t *wa)
@@ -2317,7 +2343,7 @@ void mbed2ya(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2,
 	return;
 }
 
-void mbed2ya1(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2, unsigned htsz2, gf22_t *gf22, int m7, gf22snod **stab, unsigned tsz) /* S288 ref is very big .. we only want genes */
+void mbed2ya1(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2, unsigned htsz2, gf22_t *gf22, int m7, gf22snod **stab, unsigned tsz, tcat ztcat) /* S288 ref is very big .. we only want genes */
 {
 	/* this version of mbed2ya only check for 1 feature type, usually gene. */
 	unsigned char found;
@@ -2330,7 +2356,7 @@ void mbed2ya1(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2
 	int *nfiarr=malloc(gbuf*sizeof(int)); /* the not found index array */
 	printf("%s bed file with %i records matched against YA file %s with %i records:\n", fname0, m2, fname2, m7); 
 	for(i=0;i<m2;++i) {
-		if(bgrow[i].tc != GNE)
+		if(bgrow[i].tc != ztcat)
 			continue;
 		found = 0;
         tint=hashit(bgrow[i].f, tsz);
@@ -2369,7 +2395,7 @@ void mbed2ya1(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2
         tint=hashit(gf22[i].i, htsz2); // be careful, had copy-pasted and forgot about changing tsz to htsz2
         tsnodd2=stab2[tint];
         while( (tsnodd2 != NULL) ) {
-			if(tsnodd2->bed2->tc != GNE)
+			if(tsnodd2->bed2->tc != ztcat)
 				goto keepmoving; // not much point really, now we're on the row of the hashtable
 #ifdef DBG2
 			printf("%s vs. %s\n", tsnodd2->bed2->f, gf22[i].i);
@@ -2783,6 +2809,8 @@ int main(int argc, char *argv[])
     bt2snod **stab2=NULL;
     gf23snod **stab3=NULL;
     ygsnod **stabyg=NULL;
+	tcat ztcat;
+	boole zfound=0;
 
 	if(opts.lstr) {
 		yglst=processygl(opts.lstr, &myg, &nyg);
@@ -2795,6 +2823,18 @@ int main(int argc, char *argv[])
 		bed2=processinpf2(opts.fstr, &m2, &n2);
 		htsz2=2*m2/3; /* our hash table size */
 		stab2=bt2tochainharr(bed2, m2, htsz2);
+	}
+	if(opts.zstr){
+		for(i=0;i<TCQUAN-1;++i) 
+			if(!strcmp(tcnames[i], opts.zstr)) {
+				zfound=1;
+				ztcat=i+1;
+				break;
+			}
+		if(!zfound) {
+			printf("Error. That string you entered with -z is not valid, check the tcnames global\n"); 
+			goto final;
+		}
 	}
 	if(opts.ustr)
 		bedword=processwordf(opts.ustr, &m3, &n3);
@@ -2868,8 +2908,8 @@ int main(int argc, char *argv[])
 		// with his yo can match up the S228 annotation witht he YG list
 		mbed2yg(opts.fstr, opts.lstr, bed2, m2, yglst, myg, stabyg, htszyg);
 
-	if((opts.fstr) && (opts.ystr) )
-		mbed2ya1(opts.fstr, opts.ystr, bed2, m2, stab2, htsz2, gf22, m7, stab, htsz);
+	if((opts.fstr) && (opts.ystr) && opts.zstr)
+		mbed2ya1(opts.fstr, opts.ystr, bed2, m2, stab2, htsz2, gf22, m7, stab, htsz, ztcat);
 
 	if((opts.dflg) && (opts.rstr) )
 		prtrmf(opts.rstr, rmf, m6);
@@ -2892,8 +2932,11 @@ int main(int argc, char *argv[])
 		prtsqbdg(sqisz, bgrow, m, numsq);
 
 	/* bed2 feature and fasta file */
-	if((opts.fstr) && (opts.astr) )
-		prtsqbdg(sqisz, bgrow, m, numsq);
+	if((opts.fstr) && (opts.astr) && !(opts.zstr))
+		prtsqbdgf(sqisz, bed2, m2, numsq);
+
+	if((opts.fstr) && (opts.astr) && opts.zstr)
+		prtsqbdgf2(sqisz, bed2, m2, numsq, ztcat);
 
 	if((opts.gstr) && (opts.rstr) )
 		mgf2rmf(opts.gstr, opts.rstr, gf, rmf, m6, m5);
