@@ -178,6 +178,7 @@ typedef struct /* bgr_t2 */
 	long c[2]; /* coords: 1) start 2) end */
 	char *f, *s, *t; /* f for feature .. 4th col */
 	size_t fsz, ssz, tsz; /* size of the feature field*/
+	char sd; /* strand + or - */
 	tcat tc;
 } bgr_t2; /* bedgraph row type 2i. column is the feature */
 
@@ -713,9 +714,9 @@ void prtfa2(onefa *fac)
 
 void prtsq(i_s *sqisz, int sz)
 {
-	int i;
 	printf("Number of different sequences=%i\n", sz); 
 #ifdef DBG
+	int i;
 	for(i=0;i<sz;++i) {
 		printf("%s\n", sqisz[i].id);
 		printf("%s\n", sqisz[i].sq);
@@ -757,6 +758,61 @@ void prtsqbdgf(i_s *sqisz, bgr_t2 *bgrow, int m, int sz)
 			}
 		}
 	}
+	return;
+}
+
+void prtmbed2wof(i_s *sqisz, int sz, bgr_t2 *bgrow, int m2, bt2snod **stab2, unsigned tsz, words_t *bedword, int m3) /* search beds2 feature names from file of words */
+{
+	unsigned char found;
+	int numfound2=0;
+	int i, j, k=0;
+	long kk;
+	char rangestr[128]={0}; /* generally helpful to say what range is being given */
+    bt2snod *tsnodd0=NULL, *tsnodd2=NULL;
+    unsigned tint;
+	unsigned gbuf=GBUF;
+	int *nfiarr=malloc(gbuf*sizeof(int)); /* the not found index array */
+	for(i=0;i<m3;++i) {
+		found = 0;
+        tint=hashit(bedword[i].n, tsz);
+        tsnodd2=stab2[tint];
+        while( (tsnodd2 != NULL) ) {
+            if(!strcmp(tsnodd2->bed2->f, bedword[i].n)) {
+				for(j=0;j<sz;++j) { /* have to go through each chromosome */
+					if(!strcmp(sqisz[j].id, tsnodd2->bed2->n)) {
+						sprintf(rangestr, "|range_%li_to_%li|%s", tsnodd2->bed2->c[0], tsnodd2->bed2->c[1], tsnodd2->bed2->f);
+						printf(">%s", sqisz[j].id);
+						printf("%s\n", rangestr);
+						if(tsnodd2->bed2->sd =='+')
+							printf("%.*s\n", (int)(tsnodd2->bed2->c[1] - tsnodd2->bed2->c[0]), sqisz[j].sq + tsnodd2->bed2->c[0]);
+						else if(tsnodd2->bed2->sd =='-') {
+							kk=tsnodd2->bed2->c[1]-1;
+							while(kk>=tsnodd2->bed2->c[0]) { switch (sqisz[j].sq[kk--]) { case 'A': putchar('T'); break; case 'C': putchar('G'); break; case 'G': putchar('C'); break; case 'T': putchar('A'); break; default: break; } }
+							putchar('\n');
+						}
+						break;
+					}
+				}
+				numfound2++;
+				found = 1;
+				break;
+			}
+			tsnodd0=tsnodd2;
+            tsnodd2=tsnodd2->n;
+		}
+		if(!found) { // we're counting non-found items.
+			CONDREALLOC(k, gbuf, GBUF, nfiarr, int);
+			nfiarr[k++]=i;
+		}
+	}
+	if(k) {
+		nfiarr=realloc(nfiarr, k*sizeof(int)); // k can be zero
+		fprintf(stderr, "%i names found. %i names not found.\n", numfound2, k);
+	} else
+		fprintf(stderr, "All supplied %i names were found.\n", numfound2);
+
+	free(nfiarr);
+
 	return;
 }
 
@@ -1331,6 +1387,8 @@ bgr_t2 *processinpf2(char *fname, int *m, int *n) /*fourth column is string, oth
 					bgrow[wa->numl].f=malloc(couc*sizeof(char));
 					bgrow[wa->numl].fsz=couc;
 					strcpy(bgrow[wa->numl].f, bufword);
+				} else if((couw-oldcouw)==5) { /* it's not the first word, and it's 1st and second col */
+					bgrow[wa->numl].sd=bufword[0];
 				} else if( (couw-oldcouw)==6) {
 					bgrow[wa->numl].s=malloc(couc*sizeof(char));
 					bgrow[wa->numl].ssz=couc;
@@ -1527,7 +1585,7 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
 	char *sm=NULL /*first semicolon marker*/, *fem=NULL /* first equals marker */, *lem=NULL /* last equals marker */;
 	int cncols /* canonical numcols ... we will use the first line */;
-	char tch0[6]={0}; /* temporary char holder for attaching numbers to absentidcols */
+	char tch0[16]={0}; /* temporary char holder for attaching numbers to absentidcols */
 	int numnoc9=0;
 
 	gf22_t *gf22=malloc(GBUF*sizeof(gf22_t));
@@ -2231,7 +2289,7 @@ void prtbed2fo(char *fname, bgr_t2 *bgrow, int m, int n, char *label) /* will pr
 	printf("You can direct these names into a file and then present to this program again under the -u option,\n");
 	printf("whereupon only those names will be looked at\n");
 	for(i=0;i<m;++i) {
-		printf("%s\t%s\t%s\n", bgrow[i].f, bgrow[i].s, bgrow[i].t);
+		printf("%s\t%c\t%s\t%s\n", bgrow[i].f, bgrow[i].sd, bgrow[i].s, bgrow[i].t);
 	}
 
 	return;
@@ -2785,7 +2843,7 @@ int main(int argc, char *argv[])
 		prtusage();
 		exit(EXIT_FAILURE);
 	}
-	int i, m, n /*rows,cols for bgr_t*/, m2, n2, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6, m7, n7 /*gf22 dims */, m8, n8 /* gf23 dims */, myg, nyg;
+	int i, m, n /*rows,cols for bgr_t*/, m2, n2 /* for the bed2 */, m3, n3 /*for the words_t file */, m4, n4, m4b, n4b, m5, n5, m6, n6, m7, n7 /*gf22 dims */, m8, n8 /* gf23 dims */, myg, nyg;
     unsigned numsq; /* number of sequences in the -a (fasta) option */
 	opt_t opts={0};
 	catchopts(&opts, argc, argv);
@@ -2868,31 +2926,40 @@ int main(int argc, char *argv[])
 		prtdetg(opts.gstr, gf, m5, n5, "Size file");
 		goto final;
 	}
-	if((opts.dflg) && (opts.fstr) && !(opts.dflg) ) {
-		// prtbed2fo_(opts.fstr, bed2, m2, n2, "Feature (bed2)");
-		prtbt2chaharr(stab2, htsz2);
+
+	/* combo: df!sa */
+	if((opts.dflg) && (opts.fstr) && !opts.sflg && !opts.astr && !opts.nflg && !opts.istr) {
+		prtbed2fo(opts.fstr, bed2, m2, n2, "Feature (bed2)");
+		// prtbt2chaharr(stab2, htsz2);
 		goto final;
 	}
 
+	/* combo: nf */
 	if((opts.nflg) && (opts.fstr)) {
 		// prtbed2fo(opts.fstr, bed2, m2, n2, "Feature (bed2)");
 		prtbed2fo2(opts.fstr, bed2, m2, n2, "Feature (bed2)"); // alterantive skipping . and _
 		goto final;
 	}
 	// prtbed2(bed2, m2, MXCOL2VIEW);
+	/* combo: if */
 	if((opts.istr) && (opts.fstr))
 		m2beds(bgrow, bed2, m2, m);
 
-	if((opts.ustr) && (opts.fstr) && (!opts.sflg)) {
-		printf("bedwords:\n"); 
+	if((opts.ustr) && !(opts.fstr) && (!opts.sflg) && opts.dflg) {
+		printf("bedwords: "); 
 		for(i=0;i<m3;++i)
-			printf("%s\n", bedword[i].n);
+			printf("%s ", bedword[i].n);
+		printf("\n"); 
 	}
 
 	/* -d -u and -f, bit stealth here, looking for words in -f's features */
 	/* use as ./chipmonk -d -f sacchmys_annotsnochrline.bed -u gna.txt, where your gna.txt has Y-names for example */
-	if((opts.ustr) && (opts.fstr) && opts.dflg)
+	if((opts.ustr) && (opts.fstr) && opts.dflg && !(opts.astr))
 		mbed2wof(opts.fstr, opts.ustr, bed2, m2, stab2, htsz2, bedword, m3);
+
+	if(opts.ustr && opts.fstr && !(opts.dflg) && opts.astr) {
+		prtmbed2wof(sqisz, numsq, bed2, m2, stab2, htsz2, bedword, m3);
+	}
 
 	if((opts.pstr) && (opts.fstr) )
 		md2bedp(dpf, bed2, m2, m4);
@@ -2932,7 +2999,7 @@ int main(int argc, char *argv[])
 		prtsqbdg(sqisz, bgrow, m, numsq);
 
 	/* bed2 feature and fasta file */
-	if((opts.fstr) && (opts.astr) && !(opts.zstr))
+	if((opts.fstr) && (opts.astr) && !opts.zstr && !opts.ustr)
 		prtsqbdgf(sqisz, bed2, m2, numsq);
 
 	if((opts.fstr) && (opts.astr) && opts.zstr)
@@ -2974,6 +3041,7 @@ final:
 		free(bgrow);
 	}
 	if(opts.fstr) {
+		freebt2chainharr(stab2, htsz2);
 		for(i=0;i<m2;++i) {
 			free(bed2[i].n);
 			free(bed2[i].f);
