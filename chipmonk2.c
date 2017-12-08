@@ -215,6 +215,7 @@ typedef struct /* blop_t: the b option, bast output format 7 */
 	char *fs; /* Feature substring */
 	size_t fssz; /* size of fs */
 	int al; /* alignment length */
+	float eval;
 	float pcti;
 	long c[2]; /* coords on the target : 1) start 2) cols 8 and 9 */
 } blop_t;
@@ -738,7 +739,7 @@ void prtblop(char *fname, blop_t *blop, int mb)
 {
 	int i;
 	for(i=0;i<mb;++i) // note how we cut out the spurious parts of the motif string to leave it pure and raw (slightly weird why two-char deletion is necessary.
-		printf("%s\t%i\t%s\t%li\t%li\t%4.2f\n", blop[i].n, blop[i].al, blop[i].tc, blop[i].c[0], blop[i].c[1], blop[i].pcti);
+		printf("%s\t%i\t%s\t%li\t%li\t%4.2f\t%4.2f\n", blop[i].n, blop[i].al, blop[i].tc, blop[i].c[0], blop[i].c[1], blop[i].pcti, blop[i].eval);
 
 	printf("You have just seen the %i entries of blast output file called \"%s\".\n", mb, fname); 
 	return;
@@ -1543,10 +1544,6 @@ bgr_t2 *processinpf2(char *fname, int *m, int *n) /*fourth column is string, oth
 
 blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 {
-	/* In order to make no assumptions, the file is treated as lines containing the same amount of words each,
-	 * except for lines starting with #, which are ignored (i.e. comments). These words are checked to make sure they contain only floating number-type
-	 * characters [0123456789+-.] only, one string variable is continually written over and copied into a growing floating point array each time */
-
 	/* declarations */
 	FILE *fp=fopen(fname,"r");
 	int i;
@@ -1558,6 +1555,7 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 	size_t bwbuf=WBUF;
 	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
 	int cncols /* canonical numcols ... we will use the first line */;
+	char *tmp=NULL;
 
 	blop_t *blop=malloc(GBUF*sizeof(blop_t));
 
@@ -1578,6 +1576,8 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 					blop[wa->numl].c[1]=atol(bufword); // no 0 indexing change required here.
 				} else if((couw-oldcouw)==2) { /* 3rd col is pct id */
 					blop[wa->numl].pcti=atof(bufword); // no 0 indexing change required here.
+				} else if((couw-oldcouw)==10) { /* 3rd col is pct id */
+					blop[wa->numl].eval=atof(bufword); // no 0 indexing change required here.
 				} else if((couw-oldcouw)==3) { /* 4th col is alignment length */
 					blop[wa->numl].al=atoi(bufword); // no 0 indexing change required here.
 				} else if( (couw-oldcouw)==1) { // the type string
