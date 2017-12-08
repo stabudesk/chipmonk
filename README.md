@@ -42,3 +42,8 @@ instead
 
 # Activities
 uf.depth, large 16M depth positions across S288 of some sort .. had to delete it
+
+# Worries
+Chipmonk2 has got too big? Even executing it is difficult. I.e.
+> Famous errors: presneting -ystr to the executable ... it gives a plain segfault no info. obvious it shoudl be -y!
+> presenting the same gff file to both -a and -y option ... not looking properly at args .. another blank segfault.
