@@ -211,7 +211,7 @@ typedef struct /* blop_t: the b option, bast output format 7 */
 	char *n;
 	size_t nsz; /* size of the name r ID field */
 	char *tc;
-	size_t tcsz; /* size of the name r ID field */
+	size_t tcsz; /* target string ..yep */
 	char *fs; /* Feature substring */
 	size_t fssz; /* size of fs */
 	int al; /* alignment length */
@@ -739,7 +739,7 @@ void prtblop(char *fname, blop_t *blop, int mb)
 {
 	int i;
 	for(i=0;i<mb;++i) // note how we cut out the spurious parts of the motif string to leave it pure and raw (slightly weird why two-char deletion is necessary.
-		printf("%s\t%i\t%s\t%li\t%li\t%4.2f\t%4.2f\n", blop[i].n, blop[i].al, blop[i].tc, blop[i].c[0], blop[i].c[1], blop[i].pcti, blop[i].eval);
+		printf("%s\t%i\t%s\t%s\t%li\t%li\t%4.2f\t%4.2f\n", blop[i].n, blop[i].al, blop[i].tc, blop[i].fs, blop[i].c[0], blop[i].c[1], blop[i].pcti, blop[i].eval);
 
 	printf("You have just seen the %i entries of blast output file called \"%s\".\n", mb, fname); 
 	return;
@@ -1547,7 +1547,7 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 	/* declarations */
 	FILE *fp=fopen(fname,"r");
 	int i;
-	size_t couc /*count chars per line */, couw=0 /* count words */, oldcouw = 0;
+	size_t couc /*count chars per line */, couw=0 /* count words */, oldcouw = 0, nethersz;
 	int c;
 	int idanomals=0; /* this is for testing col 8 ... ID and string often the same, lie to keep it that way too. This will count when not */
 	boole inword=0;
@@ -1555,7 +1555,7 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 	size_t bwbuf=WBUF;
 	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
 	int cncols /* canonical numcols ... we will use the first line */;
-	char *tmp=NULL;
+	char *tmpc=NULL;
 
 	blop_t *blop=malloc(GBUF*sizeof(blop_t));
 
@@ -1581,9 +1581,14 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 				} else if((couw-oldcouw)==3) { /* 4th col is alignment length */
 					blop[wa->numl].al=atoi(bufword); // no 0 indexing change required here.
 				} else if( (couw-oldcouw)==1) { // the type string
-					blop[wa->numl].tc=malloc(couc*sizeof(char));
-					blop[wa->numl].tcsz=couc;
-					strcpy(blop[wa->numl].tc, bufword);
+					tmpc=strrchr(bufword, '|');
+					nethersz=(size_t)(tmpc-bufword);
+					blop[wa->numl].tcsz=nethersz+1UL;
+					blop[wa->numl].fssz=couc - nethersz;
+					blop[wa->numl].tc=malloc(blop[wa->numl].tcsz*sizeof(char));
+					blop[wa->numl].fs=malloc(blop[wa->numl].fssz*sizeof(char));
+					strncpy(blop[wa->numl].tc, bufword, nethersz);
+					strcpy(blop[wa->numl].fs, tmpc+1);
 				}
 				couc=0;
 				couw++;
@@ -3491,6 +3496,7 @@ final:
 		for(i=0;i<mb;++i) {
 			free(blop[i].n);
 			free(blop[i].tc);
+			free(blop[i].fs);
 		}
 		free(blop);
 	}
