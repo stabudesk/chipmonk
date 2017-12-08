@@ -212,12 +212,15 @@ typedef struct /* blop_t: the b option, bast output format 7 */
 	size_t nsz; /* size of the name r ID field */
 	char *tc;
 	size_t tcsz; /* target string ..yep */
-	char *fs; /* Feature substring */
+	char *qfs; /* query Feature substring */
+	char *fs; /* target feature substring */
 	size_t fssz; /* size of fs */
+	size_t qfssz; /* size of fs */
 	int al; /* alignment length */
 	float eval;
 	float pcti;
 	long c[2]; /* coords on the target : 1) start 2) cols 8 and 9 */
+	unsigned qfnoc; /* query feature name number of occurrences */
 } blop_t;
 
 typedef struct /* rmf_t: repeatmasker gff2 file format */
@@ -241,6 +244,7 @@ typedef struct /* gf22_t: the y option, based on rmf_t */
 	size_t isz; /* size of iD string */
 	size_t tsz; /* size of type stringstring */
 	fcat fc;
+	unsigned char blofound; // relates to specific -b -y operation ... did this get a hit? if so skip othe hits; zero if not.
 } gf22_t;
 
 typedef struct /* gf23_t: the h option, based on rmf_t */
@@ -313,6 +317,13 @@ struct strchainodeyg /* ygsnod struct */
     struct strchainodeyg *n;
 };
 typedef struct strchainodeyg ygsnod; /* yes, leave this alone, it's the way a struct can have a ptr ot its own type! */
+
+struct strchainodeblo /* blosnod struct */
+{
+    blop_t *blop; /* ptr to a single element, not an array, TODO void* it. */
+    struct strchainodeblo *n;
+};
+typedef struct strchainodeblo blosnod; /* yes, leave this alone, it's the way a struct can have a ptr ot its own type! */
 
 int catchopts(opt_t *opts, int oargc, char **oargv)
 {
@@ -531,6 +542,40 @@ nxt:        continue;
     return stab;
 }
 
+blosnod **blotochainharr(blop_t *blop, unsigned numsq, unsigned tsz)
+{
+    unsigned i;
+
+    blosnod **stab=malloc(tsz*sizeof(blosnod *));
+    for(i=0;i<tsz;++i) 
+        stab[i]=NULL; /* _is_ a valid ptr, but it's unallocated. Initialization is possible though. */
+    blosnod *tsnod0, *tsnod2;
+
+    unsigned tint;
+    for(i=0; i<numsq; ++i) {
+        tint=hashit(blop[i].qfs, tsz);
+        if( (stab[tint] == NULL) ) {
+            stab[tint]=malloc(sizeof(blosnod));
+            stab[tint]->blop=blop+i;
+            stab[tint]->n=NULL;
+            continue;
+        }
+        tsnod2=stab[tint];
+        while( (tsnod2 != NULL) ){
+            if(!strcmp(tsnod2->blop->qfs, blop[i].qfs)) {
+                goto nxt;
+            }
+            tsnod0=tsnod2;
+            tsnod2=tsnod2->n;
+        }
+        tsnod0->n=malloc(sizeof(blosnod));
+        tsnod0->n->blop=blop+i;
+        tsnod0->n->n=NULL;
+nxt:        continue;
+    }
+    return stab;
+}
+
 void prtbt2chaharr(bt2snod **stab, unsigned tsz)
 {
     unsigned i;
@@ -618,6 +663,23 @@ void prtygchaharr(ygsnod **stab, unsigned tsz)
     return;
 }
 
+void prtblochaharr(blosnod **stab, unsigned tsz)
+{
+    unsigned i;
+    blosnod *tsnod2;
+    for(i=0;i<tsz;++i) {
+        printf("Tablepos %i: ", i); 
+        tsnod2=stab[i];
+        while(tsnod2) {
+            printf("%u|%s ", tsnod2->blop->qfnoc, tsnod2->blop->qfs); 
+            tsnod2=tsnod2->n;
+        }
+		putchar('\n');
+    }
+    printf("\nINFO: table format entry was numoccurrences|queryfeature\n"); 
+    return;
+}
+
 void freegf23chainharr(gf23snod **stab, size_t tsz)
 {
     int i;
@@ -668,6 +730,29 @@ void freeygchainharr(ygsnod **stab, size_t tsz)
 {
     int i;
     ygsnod *tsnod0, *tsnod2;
+    for(i=0; i<tsz; ++i) {
+        if( (stab[i] != NULL) ) {
+            while( (stab[i]->n != NULL) ) {
+                tsnod0=stab[i];
+                tsnod2=stab[i]->n;
+                while((tsnod2->n != NULL) ){
+                    tsnod0=tsnod2;
+                    tsnod2=tsnod2->n;
+                }
+                free(tsnod0->n);
+                tsnod0->n=NULL;
+            }
+            free(stab[i]);
+        }
+    }
+    free(stab);
+    return;
+}
+
+void freeblochainharr(blosnod **stab, size_t tsz)
+{
+    int i;
+    blosnod *tsnod0, *tsnod2;
     for(i=0; i<tsz; ++i) {
         if( (stab[i] != NULL) ) {
             while( (stab[i]->n != NULL) ) {
@@ -739,7 +824,7 @@ void prtblop(char *fname, blop_t *blop, int mb)
 {
 	int i;
 	for(i=0;i<mb;++i) // note how we cut out the spurious parts of the motif string to leave it pure and raw (slightly weird why two-char deletion is necessary.
-		printf("%s\t%i\t%s\t%s\t%li\t%li\t%4.2f\t%4.2f\n", blop[i].n, blop[i].al, blop[i].tc, blop[i].fs, blop[i].c[0], blop[i].c[1], blop[i].pcti, blop[i].eval);
+		printf("%i\t%s\t%i\t%s\tqfs:%s\ttfs:%s\t%li\t%li\t%4.2f\t%4.2f\n", blop[i].qfnoc, blop[i].n, blop[i].al, blop[i].tc, blop[i].qfs, blop[i].fs, blop[i].c[0], blop[i].c[1], blop[i].pcti, blop[i].eval);
 
 	printf("You have just seen the %i entries of blast output file called \"%s\".\n", mb, fname); 
 	return;
@@ -1547,7 +1632,7 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 	/* declarations */
 	FILE *fp=fopen(fname,"r");
 	int i;
-	size_t couc /*count chars per line */, couw=0 /* count words */, oldcouw = 0, nethersz;
+	size_t couc /*count chars per line */, couw=0 /* count words */, oldcouw = 0, nethersz, qfpresz /*query feature pre size */;
 	int c;
 	int idanomals=0; /* this is for testing col 8 ... ID and string often the same, lie to keep it that way too. This will count when not */
 	boole inword=0;
@@ -1555,9 +1640,11 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 	size_t bwbuf=WBUF;
 	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
 	int cncols /* canonical numcols ... we will use the first line */;
-	char *tmpc=NULL;
+	char *tmpc=NULL, *tmpc2=NULL;
+	char *oldqfs=calloc(16, sizeof(char));
+	unsigned oldqfnoc=0;
 
-	blop_t *blop=malloc(GBUF*sizeof(blop_t));
+	blop_t *blop=calloc(GBUF, sizeof(blop_t));
 
 	while( (c=fgetc(fp)) != EOF) { /* grab a char */
 		if( (c== '\n') | (c == ' ') | (c == '\t') | (c=='#')) { /* word closing events */
@@ -1567,9 +1654,24 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 				bufword = realloc(bufword, couc*sizeof(char)); /* normalize */
 				/* for the struct, we want to know if it's the first word in a line, like so: */
 				if(couw==oldcouw) {
+					tmpc=strchr(bufword, ':');
+					tmpc2=strchr(bufword, 'r'); // hacky ... avoiding strtok by grabbing r after 2nd |
+					if( (tmpc == NULL) | (tmpc2==NULL) | (tmpc2 <= tmpc))
+						printf("query name did not have a : or r or r appeared before : ... you'll get a segfault.\n");
 					blop[wa->numl].n=malloc(couc*sizeof(char));
 					blop[wa->numl].nsz=couc;
 					strcpy(blop[wa->numl].n, bufword);
+					qfpresz=(size_t)(tmpc2-tmpc)-1UL;
+					blop[wa->numl].qfssz=qfpresz;
+					blop[wa->numl].qfs=calloc(qfpresz, sizeof(char));
+					strncpy(blop[wa->numl].qfs, tmpc+1, qfpresz-1UL);
+					if(!strcmp(oldqfs, blop[wa->numl].qfs)) { // number of occurrences
+						oldqfnoc++;
+						blop[wa->numl].qfnoc = oldqfnoc;
+					} else { 
+						strcpy(oldqfs, blop[wa->numl].qfs);
+						oldqfnoc=0;
+					}
 				} else if((couw-oldcouw)==8) { /* fourth col */
 					blop[wa->numl].c[0]=atol(bufword)-1L; // change to zero indexing
 				} else if((couw-oldcouw)==9) { /* it's not the first word, and it's 1st and second col */
@@ -1585,8 +1687,8 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 					nethersz=(size_t)(tmpc-bufword);
 					blop[wa->numl].tcsz=nethersz+1UL;
 					blop[wa->numl].fssz=couc - nethersz;
-					blop[wa->numl].tc=malloc(blop[wa->numl].tcsz*sizeof(char));
-					blop[wa->numl].fs=malloc(blop[wa->numl].fssz*sizeof(char));
+					blop[wa->numl].tc=calloc(blop[wa->numl].tcsz, sizeof(char)); // uninit vgerrs clear by changing from malloc to calloc on these.
+					blop[wa->numl].fs=calloc(blop[wa->numl].fssz, sizeof(char));
 					strncpy(blop[wa->numl].tc, bufword, nethersz);
 					strcpy(blop[wa->numl].fs, tmpc+1);
 				}
@@ -1602,6 +1704,7 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 					wa->wpla=realloc(wa->wpla, wa->lbuf*sizeof(size_t));
 					blop=realloc(blop, wa->lbuf*sizeof(blop_t));
 					memset(wa->wpla+(wa->lbuf-WBUF), 0, WBUF*sizeof(size_t));
+					memset(blop+(wa->lbuf-WBUF), 0, WBUF*sizeof(blop_t));
 				}
 				wa->wpla[wa->numl] = couw-oldcouw; /* number of words in current line */
 				/* extra bit to catch canonical colnums */
@@ -1616,8 +1719,10 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 				wa->wsbuf += GBUF;
 				wa->wln=realloc(wa->wln, wa->wsbuf*sizeof(size_t));
 				blop=realloc(blop, wa->wsbuf*sizeof(blop_t));
-				for(i=wa->wsbuf-GBUF;i<wa->wsbuf;++i)
+				for(i=wa->wsbuf-GBUF;i<wa->wsbuf;++i) {
 					wa->wln[i]=0;
+					blop[i].qfnoc=0;
+				}
 			}
 			couc=0;
 			bwbuf=WBUF;
@@ -1793,6 +1898,7 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 					gf22[wa->numl].n=malloc(couc*sizeof(char));
 					gf22[wa->numl].nsz=couc;
 					strcpy(gf22[wa->numl].n, bufword);
+					gf22[wa->numl].blofound=0; //seemingly irrelevant I know .. only an initialisation anyhow, useful with -b -y
 				} else if((couw-oldcouw)==3) { /* fourth col */
 					gf22[wa->numl].c[couw-oldcouw-3]=atol(bufword)-1L; // change to zero indexing
 				} else if((couw-oldcouw)==4) { /* it's not the first word, and it's 1st and second col */
@@ -2235,7 +2341,7 @@ void prtgf22(char *fname, gf22_t *gf22, int m7)
 {
 	int i;
 	for(i=0;i<m7;++i) // note how we cut out the spurious parts of the motif string to leave it pure and raw (slightly weird why two-char deletion is necessary.
-		printf("%s\t%li\t%li\t%c\t%s\t%s\n", gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].t, gf22[i].i);
+		printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%s;NAME=%s\t%i\n", gf22[i].n, gf22[i].t, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].i, gf22[i].i, gf22[i].fc);
 
 #ifdef DBG
 	printf("You have just seen the %i entries of basic gff2 file called \"%s\".\n", m7, fname); 
@@ -2882,6 +2988,123 @@ keepmoving: tsnodd0=tsnodd2;
 	return;
 }
 
+void mblop2gf22(char *fname0, char *fname2, gf22_t *gf22, int m7, gf22snod **stab, unsigned tsz, blop_t *blop, int mb) /* match blastoutput to the gf22 ... but only is ABSENTCOLS see alternate function for full gf22 search ... messed up!*/
+{
+	unsigned char found;
+	int numfound2=0;
+	int i, k=0;
+	char *tmpc=NULL;
+    gf22snod *tsnodd0=NULL, *tsnodd2=NULL;
+    unsigned tint;
+	unsigned gbuf=GBUF;
+	int *nfiarr=malloc(gbuf*sizeof(int)); /* the not found index array */
+	float thresh=0.95;
+	printf("%s gf22 file with %i records matched against blast outp file %s with %i records at %2.1f identity:\n", fname0, m7, fname2, mb, thresh);
+	for(i=0;i<mb;++i) {
+		found = 0;
+        tint=hashit(blop[i].qfs, tsz);
+        tsnodd2=stab[tint];
+        while( (tsnodd2 != NULL) ) {
+			/* note how purposefully we match on the query feature, but are really interested in the target feature! */
+            if(!strcmp(tsnodd2->gf22->i, blop[i].qfs)) {
+				if(tsnodd2->gf22->fc != ABS) { //found, but we're not interested in this type
+					if(tsnodd2->gf22->blofound==1)
+						tsnodd2->gf22->blofound=2; // second time found
+					else if(tsnodd2->gf22->blofound==0)
+						tsnodd2->gf22->blofound=1;
+					break;
+				}
+				if(tsnodd2->gf22->blofound)
+					break; //this gff id already found .. i.e. top blast result
+				tsnodd2->gf22->blofound=1;
+				tmpc=strchr(blop[i].fs, '_');
+				//orig:
+				// printf("%s in \"%s\" matches queryname at %s, %li to %li with pcti %4.2f and e-val %4.6f\n", blop[i].qfs, fname2, tsnodd2->gf22->n, tsnodd2->gf22->c[0], tsnodd2->gf22->c[1], blop[i].pcti, blop[i].eval);
+				// plain, no pcti nor evals
+				if((tmpc!=NULL) & (blop[i].pcti>95.0))// if there's a _ it's an _mRNA
+					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%.*s;NAME=%.*s\n", tsnodd2->gf22->n, tsnodd2->gf22->t, tsnodd2->gf22->c[0]+1L,tsnodd2->gf22->c[1], tsnodd2->gf22->sd, (int)(tmpc-blop[i].fs), blop[i].fs, (int)(tmpc-blop[i].fs), blop[i].fs);
+				else if((tmpc==NULL) & (blop[i].pcti>95.0)) // if not _mRNA, don't know what to do: just it all out.
+					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%s;NAME=%s\n", tsnodd2->gf22->n, tsnodd2->gf22->t, tsnodd2->gf22->c[0]+1L,tsnodd2->gf22->c[1], tsnodd2->gf22->sd, blop[i].fs, blop[i].fs);
+				numfound2++;
+				found = 1;
+				break;
+			}
+			tsnodd0=tsnodd2;
+            tsnodd2=tsnodd2->n;
+		}
+		if(!(found) & (tsnodd2->gf22->fc==ABS)) {
+			printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tNOHIT>%2.1fID\n", tsnodd2->gf22->n, tsnodd2->gf22->t, tsnodd2->gf22->c[0]+1L,tsnodd2->gf22->c[1], tsnodd2->gf22->sd, thresh);
+			CONDREALLOC(k, gbuf, GBUF, nfiarr, int);
+			nfiarr[k++]=i;
+		} else if((tsnodd2->gf22->blofound==1) & (tsnodd2->gf22->fc!=ABS)) { // print out normal gf22
+			printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%s;NAME=%s\n", tsnodd2->gf22->n, tsnodd2->gf22->t, tsnodd2->gf22->c[0]+1L,tsnodd2->gf22->c[1], tsnodd2->gf22->sd, tsnodd2->gf22->i, tsnodd2->gf22->i);
+		}
+	}
+	if(k) {
+		nfiarr=realloc(nfiarr, k*sizeof(int)); // k can be zero
+		// printf("%i features found, though %i features in \"%s\" did not match \"%s\".\n", numfound2, k, fname2, fname0);
+	} else
+		// printf("%i features found, which were all in \"%s\"\n", numfound2, fname2);
+
+	free(nfiarr);
+
+	return;
+}
+
+void mgf222blop(char *fname0, char *fname2, gf22_t *gf22, int m7, blosnod **stab, unsigned tsz, blop_t *blop, int mb) /* match blastoutput to the gf22 ... but only is ABSENTCOLS see alternate function for full gf22 search */
+{
+	unsigned char found;
+	int numfound2=0;
+	int i, k=0;
+	char *tmpc=NULL;
+    blosnod *tsnodd0=NULL, *tsnodd2=NULL;
+    unsigned tint;
+	unsigned gbuf=GBUF;
+	int *nfiarr=malloc(gbuf*sizeof(int)); /* the not found index array */
+	float thresh=0.8;
+	printf("%s gf22 file with %i records matched against blast outp file %s with %i records at %2.1f identity:\n", fname0, m7, fname2, mb, thresh);
+	for(i=0;i<m7;++i) {
+		if(gf22[i].fc != ABS) { // in this version of thefunction we're not interested in non-ABS
+			printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%s;NAME=%s\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, gf22[i].i, gf22[i].i);
+			continue;
+		}
+		found = 0;
+        tint=hashit(gf22[i].i, tsz);
+        tsnodd2=stab[tint];
+        while( (tsnodd2 != NULL) ) {
+            if(!strcmp(tsnodd2->blop->qfs, gf22[i].i)) {
+				tmpc=strchr(tsnodd2->blop->fs, '_');
+				// plain, no pcti nor evals
+				if((tmpc!=NULL) & (blop[i].pcti>95.0))// if there's a _ it's an _mRNA
+					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%.*s;NAME=%.*s\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, (int)(tmpc-tsnodd2->blop->fs), tsnodd2->blop->fs, (int)(tmpc-tsnodd2->blop->fs), tsnodd2->blop->fs);
+				else if((tmpc==NULL) & (blop[i].pcti>95.0)) // if not _mRNA, don't know what to do: just it all out.
+					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%s;NAME=%s\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, tsnodd2->blop->fs, tsnodd2->blop->fs);
+				else
+					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tHIT1UNDER%3.1f\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, thresh);
+				numfound2++;
+				found = 1;
+				break;
+			}
+			tsnodd0=tsnodd2;
+            tsnodd2=tsnodd2->n;
+		}
+		if(!(found)) {
+			printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tNOHITATALL\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd);
+			CONDREALLOC(k, gbuf, GBUF, nfiarr, int);
+			nfiarr[k++]=i;
+		}
+	}
+	if(k) {
+		nfiarr=realloc(nfiarr, k*sizeof(int)); // k can be zero
+		// printf("%i features found, though %i features in \"%s\" did not match \"%s\".\n", numfound2, k, fname2, fname0);
+	} else
+		// printf("%i features found, which were all in \"%s\"\n", numfound2, fname2);
+
+	free(nfiarr);
+
+	return;
+}
+
 void prtbed2fo2(char *fname, bgr_t2 *bgrow, int m, int n, char *label) /* all -f bed file features except dots and _mRNA ending ones */
 {
 	int i;
@@ -3223,11 +3446,12 @@ int main(int argc, char *argv[])
 	i_s *sqisz=NULL;
 
 	/* for the ystr, gf22 hash handling */
-    unsigned htsz, htsz2, htsz3, htszyg;
+    unsigned htsz, htsz2, htsz3, htszyg, htszblo;
     gf22snod **stab=NULL;
     bt2snod **stab2=NULL;
     gf23snod **stab3=NULL;
     ygsnod **stabyg=NULL;
+    blosnod **stabblo=NULL;
 	blop_t *blop=NULL;
 	tcat ztcat;
 	boole zfound=0;
@@ -3237,8 +3461,11 @@ int main(int argc, char *argv[])
 		htszyg=2*myg/3;
 		stabyg=ygtochainharr(yglst, myg, htszyg);
 	}
-	if(opts.bstr)
+	if(opts.bstr) {
 		blop=processblop(opts.bstr, &mb, &nb);
+		htszblo=2*mb/3;
+		stabblo=blotochainharr(blop, mb, htszblo);
+	}
 	if(opts.istr)
 		bgrow=processinpf(opts.istr, &m, &n);
 	if(opts.fstr) {
@@ -3401,7 +3628,8 @@ int main(int argc, char *argv[])
 	
 	/** bstr, dealing with **/
 	if((opts.dflg) && (opts.bstr) )
-		prtblop(opts.bstr, blop, mb);
+		prtblochaharr(stabblo, htszblo);
+		// prtblop(opts.bstr, blop, mb);
 	/*routine to discover where blastoutput and annotation file match */
 	ia_t *iabed2=NULL;
 	if((opts.bstr) && (opts.fstr)) {
@@ -3413,6 +3641,8 @@ int main(int argc, char *argv[])
 		free(iabed2->a);
 		free(iabed2);
 	}
+	if((opts.ystr) && (opts.bstr) )
+		mgf222blop(opts.ystr, opts.bstr, gf22, m7, stabblo, htszblo, blop, mb);
 
 final:
 	if(opts.pstr) {
@@ -3493,10 +3723,12 @@ final:
 		free(sqisz);
 	}
 	if(opts.bstr) {
+		freeblochainharr(stabblo, htszblo);
 		for(i=0;i<mb;++i) {
 			free(blop[i].n);
 			free(blop[i].tc);
 			free(blop[i].fs);
+			free(blop[i].qfs);
 		}
 		free(blop);
 	}

@@ -43,7 +43,16 @@ instead
 # Activities
 uf.depth, large 16M depth positions across S288 of some sort .. had to delete it
 
+# matching gf22 and blast output
+hurry and preempting led me to match gf22 against target ... which of course in many occurences is fine. However, it's lunacy. These are blast results, you need to match gf22 ID strings to the query's ID. This will ofcourse give multiple matches, and then you use eval pcti to select which you print.
+
+
 # Worries
 Chipmonk2 has got too big? Even executing it is difficult. I.e.
 > Famous errors: presneting -ystr to the executable ... it gives a plain segfault no info. obvious it shoudl be -y!
 > presenting the same gff file to both -a and -y option ... not looking properly at args .. another blank segfault.
+
+# Making the blast output hashtable
+Funnily enough only the first entries were stored anyway. KInd of unusual
+I need to go over why the other were rejected.
+It's actually something that I wanted to do, but I need to discover why it's bein done automatically.
