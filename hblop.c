@@ -135,6 +135,7 @@ struct strchainodeblo /* blosnod struct */
 {
     blop_t *blop; /* ptr to a single element, not an array, TODO void* it. */
     struct strchainodeblo *n;
+	unsigned char ocn; /* occurrence number, For we dont want the first occurence ... beware though, if there is only one occurrence it'll be the firt one */
 };
 typedef struct strchainodeblo blosnod; /* yes, leave this alone, it's the way a struct can have a ptr ot its own type! */
 
@@ -211,12 +212,12 @@ nxt:        continue;
     return stab;
 }
 
-blosnod **blotochainharr(blop_t *blop, unsigned numsq, unsigned tsz)
+blosnod **blotochainharr(blop_t *blop, unsigned numsq, unsigned tsz, unsigned char docn /* desired occurrence number */)
 {
     unsigned i;
 
     blosnod **stab=malloc(tsz*sizeof(blosnod *));
-    for(i=0;i<tsz;++i) 
+    for(i=0;i<tsz;++i)
         stab[i]=NULL; /* _is_ a valid ptr, but it's unallocated. Initialization is possible though. */
     blosnod *tsnod0, *tsnod2;
 
@@ -226,14 +227,19 @@ blosnod **blotochainharr(blop_t *blop, unsigned numsq, unsigned tsz)
         if( (stab[tint] == NULL) ) {
             stab[tint]=malloc(sizeof(blosnod));
             stab[tint]->blop=blop+i;
+            stab[tint]->ocn=1;
             stab[tint]->n=NULL;
             continue;
         }
         tsnod2=stab[tint];
         while( (tsnod2 != NULL) ){
             if(!strcmp(tsnod2->blop->qfs, blop[i].qfs)) {
-                goto nxt;
-            }
+				if(stab[tint]->ocn<docn) { /* less than the desired occurrence */
+					stab[tint]->blop=blop+i;
+					stab[tint]->ocn++;
+				}
+				goto nxt;
+			}
             tsnod0=tsnod2;
             tsnod2=tsnod2->n;
         }
@@ -398,7 +404,7 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
 	int cncols /* canonical numcols ... we will use the first line */;
 	char *tmpc=NULL, *tmpc2=NULL;
-	char *oldqfs=calloc(16, sizeof(char));
+	char *oldqfs=calloc(32, sizeof(char));
 	unsigned oldqfnoc=0;
 
 	blop_t *blop=calloc(GBUF, sizeof(blop_t));
@@ -418,7 +424,8 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 					blop[wa->numl].n=malloc(couc*sizeof(char));
 					blop[wa->numl].nsz=couc;
 					strcpy(blop[wa->numl].n, bufword);
-					qfpresz=(size_t)(tmpc2-tmpc)-1UL;
+					// qfpresz=(size_t)(tmpc2-tmpc)-1UL;
+					qfpresz=(size_t)(tmpc2-tmpc);
 					blop[wa->numl].qfssz=qfpresz;
 					blop[wa->numl].qfs=calloc(qfpresz, sizeof(char));
 					strncpy(blop[wa->numl].qfs, tmpc+1, qfpresz-1UL);
@@ -755,7 +762,8 @@ int main(int argc, char *argv[])
 	if(opts.bstr) {
 		blop=processblop(opts.bstr, &mb, &nb);
 		htszblo=2*mb/3;
-		stabblo=blotochainharr(blop, mb, htszblo);
+		unsigned char docn =2;
+		stabblo=blotochainharr(blop, mb, htszblo, docn);
 	}
 	if(opts.ystr) { // we're goign to try hashing the ID line of gf22 format */
 		gf22=processgf22(opts.ystr, &m7, &n7);
