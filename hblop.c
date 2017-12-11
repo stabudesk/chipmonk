@@ -698,11 +698,11 @@ void mgf222blop(char *fname0, char *fname2, gf22_t *gf22, int m7, blosnod **stab
         tsnodd2=stab[tint];
         while( (tsnodd2 != NULL) ) {
             if(!strcmp(tsnodd2->blop->qfs, gf22[i].i)) {
-				tmpc=strchr(tsnodd2->blop->fs, '_');
+				tmpc=strchr(tsnodd2->blop->fs, '_'); // i.e. catch out YXXX_mRNA
 				// plain, no pcti nor evals
-				if((tmpc!=NULL) & (blop[i].pcti>95.0))// if there's a _ it's an _mRNA
-					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%.*s;NAME=%.*s\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, (int)(tmpc-tsnodd2->blop->fs), tsnodd2->blop->fs, (int)(tmpc-tsnodd2->blop->fs), tsnodd2->blop->fs);
-				else if((tmpc==NULL) & (blop[i].pcti>95.0)) // if not _mRNA, don't know what to do: just it all out.
+				if((tmpc!=NULL) & (blop[i].pcti>thresh))// if there's a _ it's an _mRNA
+					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%.*s;NAME=%.*s\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, (int)(tmpc - tsnodd2->blop->fs), tsnodd2->blop->fs, (int)(tmpc - tsnodd2->blop->fs), tsnodd2->blop->fs);
+				else if((tmpc==NULL) & (blop[i].pcti>thresh)) // if not _mRNA, don't know what to do: just it all out.
 					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%s;NAME=%s\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, tsnodd2->blop->fs, tsnodd2->blop->fs);
 				else
 					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tHIT1UNDER%3.1f\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, thresh);
