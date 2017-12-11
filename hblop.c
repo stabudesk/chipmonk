@@ -223,6 +223,8 @@ blosnod **blotochainharr(blop_t *blop, unsigned numsq, unsigned tsz, unsigned ch
 
     unsigned tint;
     for(i=0; i<numsq; ++i) {
+        if( blop[i].fssz<3) // pretty much a "no label" blast hit
+			continue; 
         tint=hashit(blop[i].qfs, tsz);
         if( (stab[tint] == NULL) ) {
             stab[tint]=malloc(sizeof(blosnod));
