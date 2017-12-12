@@ -1,4 +1,4 @@
-/* chipmonk.c: a program to "tackle" BED (genomic features file) files.
+/* chipmonk2.c: a program to "tackle" BED (genomic features file) files.
    Copyright (C) 2017 Ramon Fallon, University of St Andrews.
 
    This program is free software; you can redistribute it and/or
@@ -3444,6 +3444,7 @@ int main(int argc, char *argv[])
 	gf23_t *gf23=NULL;
 	ygl_t *yglst=NULL;
 	i_s *sqisz=NULL;
+	blop_t *blop=NULL;
 
 	/* for the ystr, gf22 hash handling */
     unsigned htsz, htsz2, htsz3, htszyg, htszblo;
@@ -3452,7 +3453,6 @@ int main(int argc, char *argv[])
     gf23snod **stab3=NULL;
     ygsnod **stabyg=NULL;
     blosnod **stabblo=NULL;
-	blop_t *blop=NULL;
 	tcat ztcat;
 	boole zfound=0;
 

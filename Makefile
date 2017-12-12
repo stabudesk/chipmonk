@@ -5,7 +5,7 @@ CFLAGS=-O3 -Wall
 DBGCFLAGS=-g -Wall
 TDBGCFLAGS=-g -Wall -DDBG # True debug flags!
 
-EXES=chipmonk chipmonk_t chipmonk_d gfmatchup gfmatchup_t gfmatchup_d chipmonk2 chipmonk2_t chipmonk2_d
+EXES=chipmonk chipmonk_t chipmonk_d gfmatchup gfmatchup_t gfmatchup_d chipmonk2 chipmonk2_t chipmonk2_d hblop hblop_d
 
 # production binary
 chipmonk: chipmonk.c
@@ -40,6 +40,15 @@ chipmonk2_t: chipmonk2.c
 	${CC} ${DBGCFLAGS} -o $@ $^
 # testing mode binary
 chipmonk2_d: chipmonk2.c
+	${CC} ${TDBGCFLAGS} -o $@ $^
+
+hblop: hblop.c
+	${CC} ${CFLAGS} -o $@ $^
+# testing mode binary
+hblop_t: hblop.c
+	${CC} ${DBGCFLAGS} -o $@ $^
+# testing mode binary
+hblop_d: hblop.c
 	${CC} ${TDBGCFLAGS} -o $@ $^
 
 .PHONY: clean

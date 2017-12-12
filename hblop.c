@@ -114,6 +114,7 @@ typedef struct /* blop_t: the b option, bast output format 7 */
 	char *tc;
 	size_t tcsz; /* target string ..yep */
 	char *qfs; /* query Feature substring */
+	long q[2]; /* query feature beginning and end */
 	char *fs; /* target feature substring */
 	size_t fssz; /* size of fs */
 	size_t qfssz; /* size of fs */
@@ -405,7 +406,7 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 	size_t bwbuf=WBUF;
 	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
 	int cncols /* canonical numcols ... we will use the first line */;
-	char *tmpc=NULL, *tmpc2=NULL;
+	char *tmpc=NULL, *tmpc2=NULL, *tmpc3=NULL, *tmpc4=NULL, *tmpc5=NULL;
 	char *oldqfs=calloc(32, sizeof(char));
 	unsigned oldqfnoc=0;
 
@@ -420,12 +421,16 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 				/* for the struct, we want to know if it's the first word in a line, like so: */
 				if(couw==oldcouw) {
 					tmpc=strchr(bufword, ':');
-					tmpc2=strchr(bufword, 'r'); // hacky ... avoiding strtok by grabbing r after 2nd |
-					if( (tmpc == NULL) | (tmpc2==NULL) | (tmpc2 <= tmpc))
-						printf("query name did not have a : or r or r appeared before : ... you'll get a segfault.\n");
+					tmpc2=strchr(tmpc, '|'); // hacky ... avoiding strtok by grabbing r after 2nd |
+					tmpc3=strchr(tmpc2, '_'); // token before sart point
+					tmpc4=strchr(tmpc3, ':'); // token before end point
+					tmpc5=strchr(tmpc4, '|'); // token before end point
+					if( (tmpc == NULL) | (tmpc2==NULL) | (tmpc2 <= tmpc) | (tmpc3 == NULL) | (tmpc4==NULL) | (tmpc5 ==NULL) )
+						printf("query name did not have a : or | or | appeared before : ... you'll get a segfault.\n");
 					blop[wa->numl].n=malloc(couc*sizeof(char));
 					blop[wa->numl].nsz=couc;
 					strcpy(blop[wa->numl].n, bufword);
+					// OK. get the ID string
 					// qfpresz=(size_t)(tmpc2-tmpc)-1UL;
 					qfpresz=(size_t)(tmpc2-tmpc);
 					blop[wa->numl].qfssz=qfpresz;
@@ -438,6 +443,16 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 						strcpy(oldqfs, blop[wa->numl].qfs);
 						oldqfnoc=0;
 					}
+					// OK get start and end pos. Notice we will overwrite the bugword here, but it is not being utilised after this.
+					// printf("qb=%.*s/qe=%.*s\n", (int)(tmpc4-tmpc3-1), tmpc3+1, (int)(tmpc5-tmpc4-1), tmpc4+1);
+					tmpc3[(int)(tmpc4-tmpc3)]='\0';
+					tmpc4[(int)(tmpc5-tmpc4)]='\0';
+					blop[wa->numl].q[0] = atol(tmpc3+1);
+					blop[wa->numl].q[1] = atol(tmpc4+1);
+#ifdef DBG2
+					printf("qb=%li/qe=%li\n", blop[wa->numl].q[0] , blop[wa->numl].q[1]);
+#endif
+
 				} else if((couw-oldcouw)==8) { /* fourth col */
 					blop[wa->numl].c[0]=atol(bufword)-1L; // change to zero indexing
 				} else if((couw-oldcouw)==9) { /* it's not the first word, and it's 1st and second col */
@@ -523,6 +538,7 @@ blop_t *processblop(char *fname, int *m, int *n) /* blast output formatting */
 #endif
 	*n= cncols; 
 	free_wseq(wa);
+	free(oldqfs);
 
 	if(idanomals)
 		printf("Warning, idanomals was not zero, it was %i, so some IDs and are not exactly the same as NAMEs.\n", idanomals); 
@@ -682,52 +698,65 @@ void mgf222blop(char *fname0, char *fname2, gf22_t *gf22, int m7, blosnod **stab
 {
 	unsigned char found;
 	int numfound2=0;
-	int i, k=0;
+	int i, k=0, kk=0, ki=0;
 	char *tmpc=NULL;
     blosnod *tsnodd0=NULL, *tsnodd2=NULL;
     unsigned tint;
-	unsigned gbuf=GBUF;
+	unsigned gbuf=GBUF, gbuf2=GBUF;
 	int *nfiarr=malloc(gbuf*sizeof(int)); /* the not found index array */
-	float thresh=0.8;
-	printf("%s gf22 file with %i records matched against blast outp file %s with %i records at %2.1f identity:\n", fname0, m7, fname2, mb, thresh);
+	int *inadarr=malloc(gbuf2*sizeof(int)); /* inadequate finds: due to pct identity being too low or something */
+	float pcthresh=85.0, evthresh=0.00001;
+	printf("%s gf22 file with %i records wll not be matched against blast outp file %s with %i records at %2.1f identity:\n", fname0, m7, fname2, mb, pcthresh);
 	for(i=0;i<m7;++i) {
 		if(gf22[i].fc != ABS) { // in this version of thefunction we're not interested in non-ABS
-			printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%s;NAME=%s\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, gf22[i].i, gf22[i].i);
+			printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%s;NAME=%s\tNOTABS\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, gf22[i].i, gf22[i].i);
+			ki++;
 			continue;
 		}
 		found = 0;
         tint=hashit(gf22[i].i, tsz);
         tsnodd2=stab[tint];
         while( (tsnodd2 != NULL) ) {
-            if(!strcmp(tsnodd2->blop->qfs, gf22[i].i)) {
+#ifdef DBG2
+			printf("testing %s vs. %s: %li vs. %li: %li vs. %li\n", gf22[i].i, tsnodd2->blop->qfs, gf22[i].c[0], tsnodd2->blop->q[0], gf22[i].c[1], tsnodd2->blop->q[1]);
+#endif
+            if(!strcmp(gf22[i].i, tsnodd2->blop->qfs)) {
+            // if(!(strcmp(gf22[i].n, tsnodd2->blop->n)) && (tsnodd2->blop->q[0] == gf22[i].c[0])  || && (tsnodd2->blop->q[1] == gf22[i].c[1])) {
 				tmpc=strchr(tsnodd2->blop->fs, '_'); // i.e. catch out YXXX_mRNA
-				// plain, no pcti nor evals
-				if((tmpc!=NULL) & (blop[i].pcti>thresh))// if there's a _ it's an _mRNA
-					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%.*s;NAME=%.*s\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, (int)(tmpc - tsnodd2->blop->fs), tsnodd2->blop->fs, (int)(tmpc - tsnodd2->blop->fs), tsnodd2->blop->fs);
-				else if((tmpc==NULL) & (blop[i].pcti>thresh)) // if not _mRNA, don't know what to do: just it all out.
-					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%s;NAME=%s\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, tsnodd2->blop->fs, tsnodd2->blop->fs);
-				else
-					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tHIT1UNDER%3.1f\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, thresh);
+
+				// if((tmpc!=NULL) & ((blop[i].pcti>pcthresh) | (blop[i].eval<evthresh)))
+				if((tmpc!=NULL) & (blop[i].pcti>pcthresh))
+					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%.*s;NAME=%.*s\t%4.4f\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, (int)(tmpc - tsnodd2->blop->fs), tsnodd2->blop->fs, (int)(tmpc - tsnodd2->blop->fs), tsnodd2->blop->fs, tsnodd2->blop->eval); 
+				// else if((tmpc==NULL) & ((blop[i].pcti>pcthresh) | (blop[i].eval<evthresh))) // if not _mRNA, don't know what to do: just it all out.
+				else if((tmpc==NULL) & (blop[i].pcti>pcthresh))
+					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%s;NAME=%s\t%4.4f\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, tsnodd2->blop->fs, tsnodd2->blop->fs, tsnodd2->blop->eval);
+				else {
+					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tHIT1UNDER%3.1f\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, pcthresh);
+					CONDREALLOC(kk, gbuf2, GBUF, inadarr, int);
+					inadarr[kk++]=i;
+				}
 				numfound2++;
 				found = 1;
-				break;
+				break; // gets out of the while, not the for
 			}
 			tsnodd0=tsnodd2;
             tsnodd2=tsnodd2->n;
 		}
 		if(!(found)) {
-			printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tNOHITATALL\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd);
+			printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tNOTFOUND\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd);
 			CONDREALLOC(k, gbuf, GBUF, nfiarr, int);
 			nfiarr[k++]=i;
 		}
 	}
-	if(k) {
+	if(k)
 		nfiarr=realloc(nfiarr, k*sizeof(int)); // k can be zero
-		// printf("%i features found, though %i features in \"%s\" did not match \"%s\".\n", numfound2, k, fname2, fname0);
-	} else
-		// printf("%i features found, which were all in \"%s\"\n", numfound2, fname2);
+	if(kk)
+		inadarr=realloc(inadarr, kk*sizeof(int));
+
+	printf("Of %i, features ignored: %i; features found: %i; found but inadequate: %i; not found at all: %i\n", m7, ki, numfound2, kk, k);
 
 	free(nfiarr);
+	free(inadarr);
 
 	return;
 }
