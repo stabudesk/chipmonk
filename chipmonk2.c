@@ -940,7 +940,7 @@ void prtmbed2wof(i_s *sqisz, int sz, bgr_t2 *bgrow, int m2, bt2snod **stab2, uns
             if(!strcmp(tsnodd2->bed2->f, bedword[i].n)) {
 				for(j=0;j<sz;++j) { /* have to go through each chromosome */
 					if(!strcmp(sqisz[j].id, tsnodd2->bed2->n)) {
-						sprintf(rangestr, "|range_%li_to_%li|%s", tsnodd2->bed2->c[0], tsnodd2->bed2->c[1], tsnodd2->bed2->f);
+						sprintf(rangestr, "|range_%li_to_%li|%s|%c", tsnodd2->bed2->c[0], tsnodd2->bed2->c[1], tsnodd2->bed2->f, tsnodd2->bed2->sd);
 						printf(">%s", sqisz[j].id);
 						printf("%s\n", rangestr);
 						if(tsnodd2->bed2->sd =='+')
@@ -2948,7 +2948,7 @@ keepmoving: tsnodd0=tsnodd2;
 	return;
 }
 
-void mbed2wof(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2, unsigned tsz, words_t *bedword, int m3) /* search beds2 feature names from file of words */
+void mbed2wof_d(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2, unsigned tsz, words_t *bedword, int m3) /* search beds2 feature names from file of words */
 {
 	unsigned char found;
 	int numfound2=0;
@@ -2984,6 +2984,34 @@ keepmoving: tsnodd0=tsnodd2;
 		printf("%i features found, which were all in \"%s\"\n", numfound2, fname2);
 
 	free(nfiarr);
+
+	return;
+}
+
+void mbed2wof(char *fname0, char *fname2, bgr_t2 *bgrow, int m2, bt2snod **stab2, unsigned tsz, words_t *bedword, int m3) /* search beds2 feature names from file of words */
+{
+	unsigned char found;
+	int numfound2=0;
+	int i, k=0;
+    bt2snod *tsnodd0=NULL, *tsnodd2=NULL;
+    unsigned tint;
+	printf("%s bed file with %i records matched against words file file %s with %i records:\n", fname0, m2, fname2, m3); 
+	for(i=0;i<m3;++i) {
+		found = 0;
+        tint=hashit(bedword[i].n, tsz);
+        tsnodd2=stab2[tint];
+        while( (tsnodd2 != NULL) ) {
+            if(!strcmp(tsnodd2->bed2->f, bedword[i].n)) {
+				printf("%s\t%li\t%li\t%c\t%s\n", tsnodd2->bed2->n, tsnodd2->bed2->c[0], tsnodd2->bed2->c[1], tsnodd2->bed2->sd, bedword[i].n);
+				numfound2++;
+				found = 1;
+				break;
+			}
+keepmoving: tsnodd0=tsnodd2;
+            tsnodd2=tsnodd2->n;
+		}
+	}
+	printf("%i features found, though %i features in \"%s\" did not match \"%s\".\n", numfound2, k, fname2, fname0);
 
 	return;
 }
@@ -3408,7 +3436,7 @@ i4_t *difca(bgr_t *bgrow, int m, int *dcasz, float minsig) /* An temmpt to merge
 
 void prtusage()
 {
-	printf("chipmonk: takes a variety of genomic features ifles (principally yeast, but can be modified) with following options:\n");
+	printf("\nchipmonk2: takes a variety of genomic features files (principally yeast, but can be modified) with following options:\n\n");
 	printf("-i, this is for a bedgraph type file.\n");
 	printf("-f, this is for a feature file in bed format, probably converted from gff.\n");
 	printf("-d, this is a flag, it stands of details, to be used with a single filename specification option, merely allows you see details of the file.\n");
@@ -3417,6 +3445,13 @@ void prtusage()
 	printf("-y: takes a variation of the GFF2 format, a table, column nine gives the Y-name. eg. Output of YG annotator service\n");
 	printf("-l: takes a Yeast Genome listing file ... obtained from their website.\n");
 	printf("-n: the names flag ... to only print out feature names.\n");
+	printf("-u: accepts a list of Y-names.\n");
+	printf("\nTypical usage examples:\n\n");
+	printf("./chipmonk2 -a <ref.fasta> -f <ref.bed> -u <Yname list>\n");
+	printf(" ... outputs annotated fasta of the names present under the -u option.\n");
+	printf("\n./chipmonk2 -d -f <ref.bed> -u <Yname list>\n");
+	printf(" ... outputs bedgraph file with ranges and strand-sense of names listed in -u option.\n");
+
 	return;
 }
 
@@ -3519,7 +3554,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* combo: df!sa */
-	if((opts.dflg) && (opts.fstr) && !opts.sflg && !opts.astr && !opts.nflg && !opts.istr) {
+	if((opts.dflg) && (opts.fstr) && !opts.sflg && !opts.astr && !opts.nflg && !opts.istr && !opts.ustr) {
 		prtbed2fo(opts.fstr, bed2, m2, n2, "Feature (bed2)");
 		// prtbt2chaharr(stab2, htsz2);
 		goto final;
@@ -3545,7 +3580,7 @@ int main(int argc, char *argv[])
 
 	/* -d -u and -f, bit stealth here, looking for words in -f's features */
 	/* use as ./chipmonk -d -f sacchmys_annotsnochrline.bed -u gna.txt, where your gna.txt has Y-names for example */
-	if((opts.ustr) && (opts.fstr) && opts.dflg && !(opts.astr))
+	if((opts.ustr) && (opts.fstr) && opts.dflg && !opts.sflg && !(opts.astr))
 		mbed2wof(opts.fstr, opts.ustr, bed2, m2, stab2, htsz2, bedword, m3);
 
 	if(opts.ustr && opts.fstr && !(opts.dflg) && opts.astr) {

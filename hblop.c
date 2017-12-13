@@ -694,7 +694,7 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 	return gf22;
 }
 
-void mgf222blop(char *fname0, char *fname2, gf22_t *gf22, int m7, blosnod **stab, unsigned tsz, blop_t *blop, int mb) /* match blastoutput to the gf22 ... but only is ABSENTCOLS see alternate function for full gf22 search */
+void mgf222blop_d(char *fname0, char *fname2, gf22_t *gf22, int m7, blosnod **stab, unsigned tsz, blop_t *blop, int mb) /* match blastoutput to the gf22 ... but only is ABSENTCOLS see alternate function for full gf22 search */
 {
 	unsigned char found;
 	int numfound2=0;
@@ -744,6 +744,70 @@ void mgf222blop(char *fname0, char *fname2, gf22_t *gf22, int m7, blosnod **stab
 		}
 		if(!(found)) {
 			printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tNOTFOUND\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd);
+			CONDREALLOC(k, gbuf, GBUF, nfiarr, int);
+			nfiarr[k++]=i;
+		}
+	}
+	if(k)
+		nfiarr=realloc(nfiarr, k*sizeof(int)); // k can be zero
+	if(kk)
+		inadarr=realloc(inadarr, kk*sizeof(int));
+
+	printf("Of %i, features ignored: %i; features found: %i; found but inadequate: %i; not found at all: %i\n", m7, ki, numfound2, kk, k);
+
+	free(nfiarr);
+	free(inadarr);
+
+	return;
+}
+
+void mgf222blop(char *fname0, char *fname2, gf22_t *gf22, int m7, blosnod **stab, unsigned tsz, blop_t *blop, int mb) /* match blastoutput to the gf22 ... but only is ABSENTCOLS see alternate function for full gf22 search */
+{
+	unsigned char found;
+	int numfound2=0;
+	int i, k=0, kk=0, ki=0;
+	char *tmpc=NULL;
+    blosnod *tsnodd0=NULL, *tsnodd2=NULL;
+    unsigned tint;
+	unsigned gbuf=GBUF, gbuf2=GBUF;
+	int *nfiarr=malloc(gbuf*sizeof(int)); /* the not found index array */
+	int *inadarr=malloc(gbuf2*sizeof(int)); /* inadequate finds: due to pct identity being too low or something */
+	float pcthresh=85.0, evthresh=0.00001;
+	printf("%s gf22 file with %i records wll not be matched against blast outp file %s with %i records at %2.1f identity:\n", fname0, m7, fname2, mb, pcthresh);
+	for(i=0;i<m7;++i) {
+		if(gf22[i].fc != ABS) { // in this version of thefunction we're not interested in non-ABS
+			printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%s;NAME=%s\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, gf22[i].i, gf22[i].i);
+			ki++;
+			continue;
+		}
+		found = 0;
+        tint=hashit(gf22[i].i, tsz);
+        tsnodd2=stab[tint];
+        while( (tsnodd2 != NULL) ) {
+            if(!strcmp(gf22[i].i, tsnodd2->blop->qfs)) {
+            // if(!(strcmp(gf22[i].n, tsnodd2->blop->n)) && (tsnodd2->blop->q[0] == gf22[i].c[0])  || && (tsnodd2->blop->q[1] == gf22[i].c[1])) {
+				tmpc=strchr(tsnodd2->blop->fs, '_'); // i.e. catch out YXXX_mRNA
+
+				// if((tmpc!=NULL) & ((blop[i].pcti>pcthresh) | (blop[i].eval<evthresh)))
+				if((tmpc!=NULL) & (blop[i].pcti>pcthresh))
+					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%.*s;NAME=%.*s\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, (int)(tmpc - tsnodd2->blop->fs), tsnodd2->blop->fs, (int)(tmpc - tsnodd2->blop->fs), tsnodd2->blop->fs);
+				// else if((tmpc==NULL) & ((blop[i].pcti>pcthresh) | (blop[i].eval<evthresh))) // if not _mRNA, don't know what to do: just it all out.
+				else if((tmpc==NULL) & (blop[i].pcti>pcthresh))
+					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tID=%s;NAME=%s\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, tsnodd2->blop->fs, tsnodd2->blop->fs);
+				else {
+					printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tHITUND%3.1fID\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd, pcthresh);
+					CONDREALLOC(kk, gbuf2, GBUF, inadarr, int);
+					inadarr[kk++]=i;
+				}
+				numfound2++;
+				found = 1;
+				break; // gets out of the while, not the for
+			}
+			tsnodd0=tsnodd2;
+            tsnodd2=tsnodd2->n;
+		}
+		if(!(found)) {
+			printf("%s\tYGD\t%s\t%li\t%li\t.\t%c\t.\tNOHITATALL\n", gf22[i].n, gf22[i].t, gf22[i].c[0]+1L,gf22[i].c[1], gf22[i].sd);
 			CONDREALLOC(k, gbuf, GBUF, nfiarr, int);
 			nfiarr[k++]=i;
 		}
@@ -811,8 +875,14 @@ int main(int argc, char *argv[])
 		prtblochaharr(stabblo, htszblo);
 
 	/* Now do real stuff */
-	if((opts.ystr) && (opts.bstr) )
+	if((opts.ystr) && (opts.bstr) ) {
+#ifdef DBG
+		mgf222blop_d(opts.ystr, opts.bstr, gf22, m7, stabblo, htszblo, blop, mb);
+#else
 		mgf222blop(opts.ystr, opts.bstr, gf22, m7, stabblo, htszblo, blop, mb);
+#endif
+
+	}
 
 final:
 	if(opts.ystr) {

@@ -13,8 +13,10 @@ If you do not have a BED file, but rather have a GFF file, there are tools out t
 ## 0 indexing
 GFF uses 1-indexing. The range is closed. Start and end are both part of the interval. However, internally, the program converts these
 to zero indexing, which is the bed convention. Be careful when eyeballing gffs and comparing to program output.
-BED files use 0 indexing (semi-open ranges) , as does (by default) the size files.
+BED files use 0 indexing (semi-open ranges) , as does (by default) the genome size files.
 This means semi-open intervals. The first number is inclusive of the range, while the second is one above the final included position.
+
+When ranges appear on the ID line of outputted fasta files, they use the bed convention.
 
 ## Sometimes chromosome order 4, 9, 5
 Lexicographic ordering means 4,9,5 because Roman numerals are used for chromosome names
@@ -56,3 +58,10 @@ Chipmonk2 has got too big? Even executing it is difficult. I.e.
 Funnily enough only the first entries were stored anyway. KInd of unusual
 I need to go over why the other were rejected.
 It's actually something that I wanted to do, but I need to discover why it's bein done automatically.
+
+# the issue of strand-sense
+when mathing of a fasta file, that only has the one forward sense. If you have feature which is Crick sense, you decide to translate or not. My convention is to translate, and to accompany
+the annotation somehow with the "-" reverse strand symbol. IS there scope for confusion? Of course, bu the idea and the convention I think, is that a fasta should have the literal sequence. 
+
+# feature name encoding
+some of this has turned out to have percetn-econding: %20 for spaces, %28 for ( and %29 for ) 
