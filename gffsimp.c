@@ -56,16 +56,15 @@
 typedef unsigned char boole;
 
 typedef enum { /* feature category ... depending on conditions in the file: but please modify global word string below too */
-	ABS=1, /* an absent feature */
-	TMR=2, /* a telomere */
-	FTH=3, /* fthing */
-	YTH=4, /* ything */
-	NCA=5, /* no categry assigned */
-	MRN=6, /* no categry assigned */
-	ALL=7 /* the fc member won't get this */
+	REG=1, /* an absent feature */
+	GNE=2, /* a telomere */
+	MRN=3, /* fthing */
+	CDS=4, /* ything */
+	EXN=5, /* no categry assigned */
+	UNK=6 /* the fc member won't get this */
 } fcat;
-#define FCQUAN 7
-char *fcnames[FCQUAN]={"ABS", "TMR", "FTH", "YTH", "NCA", "MRN", "ALL"};
+#define FCQUAN 6
+char *fcnames[FCQUAN]={"region", "gene", "mRNA", "CDS", "exon", "unknown"};
 fcat getfc(char *cnam) /* this function has special permission to be up here */
 {
 	int i;
@@ -169,6 +168,9 @@ typedef struct /* gf22_t: the y option, based on rmf_t */
 	size_t isz; /* size of iD string */
 	size_t tsz; /* size of type stringstring */
 	fcat fc;
+	char *gbkn; /* genbank gene name fished out of ID string */
+	char *altn; /*alt gene name i.e. LOC-something, fished out of ID line */
+	char *fdsc; /* functiona description, fished out of ID line, only usually avilable when type is mRNA */
 } gf22_t;
 
 typedef struct /* blop_t: the b option, bast output format 7 */
@@ -546,7 +548,6 @@ void prtfa2(onefa *fac)
 
 void prtsq(i_s *sqisz, int sz)
 {
-	int i;
 	printf("Number of different sequences=%i\n", sz); 
 #ifdef DBG
 	for(i=0;i<sz;++i) {
@@ -578,7 +579,7 @@ void prtsqbdggf22(i_s *sqisz, gf22_t *gf22, int m, int sz, fcat fc)
 {
 	int i, j;
 	char rangestr[64]={0}; /* generally helpful to say what range is being given */
-	if(fc!=ALL) {
+	if(fc!=UNK) {
 		for(j=0;j<m;++j) 
 			for(i=0;i<sz;++i) {
 				if((gf22[j].fc == fc) & !strcmp(sqisz[i].id, gf22[j].n)) {
@@ -1234,10 +1235,12 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 	wseq_t *wa=create_wseq_t(GBUF);
 	size_t bwbuf=WBUF;
 	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
-	char *sm=NULL /*first semicolon marker*/, *fem=NULL /* first equals marker */, *lem=NULL /* last equals marker */;
 	int cncols /* canonical numcols ... we will use the first line */;
-	char tch0[6]={0}; /* temporary char holder for attaching numbers to absentidcols */
-	int numnoc9=0;
+	// for strtok purposes ... manupulations of the ID line
+	char tkd[]=":,=;"; // the tk delimiters
+	char *tk; // the char ptr used for strtok
+	size_t ctksz /* current tk size, i.e. the strlen on it */;
+	boole gbkm, altm, fdsm; // markers for strtok
 
 	gf22_t *gf22=malloc(GBUF*sizeof(gf22_t));
 
@@ -1262,30 +1265,47 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 					gf22[wa->numl].t=malloc(couc*sizeof(char));
 					gf22[wa->numl].tsz=couc;
 					strcpy(gf22[wa->numl].t, bufword);
-				} else if( (couw-oldcouw)==8) { // the ID string at the end
-					fem=strchr(bufword, '='); // first equals
-					lem=strrchr(bufword, '='); // last equals
-					sm=strchr(bufword, ';'); // first semic
-					gf22[wa->numl].isz=(size_t)(sm-fem);
-					gf22[wa->numl].i=malloc(gf22[wa->numl].isz*sizeof(char));
-					memcpy(gf22[wa->numl].i, fem+1, (gf22[wa->numl].isz-1)*sizeof(char)); // strncpy writes an extra bit for \0
-					gf22[wa->numl].i[gf22[wa->numl].isz-1]='\0'; // null terminate
-					/* grab the fcat now, just use first letter */
 					for(j=0; j<FCQUAN; j++) {
-						if(gf22[wa->numl].i[0] == 'T') {
-							gf22[wa->numl].fc=TMR; /* Telomere with any luck */
+						if(!strcmp(gf22[wa->numl].t, fcnames[j])) {
+							gf22[wa->numl].fc=j+1;
 							break;
-						} else if(gf22[wa->numl].i[0] == 'F') {
-							gf22[wa->numl].fc=FTH; /* f thingie */
-							break;
-						} else if(gf22[wa->numl].i[0] == 'Y') {
-							gf22[wa->numl].fc=YTH; /* y thingie */
-							break;
-						} else 
-							gf22[wa->numl].fc=NCA; /* no particular category assigned */
+						} else if(j==FCQUAN-1) {
+							gf22[wa->numl].fc=UNK;
+						}
 					}
-					if( strcmp(lem+1, gf22[wa->numl].i))
-						idanomals++;
+				} else if( (couw-oldcouw)==8) { // the ID string at the end
+					/// let's just record the entire id string despite fact we'll be picking stuff out
+					gf22[wa->numl].i=malloc(couc*sizeof(char));
+					gf22[wa->numl].isz=couc;
+					strcpy(gf22[wa->numl].i, bufword);
+					if(gf22[wa->numl].fc==MRN) { // ok go strtok only if mRNA
+						tk=strtok(bufword, tkd);
+						gbkm = altm = fdsm = 0;
+						while( (tk=strtok(NULL, tkd)) !=NULL) {
+							if( !strcmp(tk, "Genbank") ) {
+									gbkm=1;
+							} else if(gbkm==1) {
+									gbkm=0;
+									ctksz=strlen(tk);
+									gf22[wa->numl].gbkn=malloc((ctksz+1)*sizeof(char));
+									strcpy(gf22[wa->numl].gbkn, tk);
+							} else if( !strcmp(tk, "gene") ) {
+									altm=1;
+							} else if(altm==1) {
+									altm=0;
+									ctksz=strlen(tk);
+									gf22[wa->numl].altn=malloc((ctksz+1)*sizeof(char));
+									strcpy(gf22[wa->numl].altn, tk);
+							} else if( !strcmp(tk, "product") ) {
+									fdsm=1;
+							} else if(fdsm==1) {
+									fdsm=0;
+									ctksz=strlen(tk);
+									gf22[wa->numl].fdsc=malloc((ctksz+1)*sizeof(char));
+									strcpy(gf22[wa->numl].fdsc, tk);
+							}
+						}
+					}
 				}
 				couc=0;
 				couw++;
@@ -1304,16 +1324,6 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 				/* extra bit to catch canonical colnums */
 				if(wa->numl==0)
 					cncols=couw-oldcouw;
-				else if (couw-oldcouw== GF22IDCNUM-1) {
-					// printf("couw-oldcouw=%i\n", couw-oldcouw); 
-					gf22[wa->numl].isz=17L;
-					gf22[wa->numl].i=malloc(gf22[wa->numl].isz*sizeof(char));
-					strcpy(gf22[wa->numl].i, "ABSENTIDCOL"); //* absent ID column */
-					gf22[wa->numl].fc=ABS;
-					sprintf(tch0, "%05i", numnoc9);
-					strcat(gf22[wa->numl].i, tch0);
-					numnoc9++;
-				}
 				oldcouw=couw; /* restart words per line count */
 				wa->numl++; /* brand new line coming up */
 			}
@@ -1806,11 +1816,32 @@ void prtgf22(char *fname, gf22_t *gf22, int m7)
 {
 	int i;
 	for(i=0;i<m7;++i) // note how we cut out the spurious parts of the motif string to leave it pure and raw (slightly weird why two-char deletion is necessary.
-		printf("%s\t%li\t%li\t%c\t%s\t%s\n", gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].t, gf22[i].i);
+		printf("%s\t%li\t%li\t%c\t%s\t%s\t%s\n", gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].t, gf22[i].i, gf22[i].gbkn);
 
 #ifdef DBG
 	printf("You have just seen the %i entries of basic gff2 file called \"%s\".\n", m7, fname); 
 #endif
+	return;
+}
+
+void prtgf22mrn(char *fname, gf22_t *gf22, int m7)
+{
+	int i;
+	int mrncou=0;
+	for(i=0;i<m7;++i) // note how we cut out the spurious parts of the motif string to leave it pure and raw (slightly weird why two-char deletion is necessary.
+		if(gf22[i].fc == MRN) {
+			mrncou++;
+			// printf("%s\t%li\t%li\t%c\t%s\t%s\t%s\n", gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].t, gf22[i].i, gf22[i].gbkn);
+			if( (gf22[i].altn == NULL) && (gf22[i].fdsc == NULL) ) 
+				printf("%s\t%s\t%li\t%li\t%c\t%s\tunannot\tunannot\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn);
+			else if( (gf22[i].altn == NULL))
+				printf("%s\t%s\t%li\t%li\t%c\t%s\tunannot\t%s\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn, gf22[i].fdsc);
+			else if( (gf22[i].fdsc == NULL))
+				printf("%s\t%s\t%li\t%li\t%c\t%s\t%s\tunannot\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn, gf22[i].altn);
+			else 
+				printf("%s\t%s\t%li\t%li\t%c\t%s\t%s\t%s\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn, gf22[i].altn, gf22[i].fdsc);
+		}
+	printf("Total of %i MRN entries out of a grand total %i entries in gff2 file called \"%s\".\n", mrncou, m7, fname); 
 	return;
 }
 
@@ -1985,7 +2016,7 @@ void prtdetg(char *fname, gf_t *gf, int m, int n, char *label)
 
 void prtbed2(bgr_t2 *bed2, int m, int n, char *label)
 {
-	int i, j, k;
+	int i;
 	printf("Separated feature file %s is %i rows by %i columns and is as follows:\n", label, m, n); 
 	for(i=0;i<m;++i)
 		printf("%s\t%li\t%li\t%s\n", bed2[i].n, bed2[i].c[0], bed2[i].c[1], bed2[i].f);
@@ -2289,7 +2320,7 @@ ia_t *marmfgf2a(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf
 
 	/* outloop governed by gf22 ... it is more likely to have whole repat sections inside it */
 	for(j=0;j<m7;++j) {
-		if(gf22[j].fc!=ABS)
+		if(gf22[j].fc!=UNK)
 			continue;
 		startcaught=0;
 		endcaught=0;
@@ -2842,8 +2873,9 @@ int main(int argc, char *argv[])
 		prtblop(opts.bstr, blop, mb);
 
 	if((opts.dflg) && (opts.ystr) ) {
-		prtgf22(opts.ystr, gf22, m7);
-		prtgf22chaharr(stab, htsz);
+		// prtgf22(opts.ystr, gf22, m7);
+		prtgf22mrn(opts.ystr, gf22, m7);
+		// prtgf22chaharr(stab, htsz);
 	}
 
 	if((opts.dflg) && (opts.hstr) ) {
@@ -2928,6 +2960,11 @@ final:
 			free(gf22[i].n);
 			free(gf22[i].t);
 			free(gf22[i].i);
+			if(gf22[i].fc == MRN) {
+				free(gf22[i].gbkn);
+				free(gf22[i].altn);
+				free(gf22[i].fdsc);
+			}
 		}
 		free(gf22);
 	}
