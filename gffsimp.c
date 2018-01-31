@@ -1,4 +1,4 @@
-/* gfmatchup.c: a program to match up gff files against each other.
+/* gffsimp.c: dervied from gfmatchup ... deals with larges gff3 files
    Copyright (C) 2017 Ramon Fallon, University of St Andrews.
 
    This program is free software; you can redistribute it and/or
@@ -1245,7 +1245,8 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 	gf22_t *gf22=malloc(GBUF*sizeof(gf22_t));
 
 	while( (c=fgetc(fp)) != EOF) { /* grab a char */
-		if( (c== '\n') | (c == ' ') | (c == '\t') | (c=='#')) { /* word closing events */
+		// if( (c== '\n') | (c == ' ') | (c == '\t') | (c=='#')) { /* word closing events */
+		if( (c== '\n') | (c == '\t') | (c=='#')) { /* when dealing with strict tab spearated froamts like gff3, can we exclude space as a separator? */
 			if( inword==1) { /* first word closing event */
 				wa->wln[couw]=couc;
 				bufword[couc++]='\0';
@@ -1278,10 +1279,12 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 					gf22[wa->numl].i=malloc(couc*sizeof(char));
 					gf22[wa->numl].isz=couc;
 					strcpy(gf22[wa->numl].i, bufword);
+					// printf("idstr: %s\n", bufword); 
 					if(gf22[wa->numl].fc==MRN) { // ok go strtok only if mRNA
 						tk=strtok(bufword, tkd);
 						gbkm = altm = fdsm = 0;
 						while( (tk=strtok(NULL, tkd)) !=NULL) {
+							// printf("tk: %s (sz=%zu)\n", tk, strlen(tk)); 
 							if( !strcmp(tk, "Genbank") ) {
 									gbkm=1;
 							} else if(gbkm==1) {
