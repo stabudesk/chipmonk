@@ -1848,6 +1848,60 @@ void prtgf22mrn(char *fname, gf22_t *gf22, int m7)
 	return;
 }
 
+void prtgf22n(char *fname, gf22_t *gf22, int m7, words_t *bedword, int m3) // note .1 is added to the Gbk names.
+{
+	int i, k;
+	boole foundifeat;
+	for(i=0;i<m7;++i) {
+		if(gf22[i].fc == MRN) {
+			foundifeat=0;
+			for(k=0;k<m3;++k) {
+				if(!strncmp(bedword[k].n, gf22[i].gbkn, bedword[k].nsz-1) ) { // yep true enough ... 1 must be subtracted .. we're avoiding gbkn's .1 you see
+					foundifeat=1;
+					if( (gf22[i].altn == NULL) && (gf22[i].fdsc == NULL) ) 
+						printf("%s\t%s\t%li\t%li\t%c\t%s\tunannot\tunannot\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn);
+					else if( (gf22[i].altn == NULL))
+						printf("%s\t%s\t%li\t%li\t%c\t%s\tunannot\t%s\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn, gf22[i].fdsc);
+					else if( (gf22[i].fdsc == NULL))
+						printf("%s\t%s\t%li\t%li\t%c\t%s\t%s\tunannot\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn, gf22[i].altn);
+					else 
+						printf("%s\t%s\t%li\t%li\t%c\t%s\t%s\t%s\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn, gf22[i].altn, gf22[i].fdsc);
+				}
+				if(foundifeat)
+					break;
+			}
+		}
+	}
+	return;
+}
+
+void prtgf22n_(char *fname, gf22_t *gf22, int m7, words_t *bedword, int m3) // there's an underscore in the name because it's acutally the normal Gbk name matcher ... however .1 must be added, see this function without underscore.
+{
+	int i, k;
+	boole foundifeat;
+	for(i=0;i<m7;++i) {
+		if(gf22[i].fc == MRN) {
+			foundifeat=0;
+			for(k=0;k<m3;++k) {
+				if(!strcmp(bedword[k].n, gf22[i].gbkn) ) {
+					foundifeat=1;
+					if( (gf22[i].altn == NULL) && (gf22[i].fdsc == NULL) ) 
+						printf("%s\t%s\t%li\t%li\t%c\t%s\tunannot\tunannot\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn);
+					else if( (gf22[i].altn == NULL))
+						printf("%s\t%s\t%li\t%li\t%c\t%s\tunannot\t%s\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn, gf22[i].fdsc);
+					else if( (gf22[i].fdsc == NULL))
+						printf("%s\t%s\t%li\t%li\t%c\t%s\t%s\tunannot\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn, gf22[i].altn);
+					else 
+						printf("%s\t%s\t%li\t%li\t%c\t%s\t%s\t%s\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn, gf22[i].altn, gf22[i].fdsc);
+				}
+				if(foundifeat)
+					break;
+			}
+		}
+	}
+	return;
+}
+
 void prtgf23(char *fname, gf23_t *gf23, int m)
 {
 	int i;
@@ -2875,10 +2929,15 @@ int main(int argc, char *argv[])
 	if((opts.dflg) && (opts.bstr) )
 		prtblop(opts.bstr, blop, mb);
 
-	if((opts.dflg) && (opts.ystr) ) {
+	if((opts.dflg) && (opts.ystr) && (!opts.ustr) ) {
 		// prtgf22(opts.ystr, gf22, m7);
 		prtgf22mrn(opts.ystr, gf22, m7);
 		// prtgf22chaharr(stab, htsz);
+	}
+
+	if((!opts.dflg) && (opts.ystr) && (opts.ustr) ) {
+		printf("right option chosen.\n");
+		prtgf22n(opts.ystr, gf22, m7, bedword, m3);
 	}
 
 	if((opts.dflg) && (opts.hstr) ) {
