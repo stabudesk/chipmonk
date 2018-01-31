@@ -5,7 +5,7 @@ CFLAGS=-O3 -Wall
 DBGCFLAGS=-g -Wall
 TDBGCFLAGS=-g -Wall -DDBG # True debug flags!
 
-EXES=chipmonk chipmonk_t chipmonk_d gfmatchup gfmatchup_t gfmatchup_d chipmonk2 chipmonk2_t chipmonk2_d hblop hblop_d
+EXES=chipmonk chipmonk_t chipmonk_d gfmatchup gfmatchup_t gfmatchup_d chipmonk2 chipmonk2_t chipmonk2_d hblop hblop_d gffsimp
 
 # production binary
 chipmonk: chipmonk.c
@@ -29,6 +29,11 @@ gfmatchup_t: gfmatchup.c
 # testing mode binary
 gfmatchup_d: gfmatchup.c
 	${CC} ${TDBGCFLAGS} -o $@ $^
+
+# OK yeast has a small ggf, but when dealing with big gffs, you want a simple way to grep it properly
+# sometimes you just want to be able to retrieve the sequence for a certain feature. gffsimp is an attempt to that.
+gffsimp: gffsimp.c
+	${CC} ${DBGCFLAGS} -o $@ $^
 
 # I then abandoned gfmatchup, ane went back to chipmonk,
 # chipmonk2 is an attempt to integrate
