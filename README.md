@@ -27,6 +27,9 @@ this is because samtools depth is changes to numeric ordering and IX follows VII
 # introducing gfmatchup
 Attempting to match up gff's to see which features are in which.
 
+# what's difference between chipmonk and chipmonk2
+Well, the key difference is that chipmonk2 is the more modern, and so it's recommended.
+
 # First run and test files
 
 These are the different yeast reference genomes.
@@ -50,17 +53,18 @@ hurry and preempting led me to match gf22 against target ... which of course in 
 
 
 # Worries
-Chipmonk2 has got too big? Even executing it is difficult. I.e.
-> Famous errors: presneting -ystr to the executable ... it gives a plain segfault no info. obvious it shoudl be -y!
+chipmonk2 has got too big? Even executing it is difficult. I.e.
+> Famous errors: presenting -ystr to the executable ... it gives a plain segfault no info. obvious it shoudl be -y!
 > presenting the same gff file to both -a and -y option ... not looking properly at args .. another blank segfault.
 
 # Making the blast output hashtable
-Funnily enough only the first entries were stored anyway. KInd of unusual
+Funnily enough only the first entries were stored anyway. Kind of unusual
 I need to go over why the other were rejected.
-It's actually something that I wanted to do, but I need to discover why it's bein done automatically.
+It's actually something that I wanted to do, but I need to discover why it's being done automatically.
+this is easy enough to discover the specifically rejects all except first.
 
 # the issue of strand-sense
-when mathing of a fasta file, that only has the one forward sense. If you have feature which is Crick sense, you decide to translate or not. My convention is to translate, and to accompany
+when matching of a fasta file, that only has the one forward sense. If you have feature which is Crick sense, you decide to translate or not. My convention is to translate, and to accompany
 the annotation somehow with the "-" reverse strand symbol. IS there scope for confusion? Of course, bu the idea and the convention I think, is that a fasta should have the literal sequence. 
 
 # feature name encoding
