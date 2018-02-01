@@ -55,16 +55,20 @@
 
 typedef unsigned char boole;
 
+#define FCQUAN 10
 typedef enum { /* feature category ... depending on conditions in the file: but please modify global word string below too */
-	REG=1, /* an absent feature */
-	GNE=2, /* a telomere */
-	MRN=3, /* fthing */
-	CDS=4, /* ything */
-	EXN=5, /* no categry assigned */
-	UNK=6 /* the fc member won't get this */
+	REG=1, 
+	GNE=2, 
+	MRN=3, 
+	CDS=4,
+	EXN=5, 
+	NRN=6, 
+	DLO=7, 
+	TRN=8, 
+	RRN=9, 
+	UNK=FCQUAN /* the fc member won't get this */
 } fcat;
-#define FCQUAN 6
-char *fcnames[FCQUAN]={"region", "gene", "mRNA", "CDS", "exon", "unknown"};
+char *fcnames[FCQUAN]={"region", "gene", "mRNA", "CDS", "exon", "ncRNA", "D-loop", "tRNA", "rRNA", "unknown"};
 fcat getfc(char *cnam) /* this function has special permission to be up here */
 {
 	int i;
@@ -112,7 +116,6 @@ typedef struct /* opt_t, a struct for the options */
 	char *fstr; /* the name of the feature bed file, often converted from GFF3 */
 	char *ustr; /* the name of a file with the list of elements to be unified */
 	char *gstr; /* genome file name */
-	char *rstr; /* repeatmasker gtf/gff2 file */
 	char *ystr; /* the gf22_t type */
 	char *hstr; /* the gf22_t type */
 	char *astr; /* a fasta file */
@@ -144,16 +147,6 @@ typedef struct /* bgr_t2 */
 	char *f; /* f for feature .. 4th col */
 	size_t fsz; /* size of the feature field*/
 } bgr_t2; /* bedgraph row type 2i. column is the feature */
-
-typedef struct /* rmf_t: repeatmasker gff2 file format */
-{
-	char *n;
-	size_t nsz; /* size of the name r ID field */
-	long c[2]; /* coords: 1) start 2) cols 4 and 5 */
-	char *m; /* the motif string ... 9th column */
-	char sd; /* strand + or - */
-	size_t msz; /* size of motif string */
-} rmf_t;
 
 typedef struct /* gf22_t: the y option, based on rmf_t */
 {
@@ -221,7 +214,7 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 	int c;
 	opterr = 0;
 
-	while ((c = getopt (oargc, oargv, "dsni:f:u:g:r:y:a:h:z:b:")) != -1)
+	while ((c = getopt (oargc, oargv, "dsni:f:u:g:y:a:h:z:b:")) != -1)
 		switch (c) {
 			case 'd':
 				opts->dflg = 1;
@@ -243,9 +236,6 @@ int catchopts(opt_t *opts, int oargc, char **oargv)
 				break;
 			case 'g': /* genome file */
 				opts->gstr = optarg;
-				break;
-			case 'r': /* repeatmasker gff2 file */
-				opts->rstr = optarg;
 				break;
 			case 'y': /* based on repeatmasker gff2 file */
 				opts->ystr = optarg;
@@ -1099,110 +1089,6 @@ bgr_t2 *processinpf2(char *fname, int *m, int *n) /*fourth column is string, oth
 	return bgrow;
 }
 
-rmf_t *processrmf(char *fname, int *m, int *n) /*fourth column is string, other columns to be ignored */
-{
-	/* In order to make no assumptions, the file is treated as lines containing the same amount of words each,
-	 * except for lines starting with #, which are ignored (i.e. comments). These words are checked to make sure they contain only floating number-type
-	 * characters [0123456789+-.] only, one string variable is continually written over and copied into a growing floating point array each time */
-
-	/* declarations */
-	FILE *fp=fopen(fname,"r");
-	int i;
-	size_t couc /*count chars per line */, couw=0 /* count words */, oldcouw = 0;
-	int c;
-	boole inword=0;
-	wseq_t *wa=create_wseq_t(GBUF);
-	size_t bwbuf=WBUF;
-	char *bufword=calloc(bwbuf, sizeof(char)); /* this is the string we'll keep overwriting. */
-	char *fsm, *lqm /* first semicolon mark, last quotation mark*/;
-
-	rmf_t *rmf=malloc(GBUF*sizeof(rmf_t));
-
-	while( (c=fgetc(fp)) != EOF) { /* grab a char */
-		if( (c== '\n') | (c == ' ') | (c == '\t') | (c=='#')) { /* word closing events */
-			if( inword==1) { /* first word closing event */
-				wa->wln[couw]=couc;
-				bufword[couc++]='\0';
-				bufword = realloc(bufword, couc*sizeof(char)); /* normalize */
-				/* for the struct, we want to know if it's the first word in a line, like so: */
-				if(couw==oldcouw) {
-					rmf[wa->numl].n=malloc(couc*sizeof(char));
-					rmf[wa->numl].nsz=couc;
-					strcpy(rmf[wa->numl].n, bufword);
-				} else if((couw-oldcouw)==3) { /* fourth col */
-					rmf[wa->numl].c[couw-oldcouw-3]=atol(bufword)-1L; // change to zero indexing
-				} else if((couw-oldcouw)==4) { /* it's not the first word, and it's 1st and second col */
-					rmf[wa->numl].c[couw-oldcouw-3]=atol(bufword); // no 0 indexing change required here.
-				} else if((couw-oldcouw)==6 )  { /* the strand */
-					rmf[wa->numl].sd=bufword[0];
-				} else if( (couw-oldcouw)==9) { // the motif string
-					fsm=strchr(bufword, ':');
-					lqm=strrchr(bufword, '"');
-					rmf[wa->numl].msz=(size_t)(lqm-fsm);
-					rmf[wa->numl].m=malloc(rmf[wa->numl].msz*sizeof(char));
-					memcpy(rmf[wa->numl].m, fsm+1, (rmf[wa->numl].msz-1)*sizeof(char));
-					rmf[wa->numl].m[rmf[wa->numl].msz-1]='\0'; // null terminate
-				}
-				couc=0;
-				couw++;
-			}
-			if(c=='#') { /* comment case */
-				while( (c=fgetc(fp)) != '\n') ;
-				continue;
-			} else if(c=='\n') { /* end of a line */
-				if(wa->numl == wa->lbuf-1) { /* enought space in our current array? */
-					wa->lbuf += WBUF;
-					wa->wpla=realloc(wa->wpla, wa->lbuf*sizeof(size_t));
-					rmf=realloc(rmf, wa->lbuf*sizeof(rmf_t));
-					memset(wa->wpla+(wa->lbuf-WBUF), 0, WBUF*sizeof(size_t));
-				}
-				wa->wpla[wa->numl] = couw-oldcouw; /* number of words in current line */
-				oldcouw=couw; /* restart words per line count */
-				wa->numl++; /* brand new line coming up */
-			}
-			inword=0;
-		} else if(inword==0) { /* deal with first character of new word, + and - also allowed */
-			if(couw == wa->wsbuf-1) {
-				wa->wsbuf += GBUF;
-				wa->wln=realloc(wa->wln, wa->wsbuf*sizeof(size_t));
-				rmf=realloc(rmf, wa->wsbuf*sizeof(rmf_t));
-				for(i=wa->wsbuf-GBUF;i<wa->wsbuf;++i)
-					wa->wln[i]=0;
-			}
-			couc=0;
-			bwbuf=WBUF;
-			bufword=realloc(bufword, bwbuf*sizeof(char)); /* don't bother with memset, it's not necessary */
-			bufword[couc++]=c; /* no need to check here, it's the first character */
-			inword=1;
-		} else {
-			if(couc == bwbuf-1) { /* the -1 so that we can always add and extra (say 0) when we want */
-				bwbuf += WBUF;
-				bufword = realloc(bufword, bwbuf*sizeof(char));
-			}
-			bufword[couc++]=c;
-		}
-
-	} /* end of big for statement */
-	fclose(fp);
-	free(bufword);
-
-	/* normalization stage */
-	wa->quan=couw;
-	wa->wln = realloc(wa->wln, wa->quan*sizeof(size_t)); /* normalize */
-	rmf = realloc(rmf, wa->quan*sizeof(rmf_t)); /* normalize */
-	wa->wpla= realloc(wa->wpla, wa->numl*sizeof(size_t));
-
-	*m= wa->numl;
-	int k=wa->wpla[0];
-	for(i=1;i<wa->numl;++i)
-		if(k != wa->wpla[i])
-			printf("Warning: Numcols is not uniform at %i words per line on all lines. This file has one with %zu.\n", k, wa->wpla[i]); 
-	*n= k; 
-	free_wseq(wa);
-
-	return rmf;
-}
-
 gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's for the special gff format for ;yze annottion */
 {
 	/* In order to make no assumptions, the file is treated as lines containing the same amount of words each,
@@ -1771,14 +1657,17 @@ void prtgf22nfa(i_s *sqisz, gf22_t *gf22, int m7, int sz, words_t *bedword, int 
 	int i, j, k;
 	char rangestr[64]={0}; /* generally helpful to say what range is being given */
 	boole foundifeat, foundsq;
+	printf("%i\n", m7);
 	for(i=0;i<sz;++i) {
+		// printf("%s\n", sqisz[i].id);
 		foundsq=0;
 		for(j=0;j<m7;++j) {
-			if(gf22[i].fc == MRN) {
+			printf("%s %i\n", gf22[j].n, gf22[j].fc);
+			if(gf22[j].fc == MRN) {
 				foundifeat=0;
-				foundsq=0;
 				for(k=0;k<m3;++k) {
-					if(!strncmp(bedword[k].n, gf22[i].gbkn, bedword[k].nsz-1) && (!strcmp(sqisz[i].id, gf22[j].n)) ) {
+					printf("%s %s %s %s\n", bedword[k].n, gf22[j].gbkn, sqisz[i].id, gf22[j].n);
+					if(!strncmp(bedword[k].n, gf22[j].gbkn, bedword[k].nsz-1) && (!strncmp(sqisz[i].id, gf22[j].n, gf22[j].nsz-1)) ) {
 						foundifeat=1;
 						foundsq=1;
 						sprintf(rangestr, "|range_%li:%li", gf22[j].c[0], gf22[j].c[1]);
@@ -1834,16 +1723,6 @@ void prtgf23(char *fname, gf23_t *gf23, int m)
 #ifdef DBG
 	printf("You have just seen the %i entries of basic gff2 file called \"%s\".\n", m, fname); 
 #endif
-	return;
-}
-
-void prtrmf(char *fname, rmf_t *rmf, int m6)
-{
-	int i;
-	for(i=0;i<m6;++i) // note how we cut out the spurious parts of the motif string to leave it pure and raw (slightly weird why two-char deletion is necessary.
-		printf("%s\t%li\t%li\t%c\t%.*s\n", rmf[i].n, rmf[i].c[0], rmf[i].c[1], rmf[i].sd, (int)(rmf[i].msz-9), rmf[i].m+7);
-
-	printf("You have just seen the %i entries of repeatmasker gff2 file called \"%s\".\n", m6, fname); 
 	return;
 }
 
@@ -2192,198 +2071,6 @@ void m2beds(bgr_t *bgrow, bgr_t2 *bed2, int m2, int m) /* match up 2 beds */
 	return;
 }
 
-void marmfgf2(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf22 */
-{
-	int i, j, k;
-	int reghits; /* hits for region: number of lines in bed1 which coincide with a region in gf22 */
-	int rbf /*reghit buf */;
-	int *ra=NULL; /* array for per-outer-loop rhits */
-	int cloci; /* as opposed to hit, catch the number of loci */
-	int rangecov=0;
-	long rbeg, rend; /* real start, real end */
-	int istarthere=0, catchingi=0;
-	boole startcaught, endcaught; // final two imply other end is not caught
-	/* outloop governed by gf22 ... it is more likely to have whole repat sections inside it */
-	for(j=0;j<m7;++j) {
-		startcaught=0;
-		endcaught=0;
-		reghits=0;
-		rbf=GBUF;
-		ra=calloc(rbf, sizeof(int));
-		cloci=0;
-		for(i=istarthere;i<m6;++i) {
-			if( !strcmp(rmf[i].n, gf22[j].n) ) {
-				if((rmf[i].c[0] >= gf22[j].c[0]) & (rmf[i].c[1] <= gf22[j].c[1]) ) {
-					CONDREALLOC(reghits, rbf, GBUF, ra, int);
-					ra[reghits]=i;
-					reghits++;
-					rend=rmf[i].c[1];
-				   	rbeg=rmf[i].c[0]; // range covered by this hit
-					rangecov=rend-rbeg; // range covered by this hit
-#ifdef DBG
-					printf("r:%li-%li\n", rend, rbeg);
-#endif
-					cloci+=rangecov;
-					catchingi=i; // a way of not going back to the beginning, see later.
-					startcaught=1;
-					endcaught=1;
-				} else if((rmf[i].c[0] >= gf22[j].c[0]) & (rmf[i].c[0] < gf22[j].c[1]) & (rmf[i].c[1] > gf22[j].c[1]) ) {
-					CONDREALLOC(reghits, rbf, GBUF, ra, int);
-					ra[reghits]=i;
-					reghits++;
-					rend=gf22[j].c[1];
-					rbeg=rmf[i].c[0]; // range covered by this hit
-					rangecov=rend-rbeg; // range covered by this hit
-#ifdef DBG
-					printf("r:%li-%li\n", rend, rbeg);
-#endif
-					cloci+=rangecov;
-					catchingi=i; // a way of not going back to the beginning, see later.
-					startcaught=1;
-				} else if((rmf[i].c[0] < gf22[j].c[0]) & (rmf[i].c[1] >= gf22[j].c[0]) & (rmf[i].c[1] <= gf22[j].c[1]) ) {
-					CONDREALLOC(reghits, rbf, GBUF, ra, int);
-					ra[reghits]=i;
-					reghits++;
-					rend=rmf[i].c[1];
-					rbeg=gf22[j].c[0];
-					rangecov=rend-rbeg; // range covered by this hit
-#ifdef DBG
-					printf("r:%li-%li\n", rend, rbeg);
-#endif
-					cloci+=rangecov;
-					catchingi=i; // a way of not going back to the beginning, see later.
-					endcaught=1;
-				}
-			} else if((startcaught) | (endcaught)) { // because it's an else to the above if, will catch first untruth after a series of truths.
-				startcaught=2;
-				endcaught=2;
-				break; // bed1 is ordered so we can forget about trying to match anymore.
-			}
-		}
-		if((startcaught==2) & (endcaught==2))
-			istarthere=catchingi+1;
-		if(startcaught & endcaught) { // only print gf22 lines if they whollycaught anything.
-#ifdef DBG
-			printf("gf22idx %i in chr:%s w/ ID %s / xtnt %li got %i hits from rmf being %i loci\n", j, gf22[j].n, gf22[j].i, gf22[j].c[1]-gf22[j].c[0], reghits, cloci);
-#else
-			printf("%s\t%li\t%li\t%s\t%i\t%4.4f%%\t", gf22[j].n, gf22[j].c[0], gf22[j].c[1], gf22[j].i, cloci, (100.*cloci)/(gf22[j].c[1]-gf22[j].c[0]));
-			for(k=0;k<reghits;++k) 
-				printf("%s|", rmf[k].m);
-			printf("\n"); 
-#endif
-		}
-		free(ra);
-		if(istarthere >= m7)
-			break;
-	}
-	printf("Postheader:\n"); 
-	printf("%s\t%s\t%s\t%s\t%s\n", "GF22NAM", "BEGGF22", "ENDGFF2", "FEATIDNAM", "PCTCOVBYRMF");
-	return;
-}
-
-ia_t *marmfgf2a(rmf_t *rmf, gf22_t *gf22, int m6, int m7) /* match up rmf and gf22i: alt version only looks at ABS over a certain pct */
-{
-	int i, j, k;
-	int reghits; /* hits for region: number of lines in bed1 which coincide with a region in gf22 */
-	int rbf /*reghit buf */;
-	int *ra=NULL; /* array for per-outer-loop rhits */
-	int cloci; /* as opposed to hit, catch the number of loci */
-	float cpct; /* cutoff pct */
-	int rangecov=0;
-	long rbeg, rend; /* real start, real end */
-	int istarthere=0, catchingi=0;
-	boole startcaught, endcaught; // final two imply other end is not caught
-	ia_t *iagf22=malloc(sizeof(ia_t));
-	iagf22->b=GBUF;
-	iagf22->z=0;
-	iagf22->a=calloc(iagf22->b, sizeof(int));
-
-	/* outloop governed by gf22 ... it is more likely to have whole repat sections inside it */
-	for(j=0;j<m7;++j) {
-		if(gf22[j].fc!=UNK)
-			continue;
-		startcaught=0;
-		endcaught=0;
-		reghits=0;
-		rbf=GBUF;
-		ra=calloc(rbf, sizeof(int));
-		cloci=0;
-		for(i=istarthere;i<m6;++i) {
-			if( !strcmp(rmf[i].n, gf22[j].n) ) {
-				if((rmf[i].c[0] >= gf22[j].c[0]) & (rmf[i].c[1] <= gf22[j].c[1]) ) {
-					CONDREALLOC(reghits, rbf, GBUF, ra, int);
-					ra[reghits]=i;
-					reghits++;
-					CONDREALLOC(iagf22->z, iagf22->b, GBUF, iagf22->a, int);
-					iagf22->a[iagf22->z]=j;
-					iagf22->z++;
-					rend=rmf[i].c[1];
-				   	rbeg=rmf[i].c[0]; // range covered by this hit
-					rangecov=rend-rbeg; // range covered by this hit
-#ifdef DBG
-					printf("r:%li-%li\n", rend, rbeg);
-#endif
-					cloci+=rangecov;
-					catchingi=i; // a way of not going back to the beginning, see later.
-					startcaught=1;
-					endcaught=1;
-				} else if((rmf[i].c[0] >= gf22[j].c[0]) & (rmf[i].c[0] < gf22[j].c[1]) & (rmf[i].c[1] > gf22[j].c[1]) ) {
-					CONDREALLOC(reghits, rbf, GBUF, ra, int);
-					ra[reghits]=i;
-					reghits++;
-					rend=gf22[j].c[1];
-					rbeg=rmf[i].c[0]; // range covered by this hit
-					rangecov=rend-rbeg; // range covered by this hit
-#ifdef DBG
-					printf("r:%li-%li\n", rend, rbeg);
-#endif
-					cloci+=rangecov;
-					catchingi=i; // a way of not going back to the beginning, see later.
-					startcaught=1;
-				} else if((rmf[i].c[0] < gf22[j].c[0]) & (rmf[i].c[1] >= gf22[j].c[0]) & (rmf[i].c[1] <= gf22[j].c[1]) ) {
-					CONDREALLOC(reghits, rbf, GBUF, ra, int);
-					ra[reghits]=i;
-					reghits++;
-					rend=rmf[i].c[1];
-					rbeg=gf22[j].c[0];
-					rangecov=rend-rbeg; // range covered by this hit
-#ifdef DBG
-					printf("r:%li-%li\n", rend, rbeg);
-#endif
-					cloci+=rangecov;
-					catchingi=i; // a way of not going back to the beginning, see later.
-					endcaught=1;
-				}
-			} else if((startcaught) | (endcaught)) { // because it's an else to the above if, will catch first untruth after a series of truths.
-				startcaught=2;
-				endcaught=2;
-				break; // bed1 is ordered so we can forget about trying to match anymore.
-			}
-		}
-		if((startcaught==2) & (endcaught==2))
-			istarthere=catchingi+1;
-		if(startcaught & endcaught) { // only print gf22 lines if they whollycaught anything.
-#ifdef DBG
-			printf("gf22idx %i in chr:%s w/ ID %s / xtnt %li got %i hits from rmf being %i loci\n", j, gf22[j].n, gf22[j].i, gf22[j].c[1]-gf22[j].c[0], reghits, cloci);
-#else
-			cpct=(100.*cloci)/(gf22[j].c[1]-gf22[j].c[0]);
-			if(cpct>CUTOFFPCT) {
-				printf("%s\t%li\t%li\t%s\t%i\t%4.4f%%\t", gf22[j].n, gf22[j].c[0], gf22[j].c[1], gf22[j].i, cloci, cpct);
-				for(k=0;k<reghits;++k) 
-					printf("%s|", rmf[k].m);
-				printf("\n"); 
-			}
-#endif
-		}
-		free(ra);
-		if(istarthere >= m6)
-			break;
-	}
-	printf("Postheader:\n"); 
-	printf("%s\t%s\t%s\t%s\t%s\n", "GF22NAM", "BEGGF22", "ENDGFF2", "FEATIDNAM", "PCTCOVBYRMF");
-	return iagf22;
-}
-
 ia_t *mablopbed2(blop_t *blop, bgr_t2 *bed2, int mb, int m2) /* match up blop and bed2: blop is usually un ordered! */
 {
 	int i, j, k;
@@ -2523,47 +2210,6 @@ void mgf2bed(char *gfname, char *ffile, gf_t *gf, bgr_t2 *bed2, int m2, int m5) 
 	return;
 }
 
-void mgf2rmf(char *gfname, char *rmffile, gf_t *gf, rmf_t *rmf, int m6, int m5) /* match gf to feature bed file */
-{
-	setlocale(LC_NUMERIC, "");
-	int i, j;
-	int reghits; /* hits for region: number of lines in bed1 which coincide with a region in rmf */
-	int *acov=calloc(m5, sizeof(int)); /* coverage of this chromosome in the bed file */
-	int rangecov=0;
-	int istarthere=0, catchingi=0;
-	int strmatch;
-	boole caught;
-	printf("Coverage of \"%s\" (genome size file) by \"%s\" (feature bed file):\n", gfname, rmffile); 
-	for(j=0;j<m5;++j) {
-		caught=0;
-		reghits=0;
-		for(i=istarthere;i<m6;++i) {
-			strmatch=strcmp(gf[j].n, rmf[i].n);
-			if( (!strmatch) & (gf[j].z > rmf[i].c[0]) & (gf[j].z >= rmf[i].c[1]) ) {
-				reghits++;
-				rangecov=rmf[i].c[1] - rmf[i].c[0]; // range covered by this hit
-				acov[j] +=rangecov;
-				catchingi=i;
-				caught=1;
-			} else if (caught) { // will catch first untruth after a series of truths.
-				caught=2;
-				break; // ordered so we can forget about trying to match anymore.
-			} else if( (!strmatch) & (gf[j].z <= rmf[i].c[0]) & (gf[j].z < rmf[i].c[1]) ) {
-				printf("There's a problem with the genome size file ... are you sure it's the right one? Bailing out.\n"); 
-				exit(EXIT_FAILURE);
-			}
-		}
-		if(caught==2)
-			istarthere=catchingi+1;
-		// printf("%s / cov %2.4f got %i hits from rmf\n", gf[j].n, (float)acov[j]/gf[j].z, reghits);
-		printf("%s\t%4.2f%%\tof %'li bp\n", gf[j].n, 100.*(float)acov[j]/gf[j].z, gf[j].z);
-		if(istarthere >= m6)
-			break;
-	}
-	free(acov);
-	return;
-}
-
 i4_t *difca(bgr_t *bgrow, int m, int *dcasz, float minsig) /* An temmpt to merge bgraph quickly, no hope */
 {
 	int i, goodi=0 /* the last i at which minsig was satisfied */;
@@ -2624,13 +2270,12 @@ i4_t *difca(bgr_t *bgrow, int m, int *dcasz, float minsig) /* An temmpt to merge
 
 void prtusage()
 {
-	printf("gfmatchup: this takes a bedgraph file, specified by -i, probably the bedgraph from a MACS2 intensity signal,\n");
-	printf("and another bedgraph file, specified by -f, and merges the first into lines defined by the second.\n");
-	printf("Before filtering however, please run with the -d (details) option. This will show a rough spread of the values,\n");
-	printf("Other options:\n");
+	printf("gffsimp: a simple parser for GFF3 files: entirely unsophisticated..\n");
+	printf("0ptions:\n");
+	printf("-d: the detail flag, you should use this with one of the below flags to test your input file ... prints details of an input file\n");
 	printf("-a: takes a fasta file.\n");
-	printf("-h: takes a GFF3 format, but rejects . and mRNA and grabs ID on 10th not 9th column.\n");
-	printf("-y: takes a variation of the GFF2 format, a table, column nine gives the Y-name.\n");
+	printf("-u: takes a list (1 column) of Genbank gene namesfasta file.\n");
+	printf("-y: takes a GFF3 format file, but rejects . and mRNA and grabs ID on 10th not 9th column.\n");
 	printf("-z and -y: takes (-z) a feature category \"ABS\" and a GFF2 file (-y) and only prints out those categories\n");
 	printf("-z and -y and -a: same as -z and -y but prints out the relevant sequence extract into a fasta file\n");
 	return;
@@ -2643,7 +2288,7 @@ int main(int argc, char *argv[])
 		prtusage();
 		exit(EXIT_FAILURE);
 	}
-	int i, m, n /*rows,cols for bgr_t*/, m2, n2 /*bed2 (gff conv to bed) dims */, m3, n3, m4, n4, m4b, n4b, m5, n5, m6, n6, m7, n7 /*gf22 dims */, m8, n8 /* gf23 dims */, mb, nb /*blast out file */;
+	int i, m, n /*rows,cols for bgr_t*/, m2, n2 /*bed2 (gff conv to bed) dims */, m3, n3, m5, n5, m7, n7 /*gf22 dims */, m8, n8 /* gf23 dims */, mb, nb /*blast out file */;
     unsigned numsq; /* number of sequences in the -a (fasta) option */
 	fcat fc;
 	opt_t opts={0};
@@ -2654,7 +2299,6 @@ int main(int argc, char *argv[])
 	bgr_t2 *bed2=NULL; /* usually bed file from gff */
 	words_t *bedword=NULL; /* usually feature names of interest */
 	gf_t *gf=NULL; /* usually genome size file */
-	rmf_t *rmf=NULL; /* usually genome size file */
 	gf22_t *gf22=NULL;
 	gf23_t *gf23=NULL;
 	blop_t *blop=NULL;
@@ -2675,8 +2319,6 @@ int main(int argc, char *argv[])
 		gf=processgf(opts.gstr, &m5, &n5);
 	if(opts.bstr)
 		blop=processblop(opts.bstr, &mb, &nb);
-	if(opts.rstr)
-		rmf=processrmf(opts.rstr, &m6, &n6);
 	if(opts.ystr) { // we're goign to try hashing the ID line of gf22 format */
 		gf22=processgf22(opts.ystr, &m7, &n7);
 		htsz=2*m7/3; /* our hash table size */
@@ -2703,17 +2345,6 @@ int main(int argc, char *argv[])
 		goto final;
 	}
 
-	ia_t *iabed2=NULL;
-	if((opts.bstr) && (opts.fstr)) {
-		iabed2=mablopbed2(blop, bed2, mb, m2);
-		printf("%i indices where %s matched by %s:\n", iabed2->z, opts.ystr, opts.rstr); 
-		for(i=0;i<iabed2->z;++i) 
-			printf("%s ", bed2[iabed2->a[i]].f); 
-		printf("\n"); 
-		free(iabed2->a);
-		free(iabed2);
-	}
-
 	if((opts.nflg) && (opts.fstr)) {
 		// prtbed2fo(opts.fstr, bed2, m2, n2, "Feature (bed2)");
 		prtbed2fo2(opts.fstr, bed2, m2, n2, "Feature (bed2)"); // alterantive skipping . and _
@@ -2726,17 +2357,6 @@ int main(int argc, char *argv[])
 	if((opts.zstr) && (opts.ystr) && (opts.astr)) {
 		fc=getfc(opts.zstr);
 		prtsqbdggf22(sqisz, gf22, m7, numsq, fc);
-	}
-
-	ia_t *iagf22=NULL; /* indexes where gf22 is matched by rmpmk file */
-	if((opts.rstr) && (opts.ystr)) {
-		iagf22=marmfgf2a(rmf, gf22, m6, m7); /* don't forget to try the alt version */
-		printf("%i indices where %s matched by %s:\n", iagf22->z, opts.ystr, opts.rstr); 
-		for(i=0;i<iagf22->z;++i) 
-			printf("%s ", gf22[iagf22->a[i]].i); 
-		printf("\n"); 
-		free(iagf22->a);
-		free(iagf22);
 	}
 
 	if((opts.dflg) && (opts.fstr))
@@ -2757,9 +2377,6 @@ int main(int argc, char *argv[])
 			printf("%s\n", bedword[i].n);
 	}
 
-	if((opts.dflg) && (opts.rstr) )
-		prtrmf(opts.rstr, rmf, m6);
-
 	if((opts.dflg) && (opts.bstr) )
 		prtblop(opts.bstr, blop, mb);
 
@@ -2769,11 +2386,12 @@ int main(int argc, char *argv[])
 		// prtgf22chaharr(stab, htsz);
 	}
 
-	if((!opts.dflg) && (opts.ystr) && (opts.ustr) ) {
+	if((!opts.dflg) && (opts.ystr) && (opts.ustr) && (!opts.astr)) {
 		prtgf22n(opts.ystr, gf22, m7, bedword, m3);
 	}
 
 	if((!opts.dflg) && (opts.ystr) && (opts.ustr) && (opts.astr) ) {
+		printf("prtgf22nfa func will be run\n");
 		prtgf22nfa(sqisz, gf22, m7, numsq, bedword, m3);
 	}
 
@@ -2788,9 +2406,6 @@ int main(int argc, char *argv[])
 	/* bedgraph and fasta file */
 	if((opts.istr) && (opts.astr) )
 		prtsqbdg(sqisz, bgrow, m, numsq);
-
-	if((opts.gstr) && (opts.rstr) )
-		mgf2rmf(opts.gstr, opts.rstr, gf, rmf, m6, m5);
 
 	if((opts.gstr) && (opts.fstr) )
 		mgf2bed(opts.gstr, opts.fstr, gf, bed2, m2, m5);
@@ -2815,13 +2430,6 @@ final:
 			free(bed2[i].f);
 		}
 		free(bed2);
-	}
-	if(opts.rstr) {
-		for(i=0;i<m6;++i) {
-			free(rmf[i].n);
-			free(rmf[i].m);
-		}
-		free(rmf);
 	}
 	if(opts.gstr) {
 		for(i=0;i<m5;++i)
