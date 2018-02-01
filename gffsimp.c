@@ -162,6 +162,7 @@ typedef struct /* gf22_t: the y option, based on rmf_t */
 	char *gbkn; /* genbank gene name fished out of ID string */
 	char *altn; /*alt gene name i.e. LOC-something, fished out of ID line */
 	char *fdsc; /* functiona description, fished out of ID line, only usually avilable when type is mRNA */
+	char *gnid; /* GeneID */
 } gf22_t;
 
 typedef struct /* blop_t: the b option, bast output format 7 */
@@ -507,54 +508,6 @@ void freegf23chainharr(gf23snod **stab, size_t tsz)
     }
     free(stab);
     return;
-}
-
-char idlsearch(gf22snod **stab, unsigned tsz, char *line, unsigned lnsz) /* takes a string and tells you whether it's in the hash table */
-{
-    char yes=0;
-    size_t i;
-    gf22snod *tsnod2;
-
-    unsigned tint;
-    for(i=0; i<tsz; ++i) {
-        tint=hashit(line, tsz);
-        if( (stab[tint] == NULL) )
-            goto nxt; /* hashtable at that position is empty ... so it's impossible for that string to be there */
-
-        tsnod2=stab[tint];
-        while( (tsnod2 != NULL) ) {
-            if( (tsnod2->gf22->isz == lnsz) & !(strncmp(tsnod2->gf22->i, line, tsnod2->gf22->isz)) ) {
-                yes=1; /* i.e. no=0 */
-                goto nxt;
-            }
-            tsnod2=tsnod2->n;
-        }
-    }
-nxt:    return yes;
-}
-
-char idlsearch3(gf23snod **stab, unsigned tsz, char *line, unsigned lnsz)
-{
-    char yes=0;
-    size_t i;
-    gf23snod *tsnod2;
-
-    unsigned tint;
-    for(i=0; i<tsz; ++i) {
-        tint=hashit(line, tsz);
-        if( (stab[tint] == NULL) )
-            goto nxt; /* hashtable at that position is empty ... so it's impossible for that string to be there */
-
-        tsnod2=stab[tint];
-        while( (tsnod2 != NULL) ) {
-            if( (tsnod2->gf23->isz == lnsz) & !(strncmp(tsnod2->gf23->i, line, tsnod2->gf23->isz)) ) {
-                yes=1; /* i.e. no=0 */
-                goto nxt;
-            }
-            tsnod2=tsnod2->n;
-        }
-    }
-nxt:    return yes;
 }
 
 void prtfa(onefa *fac)
@@ -1187,7 +1140,7 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 	char tkd[]=":,=;"; // the tk delimiters
 	char *tk; // the char ptr used for strtok
 	size_t ctksz /* current tk size, i.e. the strlen on it */;
-	boole gbkm, altm, fdsm; // markers for strtok
+	boole gbkm, altm, fdsm, gnidm; // markers for strtok
 
 	gf22_t *gf22=malloc(GBUF*sizeof(gf22_t));
 
@@ -1246,6 +1199,13 @@ gf22_t *processgf22(char *fname, int *m, int *n) /* this is dummy nmae .. it's f
 									ctksz=strlen(tk);
 									gf22[wa->numl].altn=malloc((ctksz+1)*sizeof(char));
 									strcpy(gf22[wa->numl].altn, tk);
+							} else if( !strcmp(tk, "GeneID") ) {
+									gnidm=1;
+							} else if(gnidm==1) {
+									gnidm=0;
+									ctksz=strlen(tk);
+									gf22[wa->numl].gnid=malloc((ctksz+1)*sizeof(char));
+									strcpy(gf22[wa->numl].gnid, tk);
 							} else if( !strcmp(tk, "product") ) {
 									fdsm=1;
 							} else if(fdsm==1) {
@@ -1720,6 +1680,30 @@ void prtgf22n(char *fname, gf22_t *gf22, int m7, words_t *bedword, int m3) // no
 						printf("%s\t%s\t%li\t%li\t%c\t%s\t%s\tunannot\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn, gf22[i].altn);
 					else 
 						printf("%s\t%s\t%li\t%li\t%c\t%s\t%s\t%s\n", gf22[i].t, gf22[i].n, gf22[i].c[0], gf22[i].c[1], gf22[i].sd, gf22[i].gbkn, gf22[i].altn, gf22[i].fdsc);
+				}
+				if(foundifeat)
+					break;
+			}
+		}
+	}
+	return;
+}
+
+void prtgf22n2(char *fname, gf22_t *gf22, int m7, words_t *bedword, int m3) // note .1 is added to the Gbk names.
+{
+	int i, k;
+	boole foundifeat;
+	printf("Genbankname\tLocgenename\tGeneID\tDescription\n");
+	for(i=0;i<m7;++i) {
+		foundifeat=0;
+		if(gf22[i].fc == MRN) {
+			for(k=0;k<m3;++k) {
+				if(!strncmp(bedword[k].n, gf22[i].gbkn, bedword[k].nsz-1) ) { // yep true enough ... 1 must be subtracted .. we're avoiding gbkn's .1 you see
+					foundifeat=1;
+					if( (gf22[i].fdsc == NULL))
+						printf("%s\t%s\t%s\tunannot\n", bedword[k].n, gf22[i].altn, gf22[i].gnid);
+					else 
+						printf("%s\t%s\t%s\t%s\n", bedword[k].n, gf22[i].altn, gf22[i].gnid, gf22[i].fdsc);
 				}
 				if(foundifeat)
 					break;
@@ -2349,9 +2333,10 @@ void prtusage()
 	printf("-d: the detail flag, you should use this with one of the below flags to test your input file ... prints details of an input file\n");
 	printf("-a: takes a fasta file.\n");
 	printf("-u: takes a list (1 column) of Genbank gene namesfasta file.\n");
-	printf("-y: takes a GFF3 format file, but rejects . and mRNA and grabs ID on 10th not 9th column.\n");
-	printf("-z and -y: takes (-z) a feature category \"ABS\" and a GFF2 file (-y) and only prints out those categories\n");
-	printf("-z and -y and -a: same as -z and -y but prints out the relevant sequence extract into a fasta file\n");
+	printf("-y: takes a GFF3 format file, but rejects .1 and mRNA and parses the final column for Gbk name and function description.\n");
+	printf("-u and -y: takes a list of Genbank genenames (in -u) and prints out their mRNA line details (given in -y file)\n");
+	printf("-u and -y and -n: takes a list of Genbank genenames (in -u) and prints out their function descriptions (via gff file given in -y). -n is a flag.\n");
+	printf("-u and -y and -a: takes a list of Genbank genenames (in -u) and the gff file (via -y) and the genome fasta file (given in -a) and prints out their fasta sequences.\n");
 	return;
 }
 
@@ -2461,7 +2446,12 @@ int main(int argc, char *argv[])
 		// prtgf22chaharr2(stab, htsz);
 	}
 
-	if((!opts.dflg) && (opts.ystr) && (opts.ustr) && (!opts.astr)) {
+	// -u and -y with the nflag gives the requried list of genes and just their description.
+	if((!opts.dflg) && (opts.ystr) && (opts.ustr) && (!opts.astr) && opts.nflg) {
+		prtgf22n2(opts.ystr, gf22, m7, bedword, m3);
+	}
+
+	if((!opts.dflg) && (opts.ystr) && (opts.ustr) && (!opts.astr) && (!opts.nflg) ) {
 		prtgf22n(opts.ystr, gf22, m7, bedword, m3);
 	}
 
@@ -2532,6 +2522,7 @@ final:
 				free(gf22[i].gbkn);
 				free(gf22[i].altn);
 				free(gf22[i].fdsc);
+				free(gf22[i].gnid);
 			}
 		}
 		free(gf22);
