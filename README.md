@@ -51,6 +51,9 @@ uf.depth, large 16M depth positions across S288 of some sort .. had to delete it
 # matching gf22 and blast output
 hurry and preempting led me to match gf22 against target ... which of course in many occurences is fine. However, it's lunacy. These are blast results, you need to match gf22 ID strings to the query's ID. This will ofcourse give multiple matches, and then you use eval pcti to select which you print.
 
+# gffsimp
+This was coded for more complicated gff files, namely the salmo salar gff file. The Genbank gene name unusually includes a .1 in its name, they all do. This creates problems
+as they need to be stripped off. Also this code by default focusses only on mRNA entries in the GFF.
 
 # Worries
 chipmonk2 has got too big? Even executing it is difficult. I.e.

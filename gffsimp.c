@@ -119,7 +119,7 @@ typedef struct /* opt_t, a struct for the options */
 	char *ystr; /* the gf22_t type */
 	char *hstr; /* the gf22_t type */
 	char *astr; /* a fasta file */
-	char *zstr; /* for the feature category enum in string format */
+	char *zstr; /* for the feature category enum in string format, this is what gff will be filtered by ... default is MRN .. i.e. mRNA */
 	char *bstr; /* blast output format 7 */
 } opt_t;
 
@@ -322,6 +322,51 @@ nxt:        continue;
     return stab;
 }
 
+gf22snod **gf22tochainharr2(gf22_t *gf22, unsigned numsq, unsigned tsz)
+{
+    unsigned i;
+	char *tmp, *tmp2;
+	char gbktn[256]={0};
+	char gbktn2[256]={0};
+
+    gf22snod **stab=malloc(tsz*sizeof(gf22snod *));
+    for(i=0;i<tsz;++i) 
+        stab[i]=NULL; /* _is_ a valid ptr, but it's unallocated. Initialization is possible though. */
+    gf22snod *tsnod0, *tsnod2;
+
+    unsigned tint;
+    for(i=0; i<numsq; ++i) {
+		if(gf22[i].fc != MRN)
+			continue;
+        tmp=strrchr(gf22[i].gbkn, '.');
+		sprintf(gbktn, "%.*s", (int)(tmp-gf22[i].gbkn), gf22[i].gbkn);
+        tint=hashit(gbktn, tsz);
+        if( (stab[tint] == NULL) ) {
+            stab[tint]=malloc(sizeof(gf22snod));
+            stab[tint]->gf22=gf22+i;
+            stab[tint]->n=NULL;
+            continue;
+        }
+        tsnod2=stab[tint];
+        while( (tsnod2 != NULL) ){
+			tmp=strrchr(gf22[i].gbkn, '.');
+			sprintf(gbktn, "%.*s", (int)(tmp-gf22[i].gbkn), gf22[i].gbkn);
+			tmp2=strrchr(tsnod2->gf22->gbkn, '.');
+			sprintf(gbktn2, "%.*s", (int)(tmp2-tsnod2->gf22->gbkn), tsnod2->gf22->gbkn);
+            if(!strcmp(gbktn2, gbktn)) {
+                goto nxt;
+            }
+            tsnod0=tsnod2;
+            tsnod2=tsnod2->n;
+        }
+        tsnod0->n=malloc(sizeof(gf22snod));
+        tsnod0->n->gf22=gf22+i;
+        tsnod0->n->n=NULL;
+nxt:        continue;
+    }
+    return stab;
+}
+
 gf23snod **gf23tochainharr(gf23_t *gf23, unsigned numsq, unsigned tsz)
 {
     unsigned i;
@@ -364,6 +409,21 @@ void prtgf22chaharr(gf22snod **stab, unsigned tsz) /* prints hashtable out in de
         tsnod2=stab[i];
         while(tsnod2) {
             printf("%s ", tsnod2->gf22->i); 
+            tsnod2=tsnod2->n;
+        }
+    }
+    printf("\n"); 
+    return;
+}
+
+void prtgf22chaharr2(gf22snod **stab, unsigned tsz) /* prints hashtable out in debug mindset */
+{
+    unsigned i;
+    gf22snod *tsnod2;
+    for(i=0;i<tsz;++i) {
+        tsnod2=stab[i];
+        while(tsnod2) {
+            printf("%i:%s ", tsnod2->gf22->fc, tsnod2->gf22->gbkn); 
             tsnod2=tsnod2->n;
         }
     }
@@ -575,6 +635,23 @@ void prtsqbdggf22(i_s *sqisz, gf22_t *gf22, int m, int sz, fcat fc)
 					break;
 				}
 		}
+	}
+	return;
+}
+
+void prtsqbdggf22_(i_s *sqisz, gf22_t *gf22, int m7, int sz)
+{
+	int i, j;
+	char rangestr[256]={0};
+	for(j=0;j<m7;++j) 
+		for(i=0;i<sz;++i) {
+			if((gf22[j].fc == MRN) & !strcmp(sqisz[i].id, gf22[j].n)) {
+				sprintf(rangestr, "|ID:%s|range_%li:%li|Gbk:%s", gf22[j].i, gf22[j].c[0], gf22[j].c[1], gf22[j].gbkn);
+				printf(">%s", sqisz[i].id);
+				printf("%s\n", rangestr);
+				printf("%.*s\n", (int)(gf22[j].c[1]-gf22[j].c[0]), sqisz[i].sq+gf22[j].c[0]);
+				break;
+			}
 	}
 	return;
 }
@@ -1655,34 +1732,31 @@ void prtgf22n(char *fname, gf22_t *gf22, int m7, words_t *bedword, int m3) // no
 void prtgf22nfa(i_s *sqisz, gf22_t *gf22, int m7, int sz, words_t *bedword, int m3)
 {
 	int i, j, k;
-	char rangestr[64]={0}; /* generally helpful to say what range is being given */
-	boole foundifeat, foundsq;
-	printf("%i\n", m7);
-	for(i=0;i<sz;++i) {
-		// printf("%s\n", sqisz[i].id);
-		foundsq=0;
+	char rangestr[256]={0}; /* generally helpful to say what range is being given */
+	// boole foundifeat, foundsq;
+	boole foundifeat, foundname;
+	for(k=0;k<m3;++k) {
+		foundname=0;
 		for(j=0;j<m7;++j) {
-			printf("%s %i\n", gf22[j].n, gf22[j].fc);
+			foundifeat=0;
 			if(gf22[j].fc == MRN) {
-				foundifeat=0;
-				for(k=0;k<m3;++k) {
-					printf("%s %s %s %s\n", bedword[k].n, gf22[j].gbkn, sqisz[i].id, gf22[j].n);
+				for(i=0;i<sz;++i) {
 					if(!strncmp(bedword[k].n, gf22[j].gbkn, bedword[k].nsz-1) && (!strncmp(sqisz[i].id, gf22[j].n, gf22[j].nsz-1)) ) {
 						foundifeat=1;
-						foundsq=1;
-						sprintf(rangestr, "|range_%li:%li", gf22[j].c[0], gf22[j].c[1]);
+						foundname=1;
+						sprintf(rangestr, "|range_%li:%li|Gbk:%s", gf22[j].c[0], gf22[j].c[1], bedword[k].n);
 						printf(">%s", sqisz[i].id);
 						printf("%s\n", rangestr);
 						printf("%.*s\n", (int)(gf22[j].c[1]-gf22[j].c[0]), sqisz[i].sq+gf22[j].c[0]);
 						break;
 					}
 				}
+				if(foundifeat)
+					break;
 			}
-			if(foundifeat)
-				break;
 		}
-		if(foundsq) // sequence for this feature has been found, move onto next sequence
-			break;
+		if(foundname)
+			continue;
 	}
 	return;
 }
@@ -2322,7 +2396,7 @@ int main(int argc, char *argv[])
 	if(opts.ystr) { // we're goign to try hashing the ID line of gf22 format */
 		gf22=processgf22(opts.ystr, &m7, &n7);
 		htsz=2*m7/3; /* our hash table size */
-		stab=gf22tochainharr(gf22, m7, htsz); /* we now set up a hash table along side our sequence names from the fasta file */
+		stab=gf22tochainharr2(gf22, m7, htsz); /* we now set up a hash table along side our sequence names from the fasta file */
 	}
 	if(opts.hstr) { // hacky form of gff3 reading ... */
 		gf23=processgf23(opts.hstr, &m8, &n8);
@@ -2384,6 +2458,7 @@ int main(int argc, char *argv[])
 		// prtgf22(opts.ystr, gf22, m7);
 		prtgf22mrn(opts.ystr, gf22, m7);
 		// prtgf22chaharr(stab, htsz);
+		// prtgf22chaharr2(stab, htsz);
 	}
 
 	if((!opts.dflg) && (opts.ystr) && (opts.ustr) && (!opts.astr)) {
@@ -2391,7 +2466,6 @@ int main(int argc, char *argv[])
 	}
 
 	if((!opts.dflg) && (opts.ystr) && (opts.ustr) && (opts.astr) ) {
-		printf("prtgf22nfa func will be run\n");
 		prtgf22nfa(sqisz, gf22, m7, numsq, bedword, m3);
 	}
 
