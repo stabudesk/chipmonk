@@ -191,6 +191,10 @@ typedef struct /* words_t: file with only single words per line */
 {
 	char *n;
 	size_t nsz; /* size of the name r ID field */
+	char *n2;
+	size_t n2sz; /* size of the name r ID field */
+	char *n3;
+	size_t n3sz; /* size of the name r ID field */
 } words_t; /* bedgraph row type */
 
 typedef struct /* gf_t : genome file type ... just chr name, pos and read quant */
@@ -846,7 +850,7 @@ words_t *processwordf(char *fname, int *m, int *n)
 	words_t *bedword=malloc(GBUF*sizeof(words_t));
 
 	while( (c=fgetc(fp)) != EOF) { /* grab a char */
-		if( (c== '\n') | (c == ' ') | (c == '\t') | (c=='#')) { /* word closing events */
+		if( (c== '\n') | (c == '\t') | (c=='#')) { /* word closing events */
 			if( inword==1) { /* first word closing event */
 				wa->wln[couw]=couc;
 				bufword[couc++]='\0';
@@ -856,6 +860,14 @@ words_t *processwordf(char *fname, int *m, int *n)
 					bedword[wa->numl].n=malloc(couc*sizeof(char));
 					bedword[wa->numl].nsz=couc;
 					strcpy(bedword[wa->numl].n, bufword);
+				} else if((couw-oldcouw)==1) { /* fourth col */
+					bedword[wa->numl].n2=malloc(couc*sizeof(char));
+					bedword[wa->numl].n2sz=couc;
+					strcpy(bedword[wa->numl].n2, bufword);
+				} else if((couw-oldcouw)==2) { /* fourth col */
+					bedword[wa->numl].n3=malloc(couc*sizeof(char));
+					bedword[wa->numl].n3sz=couc;
+					strcpy(bedword[wa->numl].n3, bufword);
 				}
 				couc=0;
 				couw++;
@@ -1716,24 +1728,37 @@ void prtgf22n2(char *fname, gf22_t *gf22, int m7, words_t *bedword, int m3) // n
 void prtgf22n2a(char *fname, gf22_t *gf22, int m7, words_t *bedword, int m3) // note .1 is added to the Gbk names.i This is not Gbk names, its based on altn
 {
 	int i, k;
-	boole foundifeat;
-	printf("Genbankname\tLocgenename\tGeneID\tDescription\n");
+	boole foundifeat, same;
+	char *oldlocn=calloc(256, sizeof(char));
+	printf("Locgenename\tGeneDesc\tPathwayname\tPathwayDesc\n");
 	for(i=0;i<m7;++i) {
 		foundifeat=0;
 		if(gf22[i].fc == MRN) {
 			for(k=0;k<m3;++k) {
 				if(!strncmp(bedword[k].n, gf22[i].altn, bedword[k].nsz-1) ) { // yep true enough ... 1 must be subtracted .. we're avoiding gbkn's .1 you see
 					foundifeat=1;
-					if( (gf22[i].fdsc == NULL))
-						printf("%s\t%s\t%s\tunannot\n", bedword[k].n, gf22[i].altn, gf22[i].gnid);
-					else 
-						printf("%s\t%s\t%s\t%s\n", bedword[k].n, gf22[i].altn, gf22[i].gnid, gf22[i].fdsc);
+					// we don't want repeat locgenenames
+					if(strcmp(oldlocn, gf22[i].altn)) { // if they are different
+						same=0;
+						strcpy(oldlocn, gf22[i].altn);
+					} else
+						same=1;
+					// ok we known now via "same" whether this is a repeated gene name entry
+					if(!same) {
+						if( (gf22[i].fdsc != NULL))
+							printf("%s\t%s\t%s\t%s\n", bedword[k].n, gf22[i].fdsc, bedword[k].n2, bedword[k].n3); // yup just altn and description
+						else
+							printf("%s\tUnknownDesc\t%s\t%s\n", bedword[k].n, bedword[k].n2, bedword[k].n3); // yup just altn and description
+					} else // blanks tabs because locgeneame is repeated
+							printf("\t\t%s\t%s\n", bedword[k].n2, bedword[k].n3); // yup just altn and description
+
 				}
 				if(foundifeat)
 					break;
 			}
 		}
 	}
+	free(oldlocn);
 	return;
 }
 
@@ -2533,8 +2558,11 @@ final:
 		free(blop);
 	}
 	if(opts.ustr) {
-		for(i=0;i<m3;++i)
+		for(i=0;i<m3;++i) {
 			free(bedword[i].n);
+			free(bedword[i].n2);
+			free(bedword[i].n3);
+		}
 		free(bedword);
 	}
 	if(opts.ystr) {

@@ -5,7 +5,7 @@ CFLAGS=-O3 -Wall
 DBGCFLAGS=-g -Wall
 TDBGCFLAGS=-g -Wall -DDBG # True debug flags!
 
-EXES=chipmonk chipmonk_t chipmonk_d gfmatchup gfmatchup_t gfmatchup_d chipmonk2 chipmonk2_t chipmonk2_d hblop hblop_d gffsimp
+EXES=chipmonk chipmonk_t chipmonk_d gfmatchup gfmatchup_t gfmatchup_d chipmonk2 chipmonk2_t chipmonk2_d hblop hblop_d gffsimp astarp gffsidn
 
 # production binary
 chipmonk: chipmonk.c
@@ -33,6 +33,14 @@ gfmatchup_d: gfmatchup.c
 # OK yeast has a small ggf, but when dealing with big gffs, you want a simple way to grep it properly
 # sometimes you just want to be able to retrieve the sequence for a certain feature. gffsimp is an attempt to that.
 gffsimp: gffsimp.c
+	${CC} ${DBGCFLAGS} -o $@ $^
+# the -u option is for a single column of names ... gffsidn changes this to dual names, helps cross referencing. So we have two columns in the name file. Actually three. sorry won;t change name becaue of that.
+# # this just affects the words_t struct
+gffsidn: gffsidn.c
+	${CC} ${DBGCFLAGS} -o $@ $^
+
+# derived from gffsimp, reading in array star mirna reports
+astarp: astarp.c
 	${CC} ${DBGCFLAGS} -o $@ $^
 
 # I then abandoned gfmatchup, ane went back to chipmonk,
