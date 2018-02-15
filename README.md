@@ -72,3 +72,9 @@ the annotation somehow with the "-" reverse strand symbol. IS there scope for co
 
 # feature name encoding
 some of this has turned out to have percetn-econding: %20 for spaces, %28 for ( and %29 for ) 
+
+# Is there a need for a blast output plus gff processor?
+I would have thought that this is obvious ... it is. Why, you want to know the feature associated with the hit.
+Well, I suppose you need to google to see who has dal with it ... surely alot of people?
+* https://www.researchgate.net/post/How_to_retrieve_the_full_annotation_in_blast_report-it_only_gives_accession_number
+* https://github.com/nterhoeven/blast2bed
